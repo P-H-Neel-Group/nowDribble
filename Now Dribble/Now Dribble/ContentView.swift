@@ -9,19 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
-            Group {
-                VStack {
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, world!")
-                } // End of VStack
-                .padding()
-            } // End of Group
-        } // End of NavStack
-    }
-}
+        VStack {
+            TabView {
+                HomeView()
+                    .tabItem {
+                        Label("HOME", systemImage: "house")
+                    }
+                
+                TrainNowView()
+                    .tabItem {
+                        Label("TRAIN NOW", systemImage: "figure.basketball")
+                    }
+
+                NumberView()
+                    .tabItem {
+                        Label("NUMBERS", systemImage: "basketball.fill")
+                    }
+            } // End of Tab View
+            .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
+
+        } // End of VStack
+    } // End of Body
+} // End of Struct
 
 #Preview {
     ContentView()

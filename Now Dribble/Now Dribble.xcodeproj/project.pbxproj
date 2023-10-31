@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		492B0D882AF0B8F200675158 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B0D872AF0B8F200675158 /* NumberView.swift */; };
+		492B0D8A2AF0B91400675158 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B0D892AF0B91400675158 /* HomeView.swift */; };
+		492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492B0D8B2AF0B97C00675158 /* TrainNowView.swift */; };
 		49C053F02AF0945E00130FD6 /* Now_DribbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */; };
 		49C053F22AF0945E00130FD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C053F12AF0945E00130FD6 /* ContentView.swift */; };
 		49C053F42AF0946000130FD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C053F32AF0946000130FD6 /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		492B0D872AF0B8F200675158 /* NumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberView.swift; sourceTree = "<group>"; };
+		492B0D892AF0B91400675158 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		492B0D8B2AF0B97C00675158 /* TrainNowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainNowView.swift; sourceTree = "<group>"; };
 		49C053EC2AF0945E00130FD6 /* Now Dribble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Now Dribble.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_DribbleApp.swift; sourceTree = "<group>"; };
 		49C053F12AF0945E00130FD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +104,9 @@
 				49EC0E342AF0A7D100DF4411 /* Now-Dribble-Info.plist */,
 				49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */,
 				49C053F12AF0945E00130FD6 /* ContentView.swift */,
+				492B0D8B2AF0B97C00675158 /* TrainNowView.swift */,
+				492B0D892AF0B91400675158 /* HomeView.swift */,
+				492B0D872AF0B8F200675158 /* NumberView.swift */,
 				49C053F32AF0946000130FD6 /* Assets.xcassets */,
 				49C053F52AF0946000130FD6 /* Preview Content */,
 			);
@@ -261,6 +270,9 @@
 			files = (
 				49C053F22AF0945E00130FD6 /* ContentView.swift in Sources */,
 				49C053F02AF0945E00130FD6 /* Now_DribbleApp.swift in Sources */,
+				492B0D8A2AF0B91400675158 /* HomeView.swift in Sources */,
+				492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */,
+				492B0D882AF0B8F200675158 /* NumberView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
