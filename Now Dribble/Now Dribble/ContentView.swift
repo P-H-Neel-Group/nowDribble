@@ -9,26 +9,36 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            TabView {
-                HomeView()
-                    .tabItem {
-                        Label("HOME", systemImage: "house")
-                    }
+        NavigationView {
+            VStack {
+                UI_TopBar()
+                Divider()
+                Spacer()
                 
-                TrainNowView()
-                    .tabItem {
-                        Label("TRAIN NOW", systemImage: "figure.basketball")
-                    }
-
-                NumberView()
-                    .tabItem {
-                        Label("NUMBERS", systemImage: "basketball.fill")
-                    }
-            } // End of Tab View
-            .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
-
-        } // End of VStack
+                TabView {
+                    HomeView()
+                        .tabItem {
+                            Label("HOME", systemImage: "house")
+                        }
+                    
+                    TrainNowView()
+                        .tabItem {
+                            Label("TRAIN NOW", systemImage: "figure.basketball")
+                        }
+                    
+                    NumberView()
+                        .tabItem {
+                            Label("NUMBERS", systemImage: "basketball.fill")
+                        }
+                    LoginView()
+                        .tabItem {
+                            Label("LOGIN", systemImage: "person.circle")
+                        }
+                } // End of Tab View
+                .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
+                
+            } // End of VStack
+        } // End of NavView
     } // End of Body
 } // End of Struct
 
