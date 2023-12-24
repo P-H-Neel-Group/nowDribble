@@ -30,6 +30,7 @@ jobs:
         run: |
           cd Now\ Dribble
           if [ -f default ]; then scheme=$(cat default); else scheme=default; fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
-          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty && exit ${PIPESTATUS[0]}
+          file_to_build="Now Dribble.xcodeproj" # Adjust if needed
+          # Specify a generic iPhone simulator
+          destination='generic/platform=iOS Simulator'
+          xcodebuild clean build analyze -scheme "$scheme" -project "$file_to_build" -destination "$destination" | xcpretty && exit ${PIPESTATUS[0]}
