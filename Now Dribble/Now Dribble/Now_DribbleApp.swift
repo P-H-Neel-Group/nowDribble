@@ -18,13 +18,14 @@ struct Now_DribbleApp: App {
                     .preferredColorScheme(.light)
             } else {
                 LoginView()
+                    .preferredColorScheme(.light)
             }
         }
     }
 }
 
 class AuthenticationViewModel: ObservableObject {
-    @Published var isAuthenticated = true // TODO: Set to true for debug
+    @Published var isAuthenticated = false // TODO: Configure
 
     init() {
         checkAuthentication()

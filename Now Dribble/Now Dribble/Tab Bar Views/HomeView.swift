@@ -20,9 +20,9 @@ struct HomeView: View {
                         .padding()
                         .bold()
                     
-                    // Display antonio's posts
+                    // Display Antonio's posts
                     Text("POSTS HERE")
-                    List(posts) { post in
+                    List(self.posts) { post in
                         PostView(post: post)
                     }
                     .onAppear {
