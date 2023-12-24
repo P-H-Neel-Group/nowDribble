@@ -5,7 +5,6 @@
 //  Created by Isaiah Harville on 12/23/23.
 //
 
-
 import SwiftUI
 import UIKit
 import AuthenticationServices

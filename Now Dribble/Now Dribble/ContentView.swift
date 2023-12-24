@@ -45,14 +45,6 @@ struct ContentView: View {
     } // End of Body
 } // End of Struct
 
-struct HideTopBar: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .navigationBarHidden(true) // Hides the navigation bar
-            .navigationBarBackButtonHidden(true) // Hides the back button
-    }
-}
-
 /*#Preview {
     ContentView()
 }*/

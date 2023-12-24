@@ -1,6 +1,6 @@
 //
 //  PostView.swift
-//  Now Dribble
+//  Displays one Post
 //
 //  Created by Isaiah Harville on 12/3/23.
 //

@@ -1,6 +1,6 @@
 //
 //  HomeView.swift
-//  Now Dribble
+//  Calls PostView for Each Post
 //
 //  Created by Isaiah Harville on 10/30/23.
 //
