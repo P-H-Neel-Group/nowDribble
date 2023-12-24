@@ -53,6 +53,6 @@ struct HideTopBar: ViewModifier {
     }
 }
 
-#Preview {
+/*#Preview {
     ContentView()
-}
+}*/

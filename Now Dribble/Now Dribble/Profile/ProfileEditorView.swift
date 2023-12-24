@@ -12,7 +12,7 @@ struct ProfileEditorView: View {
         Text("Profile Editor")
     }
 }
-
+/*
 #Preview {
     ProfileEditorView()
-}
+}*/

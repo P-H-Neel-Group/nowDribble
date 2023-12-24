@@ -31,7 +31,7 @@ struct NumberView: View {
     }
 }
 
-
+/*
 #Preview {
     NumberView()
-}
+}*/
