@@ -40,10 +40,3 @@ struct TrainNowView: View {
         Text("WIP")
     }
 }
-                 self.selectedCategory = nil
-             }.opacity(selectedCategory != nil ? 1 : 0))
-         }
-     }
- }
-
- */

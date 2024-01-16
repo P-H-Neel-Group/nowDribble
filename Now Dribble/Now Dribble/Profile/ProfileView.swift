@@ -39,7 +39,9 @@ struct ProfileView: View {
             // Show user's friends
             HStack{
                 ScrollView(.horizontal, showsIndicators: false) {
+                    Spacer()
                     Text("List of friends")
+                    Spacer()
                 }
             } // End HStack
             
