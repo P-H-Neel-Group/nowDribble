@@ -25,7 +25,7 @@ struct Now_DribbleApp: App {
 }
 
 class AuthenticationViewModel: ObservableObject {
-    @Published var isAuthenticated = false // TODO: Configure
+    @Published var isAuthenticated = true // TODO: Configure
 
     init() {
         checkAuthentication()
