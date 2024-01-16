@@ -27,6 +27,8 @@
 		49C0540D2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0540C2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift */; };
 		49C937392B50739E000BECE5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C937382B50739E000BECE5 /* ProfileView.swift */; };
 		49C9373B2B507E5B000BECE5 /* NetworkingProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */; };
+		49C9373E2B5618CE000BECE5 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373D2B5618CE000BECE5 /* WorkoutView.swift */; };
+		49C937402B5618D9000BECE5 /* NetworkingWorkouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		49C0540C2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_DribbleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		49C937382B50739E000BECE5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingProfiles.swift; sourceTree = "<group>"; };
+		49C9373D2B5618CE000BECE5 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
+		49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingWorkouts.swift; sourceTree = "<group>"; };
 		49EC0E342AF0A7D100DF4411 /* Now-Dribble-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Now-Dribble-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -138,8 +142,8 @@
 		497068442B1DA68A0089C54F /* Tab Bar Views */ = {
 			isa = PBXGroup;
 			children = (
-				492B0D8B2AF0B97C00675158 /* TrainNowView.swift */,
 				492B0D892AF0B91400675158 /* HomeView.swift */,
+				492B0D8B2AF0B97C00675158 /* TrainNowView.swift */,
 				492B0D872AF0B8F200675158 /* NumberView.swift */,
 			);
 			path = "Tab Bar Views";
@@ -185,6 +189,7 @@
 				495EA5C42B376E7B0083E207 /* Login */,
 				497068442B1DA68A0089C54F /* Tab Bar Views */,
 				497068452B1DA6A10089C54F /* Top Bar and Views */,
+				49C9373C2B5618BD000BECE5 /* Workouts */,
 				497068002B1D899C0089C54F /* Video */,
 				497067FF2B1D898B0089C54F /* Profile */,
 				497067FE2B1D89720089C54F /* Feed (Posts) */,
@@ -216,6 +221,15 @@
 				49C0540C2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift */,
 			);
 			path = "Now DribbleUITests";
+			sourceTree = "<group>";
+		};
+		49C9373C2B5618BD000BECE5 /* Workouts */ = {
+			isa = PBXGroup;
+			children = (
+				49C9373D2B5618CE000BECE5 /* WorkoutView.swift */,
+				49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */,
+			);
+			path = Workouts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,11 +364,13 @@
 			files = (
 				49C053F22AF0945E00130FD6 /* ContentView.swift in Sources */,
 				49C053F02AF0945E00130FD6 /* Now_DribbleApp.swift in Sources */,
+				49C9373E2B5618CE000BECE5 /* WorkoutView.swift in Sources */,
 				497067F52B1D86620089C54F /* SavedForLaterView.swift in Sources */,
 				497067F72B1D867A0089C54F /* ProfileEditorView.swift in Sources */,
 				497067ED2B1D80930089C54F /* PostView.swift in Sources */,
 				49AD56DA2AFC2F9200E92144 /* VideoPlayer.swift in Sources */,
 				492B0D8A2AF0B91400675158 /* HomeView.swift in Sources */,
+				49C937402B5618D9000BECE5 /* NetworkingWorkouts.swift in Sources */,
 				497067F32B1D85BA0089C54F /* UI_TopBar.swift in Sources */,
 				492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */,
 				499A72692B38C41800D8C734 /* NetworkingPosts.swift in Sources */,

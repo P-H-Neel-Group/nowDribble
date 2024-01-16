@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProfileEditorView: View {
-    @State private var displayName: String = "Current Name"
-    @State private var profileImage: UIImage = UIImage(systemName: "person.crop.circle.fill")!
+    @State private var displayName: String = "Current Name" // TODO: This needs to be passed from the profile viewer (retrieved from the backend)
+    @State private var profileImage: UIImage = UIImage(systemName: "person.crop.circle")!
     @State private var isImagePickerDisplayed: Bool = false
 
     var body: some View {
@@ -29,7 +29,7 @@ struct ProfileEditorView: View {
                 .padding()
 
             Button("Save Changes") {
-                // Handle save action
+                // TODO: Handle save action
             }
             .padding()
 
