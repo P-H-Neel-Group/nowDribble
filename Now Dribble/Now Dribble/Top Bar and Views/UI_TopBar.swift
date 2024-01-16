@@ -23,7 +23,7 @@ struct UI_TopBar: View {
 
             Spacer()
 
-            NavigationLink(destination: ProfileEditorView()) {
+            NavigationLink(destination: ProfileView()) {
                 Image(systemName: "person.circle")
                     .font(.system(size: 35))
                     .foregroundColor(Color("TabButtonColor"))
