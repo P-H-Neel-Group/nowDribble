@@ -20,6 +20,11 @@ struct HomeView: View {
                         .padding()
                         .bold()
                     
+                    // Display the app intro video
+                    VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, caption: "Welcome")
+                        .frame(height: 200)
+                        .padding([.leading, .trailing, .bottom], 15)
+
                     // Display Antonio's posts
                     Text("POSTS HERE")
                     List(self.posts) { post in
@@ -36,7 +41,3 @@ struct HomeView: View {
     } // End View
 } // End Struct
 
-/*
-#Preview {
-    HomeView()
-}*/
