@@ -15,7 +15,7 @@ struct NumberView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(1...5, id: \.self) { i in
+                ForEach(0...3, id: \.self) { i in
                     VStack {
                         Spacer()
                         Text("#\(i)")
@@ -23,7 +23,7 @@ struct NumberView: View {
                             .foregroundColor(Color.accentColor)
                             .padding(.top, 15)
                         
-                        VideoPlayerView(url: URL(string: urls[i-1])!, caption: captions[i-1])
+                        VideoPlayerView(url: URL(string: urls[i])!, caption: captions[i])
                             .frame(height: 200)
                             .padding([.leading, .trailing, .bottom], 15)
                     } // End VStack
