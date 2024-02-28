@@ -29,6 +29,8 @@
 		49C9373B2B507E5B000BECE5 /* NetworkingProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */; };
 		49C9373E2B5618CE000BECE5 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373D2B5618CE000BECE5 /* WorkoutView.swift */; };
 		49C937402B5618D9000BECE5 /* NetworkingWorkouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */; };
+		49EB05802B8EC10400801BE3 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB057F2B8EC10400801BE3 /* CategoryView.swift */; };
+		49EB05822B8EC2BA00801BE3 /* CategoryContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB05812B8EC2BA00801BE3 /* CategoryContentsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingProfiles.swift; sourceTree = "<group>"; };
 		49C9373D2B5618CE000BECE5 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
 		49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingWorkouts.swift; sourceTree = "<group>"; };
+		49EB057F2B8EC10400801BE3 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		49EB05812B8EC2BA00801BE3 /* CategoryContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryContentsView.swift; sourceTree = "<group>"; };
 		49EC0E342AF0A7D100DF4411 /* Now-Dribble-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Now-Dribble-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -190,6 +194,7 @@
 				497068442B1DA68A0089C54F /* Tab Bar Views */,
 				497068452B1DA6A10089C54F /* Top Bar and Views */,
 				49C9373C2B5618BD000BECE5 /* Workouts */,
+				49EB057C2B8EC0CF00801BE3 /* Categories */,
 				497068002B1D899C0089C54F /* Video */,
 				497067FF2B1D898B0089C54F /* Profile */,
 				497067FE2B1D89720089C54F /* Feed (Posts) */,
@@ -230,6 +235,15 @@
 				49C9373F2B5618D9000BECE5 /* NetworkingWorkouts.swift */,
 			);
 			path = Workouts;
+			sourceTree = "<group>";
+		};
+		49EB057C2B8EC0CF00801BE3 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				49EB057F2B8EC10400801BE3 /* CategoryView.swift */,
+				49EB05812B8EC2BA00801BE3 /* CategoryContentsView.swift */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,8 +384,10 @@
 				497067ED2B1D80930089C54F /* PostView.swift in Sources */,
 				49AD56DA2AFC2F9200E92144 /* VideoPlayer.swift in Sources */,
 				492B0D8A2AF0B91400675158 /* HomeView.swift in Sources */,
+				49EB05802B8EC10400801BE3 /* CategoryView.swift in Sources */,
 				49C937402B5618D9000BECE5 /* NetworkingWorkouts.swift in Sources */,
 				497067F32B1D85BA0089C54F /* UI_TopBar.swift in Sources */,
+				49EB05822B8EC2BA00801BE3 /* CategoryContentsView.swift in Sources */,
 				492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */,
 				499A72692B38C41800D8C734 /* NetworkingPosts.swift in Sources */,
 				49C9373B2B507E5B000BECE5 /* NetworkingProfiles.swift in Sources */,
