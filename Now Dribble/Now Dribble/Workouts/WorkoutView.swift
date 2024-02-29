@@ -132,6 +132,7 @@ struct WorkoutView: View {
                 ProgressView("Loading workout...")
             }
         }
+        .background(Color("PrimaryBlueColor"))
         .onAppear {
             fetcher.fetchWorkout(byId: workoutId)
         }

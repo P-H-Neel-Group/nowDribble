@@ -40,21 +40,39 @@ struct TrainNowView: View {
                 LazyVStack {
                     ForEach(viewModel.categories) { category in
                         NavigationLink(destination: CategoryContentsView(categoryId: category.id)) {
-                            Text(category.name)
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.gray)
-                                .cornerRadius(10)
+                            AsyncImage(url: URL(string: category.image_url)) { image in
+                                image.resizable()
+                                    .scaledToFill()
+                                    .cornerRadius(5)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: 330, maxHeight: 180)
+                            .blur(radius: 2)
+                            .clipped()
+                            .overlay(
+                                Rectangle()
+                                    .stroke(Color.white, lineWidth: 8)
+                                    .cornerRadius(5)
+                                    .overlay(
+                                        Text(category.name.uppercased())
+                                            .font(.system(size: 20, weight: .bold, design: .default))
+                                            .foregroundColor(.white)
+                                            .padding(5)
+                                            .cornerRadius(5)
+                                )
+                            )
                         }
                         .buttonStyle(PlainButtonStyle()) // To ensure the entire row is tappable
                     }
                 }
                 .padding()
-                .navigationTitle("Categories")
                 .onAppear {
                     viewModel.fetchCategories()
                 }
             }
+            .background(Color("PrimaryBlueColor"))
             .overlay {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
@@ -67,5 +85,4 @@ struct TrainNowView: View {
             }
         }
     }
-    
 }

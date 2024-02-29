@@ -92,6 +92,7 @@ struct LoginView: View {
                 .frame(width: 280, height: 60)
             } // Endif showButton
         }
+        .background(Color("SecondaryBlueColor"))
     }
 }
 

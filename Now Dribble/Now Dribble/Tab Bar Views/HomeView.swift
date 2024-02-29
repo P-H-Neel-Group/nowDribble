@@ -17,6 +17,7 @@ struct HomeView: View {
                 VStack {
                     Text("NOW Happening")
                         .font(.system(.title, design: .rounded))
+                        .foregroundColor(Color.white)
                         .padding()
                         .bold()
                     
@@ -24,9 +25,12 @@ struct HomeView: View {
                     VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, caption: "Welcome")
                         .frame(height: 200)
                         .padding([.leading, .trailing, .bottom], 15)
+                    
+                    Divider()
 
                     // Display Antonio's posts
                     Text("POSTS HERE")
+                        .foregroundColor(Color.white)
                     List(self.posts) { post in
                         PostView(post: post)
                     }
@@ -38,6 +42,7 @@ struct HomeView: View {
                 } // End VStack
             } // End of Scroll View
         } // End of outer VStack
+        .background(Color("PrimaryBlueColor"))
     } // End View
 } // End Struct
 

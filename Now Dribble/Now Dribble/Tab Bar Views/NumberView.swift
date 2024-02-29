@@ -18,7 +18,7 @@ struct NumberView: View {
                 ForEach(0...3, id: \.self) { i in
                     VStack {
                         Spacer()
-                        Text("#\(i)")
+                        Text("#\(i+1)")
                             .font(.title)
                             .foregroundColor(Color.accentColor)
                             .padding(.top, 15)
@@ -28,8 +28,10 @@ struct NumberView: View {
                             .padding([.leading, .trailing, .bottom], 15)
                     } // End VStack
                 } // End ForEach
+                Spacer()
             } // End VStack
         } // End ScrollView
+        .background(Color("PrimaryBlueColor"))
     }
 }
 

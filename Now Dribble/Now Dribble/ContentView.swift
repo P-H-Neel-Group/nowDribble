@@ -11,11 +11,11 @@ struct ContentView: View {
     @State private var selectedTab = "HOME" // Default tab
 
     var body: some View {
+
         NavigationView {
             VStack {
                 if selectedTab != "LOGIN" { // Dont show top bar on login page
                     UI_TopBar()
-                    Divider()
                 }
                 Spacer()
                 
@@ -39,9 +39,9 @@ struct ContentView: View {
                         .tag("NUMBERS")
                 } // End of Tab View
                 .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
-                
             } // End of VStack
         } // End of NavView
+        .background(Color("SecondaryBlueColor"))
     } // End of Body
 } // End of Struct
 
