@@ -23,10 +23,10 @@ struct VideoPlayerView: View {
                         .bold()
                         .foregroundColor(.white)
                         .padding(5)
-                        .background(Color.black.opacity(0.7))
+                        .background(Color.gray.opacity(0.7))
                         .cornerRadius(5)
                         .padding(5), // Add padding inside the ZStack to respect corner radius
-                    alignment: .bottomLeading
+                    alignment: .bottom
                 )
         }
     }

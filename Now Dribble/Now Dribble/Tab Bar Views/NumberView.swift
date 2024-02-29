@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NumberView: View {
-    let captions = ["Focus on a firm dibble on the outside of each foot.", "Focus on keeping your hand on top of ball, making your dribble strong and quick. Focus on not going past the center mass of your body.", "Focus on making your dribble quick and slightly rocking your body towards the direction of the ball, right to left.", "Same as 3, focus on making your dribble quick and slightly rocking your body towards the direction of the ball, right to left (body wrap).", "Focus on crossing the ball quick and snappy between the center of your wide base without your arms too far outside your waist. The purpose is to speed up your ball control."]
+    let captions = ["Focus on a firm dibble on the outside of each foot.", "Keep your hand on top of ball to make your dribble strong and quick.\nDon't go past your center of mass.", "Focus on making your dribble quick and slightly rocking your body towards the direction of the ball, right to left.", "Same as 3, focus on making your dribble quick and slightly rocking your body towards the direction of the ball, right to left (body wrap).", "To speed up ball control, focus on crossing the ball quick and snappy between the center of your wide base without your arms too far outside your waist."]
     
     let urls = ["https://nowdribble-static.s3.amazonaws.com/1intro.mp4", "https://nowdribble-static.s3.amazonaws.com/2intro.mp4", "https://nowdribble-static.s3.amazonaws.com/3intro.mp4",  "https://nowdribble-static.s3.amazonaws.com/4intro.mp4"]
     
