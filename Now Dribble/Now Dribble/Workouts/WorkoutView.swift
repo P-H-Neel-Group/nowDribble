@@ -52,8 +52,28 @@ struct WorkoutVideo: Identifiable, Codable {
 class WorkoutFetcher: ObservableObject {
     @Published var workoutDetail: WorkoutDetail?
     @Published var errorMessage: String?
-
+    
+    private func cacheKey(forWorkoutId id: Int) -> String {
+        return "workoutDetailsCache_\(id)"
+    }
+    
+    private func cacheWorkoutDetail() {
+        if let workoutDetail = workoutDetail, let encodedData = try? JSONEncoder().encode(workoutDetail) {
+            let key = cacheKey(forWorkoutId: workoutDetail.workout_id)
+            UserDefaults.standard.set(encodedData, forKey: key)
+        }
+    }
+    
+    private func loadCachedWorkoutDetail(forWorkoutId id: Int) {
+        let key = cacheKey(forWorkoutId: id)
+        if let data = UserDefaults.standard.data(forKey: key), let cachedWorkout = try? JSONDecoder().decode(WorkoutDetail.self, from: data) {
+            self.workoutDetail = cachedWorkout
+        }
+    }
+    
     func fetchWorkout(byId id: Int) {
+        loadCachedWorkoutDetail(forWorkoutId: id)
+
         let urlString = "http://18.221.147.65:5000/Workout/GetWorkoutDetails"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"

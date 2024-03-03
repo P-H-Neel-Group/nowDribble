@@ -15,10 +15,10 @@ struct Now_DribbleApp: App {
         WindowGroup {
             if authViewModel.isAuthenticated {
                 ContentView()
-                    .preferredColorScheme(.light)
+                    .preferredColorScheme(.dark)
             } else {
                 LoginView()
-                    .preferredColorScheme(.light)
+                    .preferredColorScheme(.dark)
             }
         }
     }

@@ -41,6 +41,7 @@ struct ContentView: View {
                 .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
             } // End of VStack
         } // End of NavView
+        .navigationBarHidden(true)
         .background(Color("SecondaryBlueColor"))
     } // End of Body
 } // End of Struct

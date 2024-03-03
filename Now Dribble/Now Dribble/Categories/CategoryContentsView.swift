@@ -13,6 +13,13 @@ class CategoryContentsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
+    private let cacheKey = "workoutsCache"
+    private let cacheTimestampKey = "workoutsCacheTimestamp"
+
+    init() {
+        loadCachedWorkouts()
+    }
+    
     func fetchWorkoutsForCategory(categoryId: Int) {
         isLoading = true
         errorMessage = nil
@@ -56,8 +63,28 @@ class CategoryContentsViewModel: ObservableObject {
             }
         }.resume()
     }
-}
+    
+    private func cacheWorkouts() {
+        if let encodedData = try? JSONEncoder().encode(workouts) {
+            UserDefaults.standard.set(encodedData, forKey: cacheKey)
+        }
+    }
 
+    private func loadCachedWorkouts() {
+        guard let data = UserDefaults.standard.data(forKey: cacheKey),
+              let cachedWorkouts = try? JSONDecoder().decode([Workout].self, from: data) else {
+            return
+        }
+        self.workouts = cachedWorkouts
+    }
+    
+    private func isCacheValid() -> Bool {
+        guard let cacheDate = UserDefaults.standard.object(forKey: cacheTimestampKey) as? Date else {
+            return false
+        }
+        return Calendar.current.isDate(cacheDate, inSameDayAs: Date()) || Calendar.current.dateComponents([.hour], from: cacheDate, to: Date()).hour! < 24
+    }
+}
 
 struct CategoryContentsView: View {
     @StateObject var viewModel = CategoryContentsViewModel()
@@ -75,7 +102,22 @@ struct CategoryContentsView: View {
                                 AsyncImage(url: URL(string: workout.image_url)) { phase in
                                     switch phase {
                                     case .empty:
-                                        ProgressView()
+                                        Rectangle()
+                                            .frame(width: 330, height: 180)
+                                            .cornerRadius(5)
+                                            .foregroundColor(Color.white)
+                                            .overlay(
+                                                Rectangle()
+                                                    .stroke(Color.white, lineWidth: 8)
+                                                    .cornerRadius(5)
+                                                    .overlay(
+                                                        Text(workout.name.uppercased())
+                                                            .font(.system(size: 20, weight: .bold, design: .default))
+                                                            .foregroundColor(Color("TabButtonColor"))
+                                                            .padding(5)
+                                                            .cornerRadius(5)
+                                                    )
+                                            )
                                     case .success(let image):
                                         image.resizable()
                                             .scaledToFill()
@@ -98,7 +140,7 @@ struct CategoryContentsView: View {
                                         
                                     case .failure:
                                         Rectangle()
-                                            .frame(width: 100, height: 100)
+                                            .frame(width: 330, height: 180)
                                             .cornerRadius(5)
                                             .foregroundColor(Color.white)
                                             .overlay(
@@ -108,7 +150,7 @@ struct CategoryContentsView: View {
                                                     .overlay(
                                                         Text(workout.name.uppercased())
                                                             .font(.system(size: 20, weight: .bold, design: .default))
-                                                            .foregroundColor(.white)
+                                                            .foregroundColor(Color("TabButtonColor"))
                                                             .padding(5)
                                                             .cornerRadius(5)
                                                     )
