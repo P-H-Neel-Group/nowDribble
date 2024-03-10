@@ -18,7 +18,7 @@ struct Now_DribbleApp: App {
                     .preferredColorScheme(.dark)
             } else {
                 LoginView()
-                    .preferredColorScheme(.dark)
+                    .preferredColorScheme(.light)
             }
         }
     }

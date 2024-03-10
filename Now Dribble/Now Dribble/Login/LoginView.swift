@@ -16,11 +16,10 @@ struct LoginView: View {
     var body: some View {
         VStack {
             if (showImage) {
-                Image(systemName: "basketball.fill")
+                Image("Logo1")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
-                    .foregroundColor(Color("TabButtonColor")) // Apply accent color
                     .padding()
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -92,7 +91,6 @@ struct LoginView: View {
                 .frame(width: 280, height: 60)
             } // Endif showButton
         }
-        .background(Color("SecondaryBlueColor"))
     }
 }
 

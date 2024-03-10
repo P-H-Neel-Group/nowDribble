@@ -89,83 +89,76 @@ class CategoryContentsViewModel: ObservableObject {
 struct CategoryContentsView: View {
     @StateObject var viewModel = CategoryContentsViewModel()
     let categoryId: Int
-
+    
     var body: some View {
         ZStack {
             Color("PrimaryBlueColor")
                 .edgesIgnoringSafeArea(.all)
-
+            
             ScrollView {
                 LazyVStack {
                     ForEach(viewModel.workouts) { workout in
                         NavigationLink(destination: WorkoutView(workoutId: workout.workout_id)) {
-                                AsyncImage(url: URL(string: workout.image_url)) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        Rectangle()
-                                            .frame(width: 330, height: 300)
-                                            .cornerRadius(10)
-                                            .foregroundColor(Color("SecondaryBlueColor"))
-                                            .overlay(
+                            AsyncImage(url: URL(string: workout.image_url)) { phase in
+                                switch phase {
+                                case .empty, .failure:
+                                    Rectangle()
+                                        .frame(width: 400, height: 300)
+                                        .cornerRadius(10)
+                                        .foregroundColor(Color("SecondaryBlueColor"))
+                                        .overlay(
+                                            VStack {
+                                                Text(workout.name.uppercased())
+                                                    .font(.system(size: 20, weight: .bold, design: .default))
+                                                    .foregroundColor(.white)
+                                                    .padding(5)
+                                                    .cornerRadius(5)
+                                                Image(systemName: "flame.circle.fill")
+                                                    .symbolRenderingMode(.multicolor)
+                                                    .foregroundColor(.accentColor)
+                                                    .font(.system(size: 50))
+
+                                            }
+                                        )
+                                case .success(let image):
+                                    image.resizable()
+                                        .scaledToFill()
+                                        .frame(width: 400, height: 300)
+                                        .cornerRadius(10)
+                                        .clipped()
+                                        .overlay(
+                                            ZStack {
+                                                Rectangle() // This rectangle will serve as the tint layer
+                                                    .foregroundColor(.black)
+                                                    .opacity(0.3)
+                                                VStack {
                                                     Text(workout.name.uppercased())
                                                         .font(.system(size: 20, weight: .bold, design: .default))
                                                         .foregroundColor(.white)
                                                         .padding(5)
                                                         .cornerRadius(5)
-//                                                    Text(workout.count) // Display workout count "%g exercises"
-//                                                        .font(.caption)
-//                                                        .foregroundColor(.white)
-                                                )
-                                    case .success(let image):
-                                        image.resizable()
-                                            .scaledToFill()
-                                            .frame(width: 330, height: 180)
-                                            .blur(radius:2)
-                                            .cornerRadius(5)
-                                            .clipped()
-                                            .overlay(
-                                                Rectangle()
-                                                    .stroke(Color.white, lineWidth: 8)
-                                                    .cornerRadius(5)
-                                                    .overlay(
-                                                        Text(workout.name.uppercased())
-                                                            .font(.system(size: 20, weight: .bold, design: .default))
-                                                            .foregroundColor(.white)
-                                                            .padding(5)
-                                                            .cornerRadius(5)
-                                                    )
-                                            )
-                                        
-                                    case .failure:
-                                        Rectangle()
-                                            .frame(width: 330, height: 180)
-                                            .cornerRadius(5)
-                                            .foregroundColor(Color.white)
-                                            .overlay(
-                                                Rectangle()
-                                                    .stroke(Color.white, lineWidth: 8)
-                                                    .cornerRadius(5)
-                                                    .overlay(
-                                                        Text(workout.name.uppercased())
-                                                            .font(.system(size: 20, weight: .bold, design: .default))
-                                                            .foregroundColor(Color("TabButtonColor"))
-                                                            .padding(5)
-                                                            .cornerRadius(5)
-                                                    )
-                                            )
-                                    @unknown default:
-                                        EmptyView()
+                                                    Image(systemName: "flame.circle.fill")
+                                                        .symbolRenderingMode(.multicolor)
+                                                        .foregroundColor(.accentColor)
+                                                        .font(.system(size: 50))
+                                            
+                                                }
+                                            }
+                                        )
+                                        .padding()
+                                @unknown default:
+                                    EmptyView()
                                 }
                             }
-                            .padding() // Add padding to each item for better spacing
-                            .background(Color("PrimaryBlueColor")) // Optional: Ensure each item also has the blue background
-                            .cornerRadius(10) // Optional: Add rounded corners for a nicer look
                         }
-                        .buttonStyle(PlainButtonStyle()) // Improve tap feedback
+                        .padding() // Add padding to each item for better spacing
+                        .background(Color("PrimaryBlueColor")) // Optional: Ensure each item also has the blue background
+                        .cornerRadius(10) // Optional: Add rounded corners for a nicer look
                     }
+                    .buttonStyle(PlainButtonStyle()) // Improve tap feedback
                 }
-                .padding() // Add some padding around the VStack
             }
+            .padding() // Add some padding around the VStack
         }
         .onAppear {
             viewModel.fetchWorkoutsForCategory(categoryId: categoryId)

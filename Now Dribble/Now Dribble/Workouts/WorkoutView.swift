@@ -123,10 +123,10 @@ struct WorkoutView: View {
                 ScrollView {
                     VStack {
                         Text(workout.name.uppercased())
-                            .font(.headline)
+                            .font(.title)
                             .foregroundColor(Color.white)
                             .bold()
-                            .multilineTextAlignment(.leading    )
+                            .multilineTextAlignment(.leading)
                         
 //                        Divider()
 //                        
@@ -138,14 +138,13 @@ struct WorkoutView: View {
                         
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, caption: video.title)
-                                .frame(height: 200)
                                 .padding([.leading, .trailing, .bottom], 15)
                         }
                         
                         Spacer()
                         
                         Text("Sequence")
-                            .font(.subheadline)
+                            .font(.title)
                             .padding()
                         
                         ForEach(workout.sequences.indices, id: \.self) { index in

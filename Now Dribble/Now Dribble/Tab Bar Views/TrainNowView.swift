@@ -45,27 +45,9 @@ struct TrainNowView: View {
                                 switch phase {
                                 case .empty, .failure:
                                     Rectangle()
-                                        .frame(width: 330, height: 300)
-                                        .cornerRadius(5)
+                                        .frame(width: 400, height: 300)
+                                        .cornerRadius(10)
                                         .foregroundColor(Color("SecondaryBlueColor"))
-                                        .overlay(
-                                            VStack {
-                                                Text(category.name.uppercased())
-                                                    .font(.system(size: 20, weight: .bold, design: .default))
-                                                    .foregroundColor(.white)
-                                                    .padding(5)
-//                                                Text(category.workout_count)
-//                                                    .font(.caption)
-//                                                    .foregroundColor(.white)
-                                            }
-                                        )
-                                case .success(let image):
-                                    image.resizable()
-                                        .scaledToFill()
-                                        .cornerRadius(5)
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(maxWidth: 330, maxHeight: 330)
-                                        .clipped()
                                         .overlay(
                                             VStack {
                                                 Text(category.name.uppercased())
@@ -77,6 +59,32 @@ struct TrainNowView: View {
                                                     .foregroundColor(.white)
                                             }
                                         )
+                                        .padding()
+                                case .success(let image):
+                                    image.resizable()
+                                        .frame(maxWidth: 400, maxHeight: 300)
+                                        .scaledToFill()
+                                        .cornerRadius(10)
+                                        //.aspectRatio(contentMode: .fill)
+                                        .clipped()
+                                        .overlay(
+                                            ZStack {
+                                                Rectangle() // This rectangle will serve as the tint layer
+                                                    .foregroundColor(.black)
+                                                    .opacity(0.3)
+                                                
+                                                VStack {
+                                                    Text(category.name.uppercased())
+                                                        .font(.system(size: 20, weight: .bold, design: .default))
+                                                        .foregroundColor(.white)
+                                                        .padding(5)
+                                                    Text("\(category.workout_count) exercises")
+                                                        .font(.caption)
+                                                        .foregroundColor(.white)
+                                                }
+                                            }
+                                        )
+                                        .padding()
                                 @unknown default:
                                     EmptyView()
                                 }
