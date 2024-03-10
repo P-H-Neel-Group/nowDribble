@@ -68,20 +68,23 @@ struct TrainNowView: View {
                                         //.aspectRatio(contentMode: .fill)
                                         .clipped()
                                         .overlay(
-                                            ZStack {
+                                            ZStack(alignment: .bottomLeading) { // Align content to the bottom leading corner
                                                 Rectangle() // This rectangle will serve as the tint layer
                                                     .foregroundColor(.black)
                                                     .opacity(0.3)
-                                                
-                                                VStack {
+
+                                                VStack(alignment: .leading) { // Align text to the leading edge
+                                                    Spacer() // Pushes content to the bottom
                                                     Text(category.name.uppercased())
-                                                        .font(.system(size: 20, weight: .bold, design: .default))
+                                                        .font(.system(size: 35, weight: .bold, design: .default))
                                                         .foregroundColor(.white)
-                                                        .padding(5)
+                                                        .padding(.leading, 10) // Add padding to match your design requirements
                                                     Text("\(category.workout_count) exercises")
-                                                        .font(.caption)
+                                                        .font(.system(size: 15, weight: .bold, design: .default))
                                                         .foregroundColor(.white)
+                                                        .padding([.leading, .bottom], 10) // Align with the title padding
                                                 }
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading) // Ensure VStack fills the ZStack but aligns content to bottomLeading
                                             }
                                         )
                                         .padding()
