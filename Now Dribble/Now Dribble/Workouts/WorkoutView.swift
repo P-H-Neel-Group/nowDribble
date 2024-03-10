@@ -137,11 +137,17 @@ struct WorkoutView: View {
 //                            .foregroundColor(Color.white)
                         
                         ForEach(workout.videos) { video in
-                            VideoPlayerView(url: URL(string: video.url)!, caption: video.title)
-                                .padding([.leading, .trailing, .bottom], 15)
+                            VideoPlayerView(url: URL(string: video.url)!, showCaption: false, caption: video.title)
+                                .padding([.leading, .trailing])
                         }
-                        
                         Spacer()
+                        
+                        NavigationLink(destination: ProfileEditorView()) {
+                            Image(systemName: "play.circle.fill")
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 50))
+                                .foregroundColor(.yellow)
+                        }
                         
                         Text("Sequence")
                             .font(.title)

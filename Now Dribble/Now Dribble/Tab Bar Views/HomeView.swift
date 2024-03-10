@@ -22,7 +22,7 @@ struct HomeView: View {
                         .bold()
                     
                     // Display the app intro video
-                    VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, caption: "Welcome")
+                    VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, showCaption: false, caption: "Welcome")
                         .padding([.leading, .trailing, .bottom], 15)
                     
                     Divider()

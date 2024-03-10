@@ -24,7 +24,7 @@ struct NumberView: View {
                             .foregroundColor(.white)
                             .padding(.top, 15)
                         
-                        VideoPlayerView(url: URL(string: urls[i])!, caption: captions[i])
+                        VideoPlayerView(url: URL(string: urls[i])!, showCaption: true, caption: captions[i])
                             .padding([.leading, .trailing, .bottom], 15)
                     } // End VStack
                 } // End ForEach

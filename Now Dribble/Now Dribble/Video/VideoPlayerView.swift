@@ -10,6 +10,7 @@ import AVKit
 
 struct VideoPlayerView: View {
     let url: URL
+    let showCaption: Bool
     let caption: String
     private let aspectRatio: CGFloat = 16/9
 
@@ -22,14 +23,15 @@ struct VideoPlayerView: View {
              }
              .frame(height: UIScreen.main.bounds.width / aspectRatio) // Set height based on the aspect ratio
 
-
-            Text(caption)
-                .font(.caption)
-                .bold()
-                .foregroundColor(.white)
-                .padding([.horizontal, .bottom])
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true) // Allows the text to grow vertically.
+            if (showCaption) {
+                Text(caption)
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding([.horizontal, .bottom])
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true) // Allows the text to grow vertically.
+            }
         }
     }
 }

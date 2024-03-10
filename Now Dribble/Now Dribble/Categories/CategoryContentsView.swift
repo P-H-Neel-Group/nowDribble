@@ -92,9 +92,6 @@ struct CategoryContentsView: View {
     
     var body: some View {
         ZStack {
-            Color("PrimaryBlueColor")
-                .edgesIgnoringSafeArea(.all)
-            
             ScrollView {
                 LazyVStack {
                     ForEach(viewModel.workouts) { workout in
@@ -145,7 +142,6 @@ struct CategoryContentsView: View {
                                                 }
                                             }
                                         )
-                                        .padding()
                                 @unknown default:
                                     EmptyView()
                                 }
@@ -160,6 +156,7 @@ struct CategoryContentsView: View {
             }
             .padding() // Add some padding around the VStack
         }
+        .background(Color("PrimaryBlueColor"))
         .onAppear {
             viewModel.fetchWorkoutsForCategory(categoryId: categoryId)
         }
