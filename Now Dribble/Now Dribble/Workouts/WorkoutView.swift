@@ -74,7 +74,7 @@ class WorkoutFetcher: ObservableObject {
     func fetchWorkout(byId id: Int) {
         loadCachedWorkoutDetail(forWorkoutId: id)
 
-        let urlString = "http://18.221.147.65:5000/Workout/GetWorkoutDetails"
+        let urlString = "http://18.224.58.18:5000/Workout/GetWorkoutDetails"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return
@@ -123,17 +123,18 @@ struct WorkoutView: View {
                 ScrollView {
                     VStack {
                         Text(workout.name.uppercased())
-                            .font(.title)
+                            .font(.headline)
                             .foregroundColor(Color.white)
                             .bold()
+                            .multilineTextAlignment(.leading    )
                         
-                        Divider()
-                        
-                        Text(workout.description)
-                            .font(.body)
-                            .padding()
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(Color.white)
+//                        Divider()
+//                        
+//                        Text(workout.description)
+//                            .font(.body)
+//                            .padding()
+//                            .multilineTextAlignment(.center)
+//                            .foregroundColor(Color.white)
                         
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, caption: video.title)
@@ -142,6 +143,10 @@ struct WorkoutView: View {
                         }
                         
                         Spacer()
+                        
+                        Text("Sequence")
+                            .font(.subheadline)
+                            .padding()
                         
                         ForEach(workout.sequences.indices, id: \.self) { index in
                             HStack {

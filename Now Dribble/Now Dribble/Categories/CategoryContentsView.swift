@@ -16,14 +16,14 @@ class CategoryContentsViewModel: ObservableObject {
     private let cacheKey = "workoutsCache"
     private let cacheTimestampKey = "workoutsCacheTimestamp"
 
-    init() {
-        loadCachedWorkouts()
-    }
+//    init() {
+//        loadCachedWorkouts()
+//    }
     
     func fetchWorkoutsForCategory(categoryId: Int) {
         isLoading = true
         errorMessage = nil
-        let urlString = "http://18.221.147.65:5000/Workout/GetEnabledWorkoutsByCategory"
+        let urlString = "http://18.224.58.18:5000/Workout/GetEnabledWorkoutsByCategory"
         guard let url = URL(string: urlString) else {
             self.isLoading = false
             self.errorMessage = "Invalid URL"
@@ -103,21 +103,19 @@ struct CategoryContentsView: View {
                                     switch phase {
                                     case .empty:
                                         Rectangle()
-                                            .frame(width: 330, height: 180)
-                                            .cornerRadius(5)
-                                            .foregroundColor(Color.white)
+                                            .frame(width: 330, height: 300)
+                                            .cornerRadius(10)
+                                            .foregroundColor(Color("SecondaryBlueColor"))
                                             .overlay(
-                                                Rectangle()
-                                                    .stroke(Color.white, lineWidth: 8)
-                                                    .cornerRadius(5)
-                                                    .overlay(
-                                                        Text(workout.name.uppercased())
-                                                            .font(.system(size: 20, weight: .bold, design: .default))
-                                                            .foregroundColor(Color("TabButtonColor"))
-                                                            .padding(5)
-                                                            .cornerRadius(5)
-                                                    )
-                                            )
+                                                    Text(workout.name.uppercased())
+                                                        .font(.system(size: 20, weight: .bold, design: .default))
+                                                        .foregroundColor(.white)
+                                                        .padding(5)
+                                                        .cornerRadius(5)
+//                                                    Text(workout.count) // Display workout count "%g exercises"
+//                                                        .font(.caption)
+//                                                        .foregroundColor(.white)
+                                                )
                                     case .success(let image):
                                         image.resizable()
                                             .scaledToFill()

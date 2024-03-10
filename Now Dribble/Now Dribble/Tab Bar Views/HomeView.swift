@@ -23,14 +23,11 @@ struct HomeView: View {
                     
                     // Display the app intro video
                     VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, caption: "Welcome")
-                        .frame(height: 200)
                         .padding([.leading, .trailing, .bottom], 15)
                     
                     Divider()
 
                     // Display Antonio's posts
-                    Text("POSTS HERE")
-                        .foregroundColor(Color.white)
                     List(self.posts) { post in
                         PostView(post: post)
                     }

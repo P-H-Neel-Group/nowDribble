@@ -30,6 +30,7 @@ struct TrainNowView: View {
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
+        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
     }
     
     @StateObject private var viewModel = CategoriesViewModel()
@@ -42,59 +43,39 @@ struct TrainNowView: View {
                         NavigationLink(destination: CategoryContentsView(categoryId: category.id)) {
                             AsyncImage(url: URL(string: category.image_url)) { phase in
                                 switch phase {
-                                case .empty:
+                                case .empty, .failure:
                                     Rectangle()
-                                        .frame(width: 330, height: 180)
+                                        .frame(width: 330, height: 300)
                                         .cornerRadius(5)
-                                        .foregroundColor(Color.white)
+                                        .foregroundColor(Color("SecondaryBlueColor"))
                                         .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 8)
-                                                .cornerRadius(5)
-                                                .overlay(
-                                                    Text(category.name.uppercased())
-                                                        .font(.system(size: 20, weight: .bold, design: .default))
-                                                        .foregroundColor(Color("TabButtonColor"))
-                                                        .padding(5)
-                                                        .cornerRadius(5)
-                                                )
+                                            VStack {
+                                                Text(category.name.uppercased())
+                                                    .font(.system(size: 20, weight: .bold, design: .default))
+                                                    .foregroundColor(.white)
+                                                    .padding(5)
+//                                                Text(category.workout_count)
+//                                                    .font(.caption)
+//                                                    .foregroundColor(.white)
+                                            }
                                         )
                                 case .success(let image):
                                     image.resizable()
                                         .scaledToFill()
                                         .cornerRadius(5)
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(maxWidth: 330, maxHeight: 180)
-                                        .blur(radius: 2)
+                                        .frame(maxWidth: 330, maxHeight: 330)
                                         .clipped()
                                         .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 8)
-                                                .cornerRadius(5)
-                                                .overlay(
-                                                    Text(category.name.uppercased())
-                                                        .font(.system(size: 20, weight: .bold, design: .default))
-                                                        .foregroundColor(.white)
-                                                        .padding(5)
-                                                        .cornerRadius(5)
-                                                )
-                                        )
-                                case .failure:
-                                    Rectangle()
-                                        .frame(width: 330, height: 180)
-                                        .cornerRadius(5)
-                                        .foregroundColor(Color.white)
-                                        .overlay(
-                                            Rectangle()
-                                                .stroke(Color.white, lineWidth: 8)
-                                                .cornerRadius(5)
-                                                .overlay(
-                                                    Text(category.name.uppercased())
-                                                        .font(.system(size: 20, weight: .bold, design: .default))
-                                                        .foregroundColor(Color("TabButtonColor"))
-                                                        .padding(5)
-                                                        .cornerRadius(5)
-                                                )
+                                            VStack {
+                                                Text(category.name.uppercased())
+                                                    .font(.system(size: 20, weight: .bold, design: .default))
+                                                    .foregroundColor(.white)
+                                                    .padding(5)
+                                                Text("\(category.workout_count) exercises")
+                                                    .font(.caption)
+                                                    .foregroundColor(.white)
+                                            }
                                         )
                                 @unknown default:
                                     EmptyView()

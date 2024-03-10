@@ -11,23 +11,25 @@ import AVKit
 struct VideoPlayerView: View {
     let url: URL
     let caption: String
+    private let aspectRatio: CGFloat = 16/9
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            VideoPlayer(player: AVPlayer(url: url))
-                .frame(height: 200)
-                .cornerRadius(10)
-                .overlay(
-                    Text(caption)
-                        .font(.caption)
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding(5)
-                        .background(Color.gray.opacity(0.7))
-                        .cornerRadius(5)
-                        .padding(5), // Add padding inside the ZStack to respect corner radius
-                    alignment: .bottom
-                )
+        VStack {
+            GeometryReader { geometry in
+                 VideoPlayer(player: AVPlayer(url: url))
+                     .frame(width: geometry.size.width, height: geometry.size.width / aspectRatio)
+                     .cornerRadius(10)
+             }
+             .frame(height: UIScreen.main.bounds.width / aspectRatio) // Set height based on the aspect ratio
+
+
+            Text(caption)
+                .font(.caption)
+                .bold()
+                .foregroundColor(.white)
+                .padding([.horizontal, .bottom])
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true) // Allows the text to grow vertically.
         }
     }
 }

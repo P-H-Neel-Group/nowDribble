@@ -9,11 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab = "HOME" // Default tab
-
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        //appearance.backgroundColor = UIColor.systemBackground
+        appearance.shadowColor = nil // Remove the shadow line
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
+        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
+    }
+    
     var body: some View {
-
         NavigationView {
-            VStack {
+            VStack (spacing: 0){
                 if selectedTab != "LOGIN" { // Dont show top bar on login page
                     UI_TopBar()
                 }
@@ -42,6 +53,7 @@ struct ContentView: View {
             } // End of VStack
         } // End of NavView
         .navigationBarHidden(true)
+        .navigationBarTitle("", displayMode: .inline)
         .background(Color("SecondaryBlueColor"))
     } // End of Body
 } // End of Struct

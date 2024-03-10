@@ -15,8 +15,8 @@ struct Category: Identifiable, Decodable {
     let category_id: Int
     let name: String
     let image_url: String
+    let workout_count: Int
     var id: Int { category_id }
-
 }
 
 class CategoriesViewModel: ObservableObject {
@@ -25,7 +25,7 @@ class CategoriesViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     func fetchCategories() {
-        guard let url = URL(string: "http://18.221.147.65:5000/Workout/GetEnabledCategories") else {
+        guard let url = URL(string: "http://18.224.58.18:5000/Workout/GetEnabledCategories") else {
             self.errorMessage = "Invalid URL"
             return
         }
