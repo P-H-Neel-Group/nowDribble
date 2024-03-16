@@ -19,6 +19,7 @@
 		499A72692B38C41800D8C734 /* NetworkingPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499A72682B38C41800D8C734 /* NetworkingPosts.swift */; };
 		49AD56DA2AFC2F9200E92144 /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD56D92AFC2F9200E92144 /* VideoPlayer.swift */; };
 		49AD56DC2AFC30F100E92144 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AD56DB2AFC30F100E92144 /* VideoPlayerView.swift */; };
+		49C02CB72BA6428300346583 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C02CB62BA6428300346583 /* KeychainService.swift */; };
 		49C053F02AF0945E00130FD6 /* Now_DribbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */; };
 		49C053F22AF0945E00130FD6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C053F12AF0945E00130FD6 /* ContentView.swift */; };
 		49C053F42AF0946000130FD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C053F32AF0946000130FD6 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		499A72682B38C41800D8C734 /* NetworkingPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingPosts.swift; sourceTree = "<group>"; };
 		49AD56D92AFC2F9200E92144 /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		49AD56DB2AFC30F100E92144 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		49C02CB62BA6428300346583 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		49C053EC2AF0945E00130FD6 /* Now Dribble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Now Dribble.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_DribbleApp.swift; sourceTree = "<group>"; };
 		49C053F12AF0945E00130FD6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				495EA5C52B376E890083E207 /* LoginView.swift */,
 				49926F622B9FDC4A000E5B26 /* SubscriptionsView.swift */,
+				49C02CB62BA6428300346583 /* KeychainService.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				49EB05802B8EC10400801BE3 /* CategoryView.swift in Sources */,
 				49C937402B5618D9000BECE5 /* NetworkingWorkouts.swift in Sources */,
 				497067F32B1D85BA0089C54F /* UI_TopBar.swift in Sources */,
+				49C02CB72BA6428300346583 /* KeychainService.swift in Sources */,
 				49EB05822B8EC2BA00801BE3 /* CategoryContentsView.swift in Sources */,
 				492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */,
 				49926F632B9FDC4A000E5B26 /* SubscriptionsView.swift in Sources */,
@@ -559,6 +563,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = "Now Dribble/Now Dribble.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -596,6 +601,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = "Now Dribble/Now Dribble.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

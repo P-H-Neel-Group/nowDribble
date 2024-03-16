@@ -77,6 +77,17 @@ struct LoginView: View {
                                     print("\nID Token not available")
                                 }
                                 #endif
+                                
+                                // MAKE POST REQUEST TO /Authentication/LogInWithApple
+                                // Extract the authorization code and ID token
+                                if let authCodeData = appleIDCredential.authorizationCode,
+                                   let authCode = String(data: authCodeData, encoding: .utf8),
+                                   let idTokenData = appleIDCredential.identityToken,
+                                   let idToken = String(data: idTokenData, encoding: .utf8) {
+                                   
+                                    // Now call the function to make the POST request
+                                    postLoginWithApple(authorizationCode: authCode, idToken: idToken)
+                                }
                             } else {
                                 print("\n!!!Credential is not of type ASAuthorizationAppleIDCredential!!!")
                             }
@@ -94,12 +105,47 @@ struct LoginView: View {
     }
 }
 
-// Preview
-/*
-#if DEBUG
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
+func postLoginWithApple(authorizationCode: String, idToken: String) {
+    guard let url = URL(string: "http://\(IP_ADDRESS)/Authentication/LogInWithApple") else {
+        print("Invalid URL")
+        return
     }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+    let body: [String: Any] = [
+        "authorization_code": authorizationCode,
+        "id_token": idToken
+    ]
+
+    request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        guard let data = data, error == nil else {
+            print("Error: \(error?.localizedDescription ?? "No data")")
+            return
+        }
+
+        do {
+            if let responseJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                // Handle the server response here
+                print(responseJSON)
+                if let tokenString = responseJSON["token"] as? String,
+                   let tokenData = tokenString.data(using: .utf8) {
+                    // Save token to Keychain
+                    KeychainHelper.standard.save(tokenData, service: "com.phneelgroup.Now-Dribble", account: "userToken")
+                    print("Token saved to Keychain")
+                } else {
+                    print("Token not found in the response")
+                }
+            }
+        } catch let jsonError {
+            print("Failed to decode JSON: \(jsonError.localizedDescription)")
+        }
+    }
+
+    task.resume()
 }
-#endif*/
