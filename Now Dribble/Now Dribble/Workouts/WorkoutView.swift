@@ -36,12 +36,15 @@ struct WorkoutView: View {
                         }
                         Spacer()
                         
-                        NavigationLink(destination: ProfileEditorView()) {
-                            Image(systemName: "play.circle.fill")
-                                .symbolRenderingMode(.multicolor)
-                                .font(.system(size: 50))
-                                .foregroundColor(.yellow)
+                        if (workout.sequences.count > 0) {
+                            NavigationLink(destination: PlayWorkoutView(sequences: workout.sequences, videos: workout.videos)) {
+                                Image(systemName: "play.circle.fill")
+                                    .symbolRenderingMode(.multicolor)
+                                    .font(.system(size: 50))
+                                    .foregroundColor(.yellow)
+                            }
                         }
+
                         
                         Text("Sequence")
                             .font(.title)
