@@ -15,15 +15,21 @@ class CategoryContentsViewModel: ObservableObject {
 
     private let cacheKey = "workoutsCache"
     private let cacheTimestampKey = "workoutsCacheTimestamp"
-
-//    init() {
-//        loadCachedWorkouts()
-//    }
     
     func fetchWorkoutsForCategory(categoryId: Int) {
         isLoading = true
         errorMessage = nil
-        let urlString = "http://\(IP_ADDRESS)/Workout/GetEnabledWorkoutsByCategory"
+        
+        guard let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
+              let token = String(data: tokenData, encoding: .utf8) else {
+            DispatchQueue.main.async {
+                self.isLoading = false
+                self.errorMessage = "Authentication error: Unable to retrieve token."
+            }
+            return
+        }
+
+        let urlString = "http://\(IP_ADDRESS)/Workout/GetEnabledUserWorkoutsByCategory"
         guard let url = URL(string: urlString) else {
             self.isLoading = false
             self.errorMessage = "Invalid URL"
@@ -41,6 +47,7 @@ class CategoryContentsViewModel: ObservableObject {
         request.httpMethod = "POST"
         request.httpBody = bodyData
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         print(request)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {

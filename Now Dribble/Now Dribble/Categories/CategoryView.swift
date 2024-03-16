@@ -16,6 +16,7 @@ struct Category: Identifiable, Decodable {
     let name: String
     let image_url: String
     let workout_count: Int
+    let user_has_access : Bool
     var id: Int { category_id }
 }
 
@@ -23,15 +24,28 @@ class CategoriesViewModel: ObservableObject {
     @Published var categories: [Category] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-
+    
     func fetchCategories() {
-        guard let url = URL(string: "http://\(IP_ADDRESS)/Workout/GetEnabledCategories") else {
+        guard let url = URL(string: "http://\(IP_ADDRESS)/Workout/GetEnabledUserCategories") else {
             self.errorMessage = "Invalid URL"
             return
         }
         
+        guard let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
+              let token = String(data: tokenData, encoding: .utf8) else {
+            DispatchQueue.main.async {
+                self.isLoading = false
+                self.errorMessage = "Authentication error: Unable to retrieve token."
+            }
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
         self.isLoading = true
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 self.isLoading = false
                 if let error = error {
@@ -58,4 +72,3 @@ class CategoriesViewModel: ObservableObject {
         }.resume()
     }
 }
-
