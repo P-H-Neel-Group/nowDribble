@@ -29,19 +29,24 @@ struct Now_DribbleApp: App {
 
 class AuthenticationViewModel: ObservableObject {
     @Published var isAuthenticated = false
-
+    
     init() {
         checkAuthentication()
     }
-
+    
     func checkAuthentication() {
         DispatchQueue.global(qos: .background).async {
-            // Perform the authentication check here
-
+            var authenticated = false
             
-            // Once done, update the UI on the main thread
+            if let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
+               let token = String(data: tokenData, encoding: .utf8) {
+                print("Retrieved token: \(token)")
+                authenticated = true
+                // TODO: refresh token?
+            }
+            
             DispatchQueue.main.async {
-                self.isAuthenticated = true // Update based on actual check
+                self.isAuthenticated = authenticated // Update the published property on the main thread
             }
         }
     }
