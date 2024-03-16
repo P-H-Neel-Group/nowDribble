@@ -10,7 +10,9 @@ import SwiftUI
 
 struct HomeView: View {
     @State var posts: [Post] = [] // Holds the posts on the feed
-    
+    @State var showVideo: Bool = false
+    private let aspectRatio: CGFloat = 16/9
+
     var body: some View {
         VStack {          
             ScrollView {
@@ -22,8 +24,32 @@ struct HomeView: View {
                         .bold()
                     
                     // Display the app intro video
-                    VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, showCaption: false, caption: "Welcome")
-                        .padding([.leading, .trailing, .bottom], 15)
+                    if showVideo {
+                        VideoPlayerView(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/AppIntro.mp4")!, showCaption: false, caption: "Welcome")
+                            .padding([.leading, .trailing, .bottom], 15)
+                    } else {
+                        ZStack {
+                            AsyncImage(url: URL(string: "https://nowdribble-static.s3.amazonaws.com/images/shoulderPullDowns.PNG")) { image in
+                                image.resizable()
+                            } placeholder: {
+                                Color.gray
+                            }
+                            .frame(width: 400, height: 250) // Match the VideoPlayer's frame dimensions
+                            .clipped()
+                            .scaledToFill()
+                            .cornerRadius(10)
+
+                            // Overlay a play button on the thumbnail
+                            Image(systemName: "play.circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(.white)
+                        }
+                        .onTapGesture {
+                            withAnimation {
+                                showVideo = true
+                            }
+                        }
+                    }
                     
                     Divider()
 
