@@ -3,7 +3,7 @@
 //  Now Dribble
 //
 //  Created by Isaiah Harville on 10/30/23.
-//
+// This file displays the categories which contain workouts.
 
 import SwiftUI
 

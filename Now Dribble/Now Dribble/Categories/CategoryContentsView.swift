@@ -3,7 +3,7 @@
 //  Now Dribble
 //
 //  Created by Isaiah Harville on 2/27/24.
-// Each category contains a list of workouts
+// Each category contains a list of workouts, this file displays the contents of a category.
 
 import SwiftUI
 import Foundation

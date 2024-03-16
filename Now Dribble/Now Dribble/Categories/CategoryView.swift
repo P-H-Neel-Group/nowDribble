@@ -59,32 +59,3 @@ class CategoriesViewModel: ObservableObject {
     }
 }
 
-//struct CategoriesView: View {
-//    @StateObject private var viewModel = CategoriesViewModel()
-//
-//    var body: some View {
-//        NavigationView {
-//            ScrollView{
-//                VStack{
-//                    List(viewModel.categories) { category in
-//                        Text(category.name)
-//                    }
-//                    .navigationTitle("Categories")
-//                    .onAppear {
-//                        viewModel.fetchCategories()
-//                    }
-//                    .overlay {
-//                        if viewModel.isLoading {
-//                            ProgressView("Loading...")
-//                        }
-//                    }
-//                    .alert("Error", isPresented: Binding<Bool>.constant(viewModel.errorMessage != nil), presenting: viewModel.errorMessage) { errorMessage in
-//                        Button("OK", role: .cancel) { }
-//                    } message: { errorMessage in
-//                        Text(errorMessage)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}

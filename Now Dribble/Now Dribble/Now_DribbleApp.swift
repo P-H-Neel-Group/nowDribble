@@ -11,6 +11,7 @@ import SwiftUI
 struct Now_DribbleApp: App {
     @StateObject private var authViewModel = AuthenticationViewModel()
 
+    
     var body: some Scene {
         WindowGroup {
             if authViewModel.isAuthenticated {
@@ -25,15 +26,21 @@ struct Now_DribbleApp: App {
 }
 
 class AuthenticationViewModel: ObservableObject {
-    @Published var isAuthenticated = true // TODO: Configure
+    @Published var isAuthenticated = false
 
     init() {
         checkAuthentication()
     }
 
     func checkAuthentication() {
-        // Check if the user is authenticated
-        // Update isAuthenticated based on the result
-        // For example, check for a valid token or user credentials
+        DispatchQueue.global(qos: .background).async {
+            // Perform the authentication check here
+
+            
+            // Once done, update the UI on the main thread
+            DispatchQueue.main.async {
+                self.isAuthenticated = true // Update based on actual check
+            }
+        }
     }
 }
