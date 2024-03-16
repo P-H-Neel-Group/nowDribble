@@ -65,7 +65,7 @@ struct LoginView: View {
                                 if let authCodeData = appleIDCredential.authorizationCode,
                                    let authCode = String(data: authCodeData, encoding: .utf8) {
                                     print("\nAuthorization Code: \(authCode)")
-                                } else {
+                                }  else {
                                     print("\nAuthorization Code not available")
                                 }
                                 
