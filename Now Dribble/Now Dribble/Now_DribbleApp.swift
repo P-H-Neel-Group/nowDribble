@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let IP_ADDRESS: String = "18.224.94.30:5000"
+
 @main
 struct Now_DribbleApp: App {
     @StateObject private var authViewModel = AuthenticationViewModel()

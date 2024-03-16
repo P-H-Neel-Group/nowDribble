@@ -74,7 +74,7 @@ class WorkoutFetcher: ObservableObject {
     func fetchWorkout(byId id: Int) {
         loadCachedWorkoutDetail(forWorkoutId: id)
 
-        let urlString = "http://18.224.58.18:5000/Workout/GetWorkoutDetails"
+        let urlString = "http://\(IP_ADDRESS)/Workout/GetWorkoutDetails"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return

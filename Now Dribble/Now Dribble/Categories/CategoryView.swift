@@ -25,7 +25,7 @@ class CategoriesViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     func fetchCategories() {
-        guard let url = URL(string: "http://18.224.58.18:5000/Workout/GetEnabledCategories") else {
+        guard let url = URL(string: "http://\(IP_ADDRESS)/Workout/GetEnabledCategories") else {
             self.errorMessage = "Invalid URL"
             return
         }

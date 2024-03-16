@@ -23,7 +23,7 @@ class CategoryContentsViewModel: ObservableObject {
     func fetchWorkoutsForCategory(categoryId: Int) {
         isLoading = true
         errorMessage = nil
-        let urlString = "http://18.224.58.18:5000/Workout/GetEnabledWorkoutsByCategory"
+        let urlString = "http://\(IP_ADDRESS)/Workout/GetEnabledWorkoutsByCategory"
         guard let url = URL(string: urlString) else {
             self.isLoading = false
             self.errorMessage = "Invalid URL"
