@@ -17,6 +17,7 @@ struct Workout: Identifiable, Codable {
     let name: String
     let description: String
     let image_url: String
+    let user_saved: Bool
     var id: Int { workout_id }
 }
 
@@ -30,6 +31,7 @@ struct WorkoutDetail: Identifiable, Codable {
     let name: String
     let description: String
     let image_url: String
+    let user_saved: Bool
     let sequences: [WorkoutSequence]
     let videos: [WorkoutVideo]
     var id: Int { workout_id }
@@ -74,7 +76,15 @@ class WorkoutFetcher: ObservableObject {
     func fetchWorkout(byId id: Int) {
         loadCachedWorkoutDetail(forWorkoutId: id)
 
-        let urlString = "http://\(IP_ADDRESS)/Workout/GetWorkoutDetails"
+        guard let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
+              let token = String(data: tokenData, encoding: .utf8) else {
+            DispatchQueue.main.async {
+                self.errorMessage = "Authentication error: Unable to retrieve token."
+            }
+            return
+        }
+        
+        let urlString = "http://\(IP_ADDRESS)/Workout/GetUserWorkoutDetails"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return
@@ -90,7 +100,8 @@ class WorkoutFetcher: ObservableObject {
         request.httpMethod = "POST"
         request.httpBody = bodyData
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
