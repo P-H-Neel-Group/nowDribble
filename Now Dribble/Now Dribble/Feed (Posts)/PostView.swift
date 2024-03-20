@@ -13,6 +13,8 @@ struct Post: Identifiable, Codable {
     var profileImageURL: String
     var name: String
     var content: String
+    var video_url: String
+    var image_url: String
 }
 
 // Post View
@@ -25,7 +27,7 @@ struct PostView: View {
                 AsyncImage(url: URL(string: post.profileImageURL)) { image in
                     image.resizable()
                 } placeholder: {
-                    ProgressView()
+                    Image(systemName: "person.crop.circle").resizable()
                 }
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
@@ -35,13 +37,24 @@ struct PostView: View {
             }
 
             Text(post.content)
+            
+            if (post.image_url != "") {
+                AsyncImage(url: URL(string: post.image_url)) { image in
+                    image.resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 300, height: 300)
+                        .clipped()
+                } placeholder: {
+                    ProgressView("Loading Image...")
+                }
+            }
+            
+            if (post.video_url != "") {
+                VideoPlayerView(url: URL(string: post.video_url)!, showCaption: false, caption: "")
+                    .padding([.leading, .trailing, .bottom], 15)
+            }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
-
-
-//#Preview {
-//    PostView(post: <#Post#>)
-//}
