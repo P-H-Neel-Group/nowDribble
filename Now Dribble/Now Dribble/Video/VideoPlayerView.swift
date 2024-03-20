@@ -63,7 +63,6 @@ struct VideoPlayerView: View {
                         viewModel.additionalUrls = additionalUrls
                         viewModel.shouldPlay = shouldPlay ?? false // Use the shouldPlay value
                         viewModel.setupVideoPlayer(with: url)
-                        
                     }
             }
             .frame(height: UIScreen.main.bounds.width / aspectRatio)

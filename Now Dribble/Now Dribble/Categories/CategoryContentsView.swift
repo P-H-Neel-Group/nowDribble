@@ -110,49 +110,31 @@ struct CategoryContentsView: View {
                                         .frame(width: 400, height: 300)
                                         .cornerRadius(10)
                                         .foregroundColor(Color("SecondaryBlueColor"))
-                                        .overlay(
-                                            VStack {
-                                                Text(workout.name.uppercased())
-                                                    .font(.system(size: 20, weight: .bold, design: .default))
-                                                    .foregroundColor(.white)
-                                                    .padding(5)
-                                                    .cornerRadius(5)
-                                                Image(systemName: "flame.circle.fill")
-                                                    .symbolRenderingMode(.multicolor)
-                                                    .foregroundColor(.accentColor)
-                                                    .font(.system(size: 50))
-
-                                            }
-                                        )
                                 case .success(let image):
                                     image.resizable()
                                         .scaledToFill()
                                         .frame(width: 400, height: 300)
                                         .cornerRadius(10)
                                         .clipped()
-                                        .overlay(
-                                            ZStack {
-                                                Rectangle() // This rectangle will serve as the tint layer
-                                                    .foregroundColor(.black)
-                                                    .opacity(0.3)
-                                                VStack {
-                                                    Text(workout.name.uppercased())
-                                                        .font(.system(size: 20, weight: .bold, design: .default))
-                                                        .foregroundColor(.white)
-                                                        .padding(5)
-                                                        .cornerRadius(5)
-                                                    Image(systemName: "flame.circle.fill")
-                                                        .symbolRenderingMode(.multicolor)
-                                                        .foregroundColor(.accentColor)
-                                                        .font(.system(size: 50))
-                                            
-                                                }
-                                            }
-                                        )
+
                                 @unknown default:
                                     EmptyView()
                                 }
                             }
+                            .overlay(
+                                VStack {
+                                    Text(workout.name.uppercased())
+                                        .font(.system(size: 20, weight: .bold, design: .default))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                        .cornerRadius(5)
+                                    Image(systemName: "flame.circle.fill")
+                                        .symbolRenderingMode(.multicolor)
+                                        .foregroundColor(.accentColor)
+                                        .font(.system(size: 50))
+
+                                }
+                            )
                         }
                         .padding() // Add padding to each item for better spacing
                         .background(Color("PrimaryBlueColor")) // Optional: Ensure each item also has the blue background
