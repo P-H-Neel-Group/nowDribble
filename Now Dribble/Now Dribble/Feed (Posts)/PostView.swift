@@ -37,6 +37,7 @@ struct PostView: View {
             Text(post.content)
         }
         .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

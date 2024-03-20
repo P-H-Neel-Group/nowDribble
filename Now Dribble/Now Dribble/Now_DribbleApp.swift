@@ -28,7 +28,7 @@ struct Now_DribbleApp: App {
 }
 
 class AuthenticationViewModel: ObservableObject {
-    @Published var isAuthenticated = false
+    @Published var isAuthenticated = false;
     
     init() {
         checkAuthentication()
@@ -47,8 +47,6 @@ class AuthenticationViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.isAuthenticated = authenticated // Update the published property on the main thread
-                ContentView()
-                    .preferredColorScheme(.dark)
             }
         }
     }

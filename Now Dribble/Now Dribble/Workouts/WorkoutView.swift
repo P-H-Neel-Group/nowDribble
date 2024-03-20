@@ -16,7 +16,7 @@ struct WorkoutView: View {
             if let workout = fetcher.workoutDetail {
                 ScrollView {
                     VStack {
-                        Text(workout.name.uppercased())
+                        Text(workout.name.capitalized)
                             .font(.title)
                             .foregroundColor(Color.white)
                             .bold()
@@ -60,7 +60,7 @@ struct WorkoutView: View {
                                     .foregroundColor(Color("PrimaryBlueColor"))
                                     .font(.caption)
                                     .padding(.leading) // Add padding to ensure it does not stick to the edge
-
+                                
                                 // Sequence description
                                 Text(workout.sequences[index].description)
                                     .foregroundColor(Color.white)
@@ -76,11 +76,13 @@ struct WorkoutView: View {
                                     .font(.caption)
                                     .padding(.trailing) // Add padding to ensure it does not stick to the edge
                             }
-                            .padding([.top, .bottom], 5)                        }
+                            .padding([.top, .bottom], 5)
+                        }
                     }
                 }
             } else {
                 ProgressView("Loading workout...")
+                    .background(Color("PrimaryBlueColor"))
             }
         }
         .background(Color("PrimaryBlueColor"))

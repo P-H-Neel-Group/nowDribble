@@ -33,19 +33,19 @@ struct ContentView: View {
                 TabView {
                     HomeView()
                         .tabItem {
-                            Label("HOME", systemImage: "house")
+                            Label("Home", systemImage: "house")
                         }
                         .tag("HOME")
                     
                     TrainNowView()
                         .tabItem {
-                            Label("TRAIN NOW", systemImage: "figure.basketball")
+                            Label("Train Now", systemImage: "basketball.fill")
                         }
                         .tag("TRAIN NOW")
                     
                     NumberView()
                         .tabItem {
-                            Label("NUMBERS", systemImage: "basketball.fill")
+                            Label("Numbers", systemImage: "ellipsis.rectangle.fill")
                         }
                         .tag("NUMBERS")
                 } // End of Tab View

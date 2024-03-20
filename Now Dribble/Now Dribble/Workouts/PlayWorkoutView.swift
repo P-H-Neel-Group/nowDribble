@@ -35,6 +35,7 @@ struct PlayWorkoutView: View {
                     .stroke(lineWidth: 3)
                     .foregroundColor(Color("TabButtonColor"))
                     .frame(width: 200, height: 200)
+                    .padding()
                 
                 VStack {
                     Text("\(timerRemainingSeconds)s")
