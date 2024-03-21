@@ -62,9 +62,11 @@ struct PlayWorkoutView: View {
                 .font(.title)
                 .padding([.bottom],10)
             
-            let initialUrl = URL(string: videos[0].url)!
-            let additionalUrls = videos.dropFirst().compactMap { URL(string: $0.url) }
-            VideoPlayerView(url: initialUrl, additionalUrls: additionalUrls, showCaption: false, caption:"", shouldPlay: true)
+            if (videos.count > 0) {
+                let initialUrl = URL(string: videos[0].url)!
+                let additionalUrls = videos.dropFirst().compactMap { URL(string: $0.url) }
+                VideoPlayerView(url: initialUrl, additionalUrls: additionalUrls, showCaption: false, caption:"", shouldPlay: true)
+            }
             
             // Toggle Button for Pause/Resume
             Button(action: {

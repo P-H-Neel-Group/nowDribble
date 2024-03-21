@@ -22,20 +22,20 @@ struct WorkoutView: View {
                             .bold()
                             .multilineTextAlignment(.leading)
                         
-//                        Divider()
-//                        
-//                        Text(workout.description)
-//                            .font(.body)
-//                            .padding()
-//                            .multilineTextAlignment(.center)
-//                            .foregroundColor(Color.white)
-                        
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, showCaption: false, caption: video.title)
                                 .padding([.leading, .trailing])
                         }
+
                         Spacer()
-                        
+                        Text(workout.description)
+                            .font(.body)
+                            .padding()
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color.white)
+                        Spacer()
+                        Divider()
+
                         if (workout.sequences.count > 0) {
                             NavigationLink(destination: PlayWorkoutView(sequences: workout.sequences, videos: workout.videos)) {
                                 Image(systemName: "play.circle.fill")
@@ -43,40 +43,39 @@ struct WorkoutView: View {
                                     .font(.system(size: 50))
                                     .foregroundColor(.yellow)
                             }
-                        }
 
+                            Text("Sequence")
+                                .font(.title)
+                                .padding()
                         
-                        Text("Sequence")
-                            .font(.title)
-                            .padding()
-                        
-                        ForEach(workout.sequences.indices, id: \.self) { index in
-                            HStack {
-                                // Circled number for the step
-                                Text("\(index + 1)")
-                                    .bold()
-                                    .padding(8)
-                                    .background(Circle().fill(Color.white))
-                                    .foregroundColor(Color("PrimaryBlueColor"))
-                                    .font(.caption)
-                                    .padding(.leading) // Add padding to ensure it does not stick to the edge
-                                
-                                // Sequence description
-                                Text(workout.sequences[index].description)
-                                    .foregroundColor(Color.white)
-                                    .alignmentGuide(.leading) { d in d[.leading] }
-                                
-                                Spacer()
-                                
-                                // Clock icon and time
-                                Image(systemName: "clock.fill")
-                                    .foregroundColor(Color.white)
-                                Text("\(workout.sequences[index].time)s")
-                                    .foregroundColor(Color.white)
-                                    .font(.caption)
-                                    .padding(.trailing) // Add padding to ensure it does not stick to the edge
+                            ForEach(workout.sequences.indices, id: \.self) { index in
+                                HStack {
+                                    // Circled number for the step
+                                    Text("\(index + 1)")
+                                        .bold()
+                                        .padding(8)
+                                        .background(Circle().fill(Color.white))
+                                        .foregroundColor(Color("PrimaryBlueColor"))
+                                        .font(.caption)
+                                        .padding(.leading) // Add padding to ensure it does not stick to the edge
+                                    
+                                    // Sequence description
+                                    Text(workout.sequences[index].description)
+                                        .foregroundColor(Color.white)
+                                        .alignmentGuide(.leading) { d in d[.leading] }
+                                    
+                                    Spacer()
+                                    
+                                    // Clock icon and time
+                                    Image(systemName: "clock.fill")
+                                        .foregroundColor(Color.white)
+                                    Text("\(workout.sequences[index].time)s")
+                                        .foregroundColor(Color.white)
+                                        .font(.caption)
+                                        .padding(.trailing) // Add padding to ensure it does not stick to the edge
+                                }
+                                .padding([.top, .bottom], 5)
                             }
-                            .padding([.top, .bottom], 5)
                         }
                     }
                 }
