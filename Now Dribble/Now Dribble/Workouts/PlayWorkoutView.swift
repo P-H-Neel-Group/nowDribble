@@ -51,7 +51,7 @@ struct PlayWorkoutView: View {
                             }
                         }
                         .onAppear {
-                            startTimer()
+                            //startTimer()
                         }
                     Text("sec")
                         .font(.title)
@@ -66,22 +66,22 @@ struct PlayWorkoutView: View {
                 let initialUrl = URL(string: videos[0].url)!
                 let additionalUrls = videos.dropFirst().compactMap { URL(string: $0.url) }
                 VideoPlayerView(url: initialUrl, additionalUrls: additionalUrls, showCaption: false, caption:"", shouldPlay: true)
+                    .padding([.horizontal], 10)
+            } else {
+                Rectangle()
+                    .frame(height: UIScreen.main.bounds.width / 16/9) // Draw rectangle of same dimensions
+                    .foregroundColor(Color("PrimaryBlueColor"))
             }
             
             // Toggle Button for Pause/Resume
             Button(action: {
                 self.timerIsActive.toggle()
-                if self.timerIsActive {
-                    // Optionally, resume the video if using a video player
-                } else {
-                    // Optionally, pause the video if using a video player
-                }
             }) {
                 Image(systemName: timerIsActive ? "pause.circle.fill" : "play.circle.fill")
                     .resizable()
                     .symbolRenderingMode(.multicolor)
                     .aspectRatio(contentMode: .fit)
-                    .padding(20) // Adjust padding to fit your design
+                    .padding(20)
                     .font(.system(size: 75))
                     .foregroundColor(.yellow)
             }
