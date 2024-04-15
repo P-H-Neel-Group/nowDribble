@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = "HOME" // Default tab
+    @State private var selectedTab: String = "HOME" // Default tab
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -48,6 +48,11 @@ struct ContentView: View {
                             Label("Numbers", systemImage: "ellipsis.rectangle.fill")
                         }
                         .tag("NUMBERS")
+                    Subscriptions()
+                        .tabItem {
+                            Label("Subscriptions", systemImage: "ellipsis.rectangle.fill")
+                        }
+                        .tag("SUBSCRIPTIONS")
                 } // End of Tab View
                 .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
             } // End of VStack

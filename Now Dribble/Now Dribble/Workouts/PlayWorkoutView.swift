@@ -11,10 +11,10 @@ import AVKit
 struct PlayWorkoutView: View {
     var sequences: [WorkoutSequence]
     var videos: [WorkoutVideo]
-    @State private var currentSequenceIndex = 0
-    @State private var currentVideoIndex = 0
+    @State private var currentSequenceIndex: Int = 0
+    @State private var currentVideoIndex: Int = 0
     @State private var timerRemainingSeconds: Int
-    @State private var timerIsActive = false
+    @State private var timerIsActive: Bool = false
     
     private var currentVideoURL: URL {
         URL(string: videos[currentVideoIndex].url)!

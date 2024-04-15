@@ -13,9 +13,6 @@ class CategoryContentsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let cacheKey = "workoutsCache"
-    private let cacheTimestampKey = "workoutsCacheTimestamp"
-    
     func fetchWorkoutsForCategory(categoryId: Int) {
         isLoading = true
         errorMessage = nil
@@ -70,27 +67,6 @@ class CategoryContentsViewModel: ObservableObject {
             }
         }.resume()
     }
-    
-    private func cacheWorkouts() {
-        if let encodedData = try? JSONEncoder().encode(workouts) {
-            UserDefaults.standard.set(encodedData, forKey: cacheKey)
-        }
-    }
-
-    private func loadCachedWorkouts() {
-        guard let data = UserDefaults.standard.data(forKey: cacheKey),
-              let cachedWorkouts = try? JSONDecoder().decode([Workout].self, from: data) else {
-            return
-        }
-        self.workouts = cachedWorkouts
-    }
-    
-    private func isCacheValid() -> Bool {
-        guard let cacheDate = UserDefaults.standard.object(forKey: cacheTimestampKey) as? Date else {
-            return false
-        }
-        return Calendar.current.isDate(cacheDate, inSameDayAs: Date()) || Calendar.current.dateComponents([.hour], from: cacheDate, to: Date()).hour! < 24
-    }
 }
 
 struct CategoryContentsView: View {
@@ -135,10 +111,12 @@ struct CategoryContentsView: View {
 
                                 }
                             )
+                            .grayscale(workout.user_has_access ? 0 : 1)
                         }
-                        .padding() // Add padding to each item for better spacing
-                        .background(Color("PrimaryBlueColor")) // Optional: Ensure each item also has the blue background
-                        .cornerRadius(10) // Optional: Add rounded corners for a nicer look
+                        .padding()
+                        .background(Color("PrimaryBlueColor"))
+                        .cornerRadius(10)
+                        .disabled(!workout.user_has_access) // Disable the link if user_has_access is false
                     }
                     .buttonStyle(PlainButtonStyle()) // Improve tap feedback
                 }
