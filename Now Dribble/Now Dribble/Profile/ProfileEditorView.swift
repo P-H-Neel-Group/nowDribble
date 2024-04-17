@@ -37,6 +37,7 @@ func loadImage(imageName: String) -> UIImage? {
 }
 
 struct ProfileEditorView: View {
+    @Environment(\.presentationMode) var presentationMode // For navigation
     @State private var userName: String = ""
     @State private var profileUIImage: UIImage? = UIImage(systemName: "person.crop.circle") // Now using UIImage
     @State private var isImagePickerDisplayed: Bool = false
@@ -76,10 +77,27 @@ struct ProfileEditorView: View {
                     saveImage(image: profileUIImage)
                 }
                 saveUserName(name: userName)
+                presentationMode.wrappedValue.dismiss() // Navigate back
             }
+            .foregroundColor(.black) // Set the text color to black
             .padding()
-
+            .frame(maxWidth: .infinity)
+            .background(Color.white) // Set the background color to white
+            .cornerRadius(10)
+            .padding()
+            
             Spacer()
+
+            Button("Delete Account") {
+                // Add action to handle account deletion here
+                print("Account deletion requested")
+            }
+            .foregroundColor(.white)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.red)
+            .cornerRadius(10)
+            .padding()
         }
         .sheet(isPresented: $isImagePickerDisplayed) {
             // Ensure ImagePicker updates the UIImage directly
