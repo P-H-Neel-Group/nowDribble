@@ -68,12 +68,12 @@ struct ProfileView: View {
 
             Spacer()
             HStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        Spacer()
-                        Text("List of friends")
-                    }
-                }
+//                ScrollView(.horizontal, showsIndicators: false) {
+//                    HStack {
+//                        Spacer()
+//                        Text("List of friends")
+//                    }
+//                }
             }
 
             Spacer()
