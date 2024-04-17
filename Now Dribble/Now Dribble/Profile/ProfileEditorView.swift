@@ -38,6 +38,7 @@ func loadImage(imageName: String) -> UIImage? {
 
 struct ProfileEditorView: View {
     @Environment(\.presentationMode) var presentationMode // For navigation
+    @State private var showDeleteConfirmation = false
     @State private var userName: String = ""
     @State private var profileUIImage: UIImage? = UIImage(systemName: "person.crop.circle") // Now using UIImage
     @State private var isImagePickerDisplayed: Bool = false
@@ -56,7 +57,6 @@ struct ProfileEditorView: View {
     
     var body: some View {
         VStack {
-            // Convert UIImage to Image for displaying
             Image(uiImage: profileUIImage ?? UIImage(systemName: "person.crop.circle")!)
                 .resizable()
                 .scaledToFill()
@@ -72,25 +72,23 @@ struct ProfileEditorView: View {
                 .padding()
 
             Button("Save Changes") {
-                // Check if profileUIImage is not nil before saving
                 if let profileUIImage = profileUIImage {
                     saveImage(image: profileUIImage)
                 }
                 saveUserName(name: userName)
                 presentationMode.wrappedValue.dismiss() // Navigate back
             }
-            .foregroundColor(.black) // Set the text color to black
+            .foregroundColor(.black)
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.white) // Set the background color to white
+            .background(Color.white)
             .cornerRadius(10)
             .padding()
             
             Spacer()
 
             Button("Delete Account") {
-                // Add action to handle account deletion here
-                print("Account deletion requested")
+                showDeleteConfirmation = true
             }
             .foregroundColor(.white)
             .padding()
@@ -99,8 +97,15 @@ struct ProfileEditorView: View {
             .cornerRadius(10)
             .padding()
         }
+        .alert("Confirm Account Deletion", isPresented: $showDeleteConfirmation) {
+            Button("Delete", role: .destructive) {
+                print("Delete the account here")
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Are you sure you want to permanently delete your account?")
+        }
         .sheet(isPresented: $isImagePickerDisplayed) {
-            // Ensure ImagePicker updates the UIImage directly
             ImagePicker(selectedImage: $profileUIImage, sourceType: .photoLibrary)
         }
         .background(Color("PrimaryBlueColor"))
@@ -110,6 +115,7 @@ struct ProfileEditorView: View {
         }
     }
 }
+
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?

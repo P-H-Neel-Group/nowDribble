@@ -10,6 +10,7 @@ import UIKit
 import AuthenticationServices
 
 struct LoginView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var showButton = false
     @State private var showImage = true
 
@@ -86,7 +87,7 @@ struct LoginView: View {
                                    let idToken = String(data: idTokenData, encoding: .utf8) {
                                    
                                     // Now call the function to make the POST request
-                                    postLoginWithApple(authorizationCode: authCode, idToken: idToken)
+                                    postLoginWithApple(authorizationCode: authCode, idToken: idToken, avm: authViewModel)
                                 }
                             } else {
                                 print("\n!!!Credential is not of type ASAuthorizationAppleIDCredential!!!")
@@ -105,7 +106,7 @@ struct LoginView: View {
     }
 }
 
-func postLoginWithApple(authorizationCode: String, idToken: String) {
+func postLoginWithApple(authorizationCode: String, idToken: String, avm: AuthenticationViewModel) {
     guard let url = URL(string: "http://\(IP_ADDRESS)/Authentication/LogInWithApple") else {
         print("Invalid URL")
         return
@@ -138,6 +139,9 @@ func postLoginWithApple(authorizationCode: String, idToken: String) {
                     // Save token to Keychain
                     KeychainHelper.standard.save(tokenData, service: "com.phneelgroup.Now-Dribble", account: "userToken")
                     print("Token saved to Keychain")
+                    DispatchQueue.main.async {
+                        avm.validateToken()
+                    }
                 } else {
                     print("Token not found in the response")
                 }
