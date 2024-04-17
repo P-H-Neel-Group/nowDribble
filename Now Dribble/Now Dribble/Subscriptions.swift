@@ -63,7 +63,7 @@ extension SKProduct {
     }
 }
 
-struct Subscriptions: View {
+struct SubscriptionsView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager()
 
     var body: some View {

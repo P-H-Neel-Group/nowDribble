@@ -9,30 +9,30 @@ import SwiftUI
 
 
 func saveUserName(name: String) {
-    UserDefaults.standard.set(name, forKey: "UserName")
+    var val_name: String = name
+    
+    if (val_name.count <= 2) {
+        val_name = "User"
+    }
+    UserDefaults.standard.set(val_name, forKey: "UserName")
 }
 
 func getUserName() -> String? {
     return UserDefaults.standard.string(forKey: "UserName")
 }
 
-
 struct ProfileView: View {
-    // Load the user's profile picture once when the view appears
     @State private var userName: String = ""
     @State private var profileImage: Image = Image(systemName: "person.crop.circle")
 
     func loadUserName() {
-            userName = getUserName() ?? "Person"
+        userName = getUserName() ?? "User"
     }
 
     private func updateProfileImage() {
-        // Attempt to load the saved image
         if let loadedUIImage = loadImage(imageName: "userProfile.jpg") {
-            // If an image is successfully loaded, update the profileImage to display it
             self.profileImage = Image(uiImage: loadedUIImage)
         } else {
-            // If no image is found, use a default system image
             self.profileImage = Image(systemName: "person.crop.circle")
         }
     }
@@ -47,30 +47,25 @@ struct ProfileView: View {
                     .bold()
                 
                 Spacer()
-                // Profile Edit button
-                NavigationLink(destination: ProfileEditorView()) {
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: 35))
-                        .foregroundColor(Color("SecondaryBlueColor"))
-                }
+
             }
             .background(Color("PrimaryBlueColor"))
             .padding()
             
             Divider()
-                        
-            // Display user's profile image
-            profileImage
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-                .padding()
+            
+            NavigationLink(destination: ProfileEditorView()) {
+                profileImage
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .clipShape(Circle())
+                    .padding()
+            }
 
             Text(userName)
 
             Spacer()
-            // Show user's friends
             HStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
@@ -84,10 +79,8 @@ struct ProfileView: View {
         }
         .background(Color("PrimaryBlueColor"))
         .onAppear {
+            loadUserName()
             updateProfileImage()
         }
     }
 }
-
-// Make sure `loadImage(imageName:)` is defined somewhere accessible to this view,
-// returning an optional UIImage based on whether the image exists in your app's document directory.

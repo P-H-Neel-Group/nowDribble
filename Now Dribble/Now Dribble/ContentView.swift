@@ -48,13 +48,13 @@ struct ContentView: View {
                             Label("Numbers", systemImage: "ellipsis.rectangle.fill")
                         }
                         .tag("NUMBERS")
-                    Subscriptions()
-                        .tabItem {
-                            Label("Subscriptions", systemImage: "ellipsis.rectangle.fill")
-                        }
-                        .tag("SUBSCRIPTIONS")
+//                    Subscriptions()
+//                        .tabItem {
+//                            Label("Subscriptions", systemImage: "ellipsis.rectangle.fill")
+//                        }
+//                        .tag("SUBSCRIPTIONS")
                 } // End of Tab View
-                .accentColor(Color("TabButtonColor")) // Set the selected tab color to your primary color
+                .accentColor(Color("TabButtonColor"))
             } // End of VStack
         } // End of NavView
         .navigationBarHidden(true)
