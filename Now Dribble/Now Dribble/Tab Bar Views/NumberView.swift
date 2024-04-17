@@ -17,7 +17,7 @@ struct NumberView: View {
         ScrollView {
             VStack {
                 ForEach(0...4, id: \.self) { i in
-                    VStack {
+                    LazyVStack {
                         Spacer()
                         Text("#\(i+1)")
                             .font(.title)

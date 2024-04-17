@@ -22,7 +22,7 @@ func saveImage(image: UIImage) {
 func loadImage(imageName: String) -> UIImage? {
     let fileManager = FileManager.default
     if let directory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
-        let imagePath = directory.appendingPathComponent(imageName).path // Direct assignment, no need for `if let`
+        let imagePath = directory.appendingPathComponent(imageName).path
         
         if fileManager.fileExists(atPath: imagePath) {
             // The file exists, so attempt to create and return a UIImage

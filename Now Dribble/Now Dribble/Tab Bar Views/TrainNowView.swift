@@ -87,7 +87,7 @@ struct TrainNowView: View {
                                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading) // Ensure VStack fills the ZStack but aligns content to bottomLeading
                                             }
                                         )
-                                        .grayscale(category.user_has_access ? 0 : 1)
+                                        //.grayscale(category.user_has_access ? 0 : 1)
                                         .padding()
                                 @unknown default:
                                     EmptyView()
@@ -95,7 +95,7 @@ struct TrainNowView: View {
                             }
                         }
                         .buttonStyle(PlainButtonStyle()) // To ensure the entire row is tappable
-                        .disabled(!category.user_has_access) // Disable the link if user_has_access is false
+                        //.disabled(!category.user_has_access) // Disable the link if user_has_access is false
                     }
                 }
                 .padding()
