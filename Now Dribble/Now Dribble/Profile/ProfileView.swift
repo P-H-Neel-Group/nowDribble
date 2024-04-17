@@ -24,6 +24,7 @@ func getUserName() -> String? {
 struct ProfileView: View {
     @State private var userName: String = ""
     @State private var profileImage: Image = Image(systemName: "person.crop.circle")
+    @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
 
     func loadUserName() {
         userName = getUserName() ?? "User"
@@ -76,6 +77,16 @@ struct ProfileView: View {
             }
 
             Spacer()
+            
+            Button("Sign Out") {
+                authViewModel.signOut()
+            }
+            .foregroundColor(.white)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.red)
+            .cornerRadius(10)
+            .padding()
         }
         .background(Color("PrimaryBlueColor"))
         .onAppear {
