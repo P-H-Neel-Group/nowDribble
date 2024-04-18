@@ -52,14 +52,6 @@ struct LoginView: View {
                                     let givenName = fullName.givenName ?? "Unknown"
                                     let familyName = fullName.familyName ?? "Unknown"
                                     print("Full Name: \(givenName) \(familyName)")
-                                } else {
-                                    print("Full Name not provided")
-                                }
-                                
-                                if let email = appleIDCredential.email {
-                                    print("Email: \(email)")
-                                } else {
-                                    print("Email not provided")
                                 }
                                 
                                 // Retrieve and print the authorization code
@@ -120,6 +112,7 @@ func postLoginWithApple(authorizationCode: String, idToken: String, avm: Authent
     let body: [String: Any] = [
         "authorization_code": authorizationCode,
         "id_token": idToken
+        // TODO: add name fields
     ]
 
     request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])

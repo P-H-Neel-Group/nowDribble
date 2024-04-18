@@ -42,6 +42,8 @@ struct ProfileEditorView: View {
     @State private var userName: String = ""
     @State private var profileUIImage: UIImage? = UIImage(systemName: "person.crop.circle") // Now using UIImage
     @State private var isImagePickerDisplayed: Bool = false
+    @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
+    @StateObject var accountVM = AccountViewModel()
 
     private func updateProfileImage() {
         if let loadedUIImage = loadImage(imageName: "userProfile.jpg") {
@@ -99,9 +101,14 @@ struct ProfileEditorView: View {
         }
         .alert("Confirm Account Deletion", isPresented: $showDeleteConfirmation) {
             Button("Delete", role: .destructive) {
-                print("Delete the account here")
+                accountVM.deleteAccount()
+                authViewModel.signOut()
             }
+            
             Button("Cancel", role: .cancel) {}
+            .alert(isPresented: $accountVM.showAlert) {
+                Alert(title: Text("Account Deletion"), message: Text(accountVM.alertMessage), dismissButton: .default(Text("OK")))
+            }
         } message: {
             Text("Are you sure you want to permanently delete your account?")
         }
