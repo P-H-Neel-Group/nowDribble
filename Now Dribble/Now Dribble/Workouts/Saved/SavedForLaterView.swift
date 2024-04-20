@@ -17,7 +17,6 @@ struct SavedWorkouts: Identifiable, Codable {
     var id: Int { workout_id }
 }
 
-
 struct SavedForLaterView: View {
     @StateObject var viewModel = SavedWorkoutsViewModel()
     
@@ -31,7 +30,7 @@ struct SavedForLaterView: View {
                 } else {
                     List {
                         ForEach(viewModel.savedWorkouts) { workout in
-                            NavigationLink(destination: WorkoutView(workoutId: workout.workout_id, fromSaved: true)) {
+                            NavigationLink(destination: WorkoutView(workoutId: workout.workout_id, fromSavedSheet: true)) {
                                 HStack {
                                     Text(workout.name)
                                     Spacer()

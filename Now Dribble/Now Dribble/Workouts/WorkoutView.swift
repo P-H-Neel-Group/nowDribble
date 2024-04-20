@@ -9,17 +9,17 @@ import SwiftUI
 
 struct WorkoutView: View {
     let workoutId: Int
-    let fromSaved: Bool
+    let fromSavedSheet: Bool
 
-    init(workoutId: Int, fromSaved: Bool? = false) {
+    init(workoutId: Int, fromSavedSheet: Bool? = false) {
         self.workoutId = workoutId
-        self.fromSaved = fromSaved ?? false
+        self.fromSavedSheet = fromSavedSheet ?? false
     }
     
     @StateObject private var fetcher = WorkoutFetcher()
     @StateObject var savedWorkoutsViewModel = SavedWorkoutsViewModel()
-    @State private var isSaved = false // Track whether the workout is saved
-
+    @State var isSaved: Bool = false
+    
     var body: some View {
         Group {
             if let workout = fetcher.workoutDetail {
@@ -34,13 +34,13 @@ struct WorkoutView: View {
                                 .multilineTextAlignment(.leading)
                             
                             Spacer()
-                            if (!fromSaved) {
+                            if (!fromSavedSheet) {
                                 Button(action: {
-                                    // Toggle the save/unsave action
-                                    if isSaved {
-                                        savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
-                                    } else {
+                                    if (!isSaved) {
                                         savedWorkoutsViewModel.saveWorkout(workoutID: workout.id)
+                                    }
+                                    else {
+                                        savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
                                     }
                                     isSaved.toggle()
                                 }) {
@@ -51,7 +51,9 @@ struct WorkoutView: View {
                                 }
                             }
                         }
-                        
+                        .onAppear {
+                            isSaved = workout.user_saved
+                        }
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, showCaption: false, caption: video.title)
                                 .padding([.leading, .trailing])
@@ -118,6 +120,7 @@ struct WorkoutView: View {
         .onAppear {
             fetcher.fetchWorkout(byId: workoutId)
         }
+        
         .alert("Error", isPresented: Binding<Bool>.constant(fetcher.errorMessage != nil), presenting: fetcher.errorMessage) { errorMessage in
             Button("OK", role: .cancel) { }
         } message: { errorMessage in
