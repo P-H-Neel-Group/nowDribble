@@ -77,46 +77,13 @@ struct CategoryContentsView: View {
         ZStack {
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.workouts) { workout in
-                        NavigationLink(destination: WorkoutView(workoutId: workout.workout_id)) {
-                            AsyncImage(url: URL(string: workout.image_url)) { phase in
-                                switch phase {
-                                case .empty, .failure:
-                                    Rectangle()
-                                        .frame(width: 400, height: 300)
-                                        .cornerRadius(10)
-                                        .foregroundColor(Color("SecondaryBlueColor"))
-                                case .success(let image):
-                                    image.resizable()
-                                        .scaledToFill()
-                                        .frame(width: 400, height: 300)
-                                        .cornerRadius(10)
-                                        .clipped()
-
-                                @unknown default:
-                                    EmptyView()
-                                }
-                            }
-                            .overlay(
-                                VStack {
-                                    Text(workout.name.uppercased())
-                                        .font(.system(size: 20, weight: .bold, design: .default))
-                                        .foregroundColor(.white)
-                                        .padding(5)
-                                        .cornerRadius(5)
-                                    Image(systemName: "flame.circle.fill")
-                                        .symbolRenderingMode(.multicolor)
-                                        .foregroundColor(.accentColor)
-                                        .font(.system(size: 50))
-
-                                }
-                            )
-                            .grayscale(workout.user_has_access ? 0 : 1)
+                    ForEach(viewModel.workouts, id: \.workout_id) { workout in
+                        NavigationLink(destination: destinationView(for: workout)) {
+                            WorkoutContent(workout: workout)
                         }
                         .padding()
                         .background(Color("PrimaryBlueColor"))
                         .cornerRadius(10)
-                        .disabled(!workout.user_has_access) // Disable the link if user_has_access is false
                     }
                     .buttonStyle(PlainButtonStyle()) // Improve tap feedback
                 }
@@ -139,3 +106,50 @@ struct CategoryContentsView: View {
         }
     }
 }
+
+struct WorkoutContent: View {
+    var workout: Workout
+
+    var body: some View {
+        AsyncImage(url: URL(string: workout.image_url)) { phase in
+            switch phase {
+            case .empty, .failure:
+                Rectangle()
+                    .frame(width: 400, height: 300)
+                    .cornerRadius(10)
+                    .foregroundColor(Color("SecondaryBlueColor"))
+            case .success(let image):
+                image.resizable()
+                    .scaledToFill()
+                    .frame(width: 400, height: 300)
+                    .cornerRadius(10)
+                    .clipped()
+            @unknown default:
+                EmptyView()
+            }
+        }
+        .overlay(
+            VStack {
+                Text(workout.name.uppercased())
+                    .font(.system(size: 20, weight: .bold, design: .default))
+                    .foregroundColor(.white)
+                    .padding(5)
+                    .cornerRadius(5)
+                Image(systemName: "flame.circle.fill")
+                    .symbolRenderingMode(.multicolor)
+                    .foregroundColor(.accentColor)
+                    .font(.system(size: 50))
+            }
+        )
+        .grayscale(workout.user_has_access ? 0 : 1)
+    }
+}
+
+@ViewBuilder
+ private func destinationView(for workout: Workout) -> some View {
+     if workout.user_has_access {
+         WorkoutView(workoutId: workout.workout_id)
+     } else {
+         SubscriptionsView()
+     }
+ }
