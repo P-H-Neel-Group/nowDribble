@@ -38,8 +38,11 @@ struct WorkoutView: View {
                                 Button(action: {
                                     if (!isSaved) {
                                         savedWorkoutsViewModel.saveWorkout(workoutID: workout.id)
-                                        isSaved.toggle()
                                     }
+                                    else {
+                                        savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
+                                    }
+                                    isSaved.toggle()
                                 }) {
                                     Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
                                         .font(.system(size: 25))
