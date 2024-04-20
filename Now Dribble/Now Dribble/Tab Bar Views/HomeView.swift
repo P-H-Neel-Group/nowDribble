@@ -28,7 +28,6 @@ struct HomeView: View {
                             PostView(post: post)
                         }
                     }
-
                     .onAppear {
                         viewModel.fetchPosts()
                     }
