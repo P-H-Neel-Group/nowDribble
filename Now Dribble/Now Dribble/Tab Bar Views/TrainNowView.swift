@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/* TODO: Remove this code block
 struct AnyViewWrapper: View {
     let contentView: AnyView
 
@@ -18,23 +19,10 @@ struct AnyViewWrapper: View {
         contentView
     }
 }
-
+*/
 struct TrainNowView: View {
-    // Hide the ugly default navigation bar
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        //appearance.backgroundColor = UIColor.systemBackground
-        appearance.shadowColor = nil // Remove the shadow line
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
-        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
-    }
-    
     @StateObject private var viewModel = CategoriesViewModel()
-    
+
     var body: some View {
         NavigationView {
             ScrollView {

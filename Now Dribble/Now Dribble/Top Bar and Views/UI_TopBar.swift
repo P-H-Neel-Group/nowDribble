@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct UI_TopBar: View {
+    @State private var isSavedForLaterPresented = false
+
     var body: some View {
         VStack{
             HStack {
-                NavigationLink(destination: SavedForLaterView()) {
+                Button(action: {
+                    isSavedForLaterPresented.toggle() // Toggle the state to show/hide the sheet
+                }) {
                     Image(systemName: "bookmark")
                         .font(.system(size: 35))
                         .foregroundColor(Color.white)
@@ -51,6 +55,9 @@ struct UI_TopBar: View {
             .clipShape(Capsule())
         }
         .background(Color("PrimaryBlueColor").edgesIgnoringSafeArea(.all))
+        .sheet(isPresented: $isSavedForLaterPresented) {
+            SavedForLaterView()
+        }
     }
 }
 
