@@ -9,18 +9,48 @@ import SwiftUI
 
 struct WorkoutView: View {
     let workoutId: Int
-    @StateObject private var fetcher = WorkoutFetcher()
+    let fromSaved: Bool
+
+    init(workoutId: Int, fromSaved: Bool? = false) {
+        self.workoutId = workoutId
+        self.fromSaved = fromSaved ?? false
+    }
     
+    @StateObject private var fetcher = WorkoutFetcher()
+    @StateObject var savedWorkoutsViewModel = SavedWorkoutsViewModel()
+    @State private var isSaved = false // Track whether the workout is saved
+
     var body: some View {
         Group {
             if let workout = fetcher.workoutDetail {
                 ScrollView {
                     VStack {
-                        Text(workout.name.capitalized)
-                            .font(.title)
-                            .foregroundColor(Color.white)
-                            .bold()
-                            .multilineTextAlignment(.leading)
+                        HStack {
+                            Spacer()
+                            Text(workout.name.capitalized)
+                                .font(.title)
+                                .foregroundColor(Color.white)
+                                .bold()
+                                .multilineTextAlignment(.leading)
+                            
+                            Spacer()
+                            if (!fromSaved) {
+                                Button(action: {
+                                    // Toggle the save/unsave action
+                                    if isSaved {
+                                        savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
+                                    } else {
+                                        savedWorkoutsViewModel.saveWorkout(workoutID: workout.id)
+                                    }
+                                    isSaved.toggle()
+                                }) {
+                                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                                        .font(.system(size: 25))
+                                        .foregroundColor(Color.white)
+                                        .padding([.trailing], 2)
+                                }
+                            }
+                        }
                         
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, showCaption: false, caption: video.title)
