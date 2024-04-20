@@ -120,8 +120,8 @@ class SavedWorkoutsViewModel: ObservableObject {
                 #if DEBUG
                 print("Saved workout")
                 #endif
-                // NOTE: This is the success area if we need any logic here
-
+                self.fetchSavedWorkouts()
+                
             }.resume()
         } catch {
             self.errorMessage = "Error encoding request"
@@ -168,10 +168,11 @@ class SavedWorkoutsViewModel: ObservableObject {
                     return
                 }
                 
-                // Handle success if needed
                 #if DEBUG
                 print("Removed workout")
                 #endif
+                self.fetchSavedWorkouts()
+
             }.resume()
         } catch {
             self.errorMessage = "Error encoding request"
@@ -188,7 +189,7 @@ class SavedWorkoutsViewModel: ObservableObject {
     func removeWorkout(withID workoutID: Int) {
         if let index = savedWorkouts.firstIndex(where: { $0.workout_id == workoutID }) {
             savedWorkouts.remove(at: index)
-            unsaveWorkout(workoutID: workoutID) // Assuming this function handles other necessary cleanup
+            unsaveWorkout(workoutID: workoutID)
         }
     }
 }
