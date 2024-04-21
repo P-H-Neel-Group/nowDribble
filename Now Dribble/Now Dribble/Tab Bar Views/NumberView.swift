@@ -34,8 +34,3 @@ struct NumberView: View {
         .background(Color("PrimaryBlueColor"))
     }
 }
-
-/*
-#Preview {
-    NumberView()
-}*/

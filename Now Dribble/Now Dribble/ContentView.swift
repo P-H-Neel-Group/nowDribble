@@ -63,7 +63,3 @@ struct ContentView: View {
         .background(Color("SecondaryBlueColor"))
     } // End of Body
 } // End of Struct
-
-/*#Preview {
-    ContentView()
-}*/
