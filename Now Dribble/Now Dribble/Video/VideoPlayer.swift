@@ -26,6 +26,6 @@ class ViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Ypause the video or handle other view controller lifecycle events
+            // Ypause the video or handle other view controller lifecycle events
     }
 }

@@ -10,18 +10,18 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedTab: String = "HOME" // Default tab
     
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
-        appearance.shadowColor = nil // Remove the shadow line
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().isTranslucent = true // Set translucency
-        UINavigationBar.appearance().tintColor = .clear // Make the tint color clear
-        UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
-    }
+//    init() {
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
+//        appearance.shadowColor = nil // Remove the shadow line
+//        UINavigationBar.appearance().standardAppearance = appearance
+//        UINavigationBar.appearance().compactAppearance = appearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        UINavigationBar.appearance().isTranslucent = true // Set translucency
+//        UINavigationBar.appearance().tintColor = .clear // Make the tint color clear
+//        UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
+//    }
     
     var body: some View {
         NavigationView {
