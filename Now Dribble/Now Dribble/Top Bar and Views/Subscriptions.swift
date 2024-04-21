@@ -14,7 +14,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     }
 
     func fetchProducts() {
-        let productIdentifiers = Set(["Tier1_Beginning"])
+        let productIdentifiers = Set(["Tier1_Beginning", "Tier2_Intermediate", "Tier3_Advanced", "Tier4_Elite"])
         productsRequest = SKProductsRequest(productIdentifiers: productIdentifiers)
         productsRequest?.delegate = self
         productsRequest?.start()
@@ -22,7 +22,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
 
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         DispatchQueue.main.async {
-            self.products = response.products
+            self.products = response.products.sorted(by: { $0.price.compare($1.price) == .orderedAscending })
         }
     }
 
@@ -66,27 +66,53 @@ extension SKProduct {
 struct SubscriptionsView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager()
 
+    init() {
+         let appearance = UINavigationBarAppearance()
+         appearance.backgroundColor = UIColor.black  // Set the background color to black
+
+         UINavigationBar.appearance().standardAppearance = appearance
+         UINavigationBar.appearance().compactAppearance = appearance
+         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+     }
+    
     var body: some View {
         VStack {
-            Text("Welcome to Subscriptions!")
+            Text("Subscribe")
                 .font(.title)
                 .padding()
 
-            if let product = subscriptionManager.products.first {
-                Button(action: {
-                    subscriptionManager.buyProduct(product)
-                }) {
-                    Text("Subscribe for \(product.localizedPrice)")
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+            // List all products in rows
+            List(subscriptionManager.products, id: \.productIdentifier) { product in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(product.localizedTitle)
+                            .font(.headline)
+                        Text(product.localizedDescription)
+                            .font(.subheadline)
+                    }
+
+                    Spacer()
+                    Button(action: {
+                        subscriptionManager.buyProduct(product)
+                        print("\n\nSTATUS")
+                        print(subscriptionManager.purchaseStatus)
+                    }) {
+                        Text(product.localizedPrice)
+                            .bold()
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+
                 }
-            } else {
+                .padding(.vertical)
+            }
+
+            if subscriptionManager.products.isEmpty {
                 Text("Loading products...")
             }
-            
+
             Text(subscriptionManager.purchaseStatus)
                 .foregroundColor(.red)
                 .padding()
@@ -96,3 +122,4 @@ struct SubscriptionsView: View {
         }
     }
 }
+
