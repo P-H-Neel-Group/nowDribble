@@ -23,7 +23,7 @@ struct StandaloneVideoView: View {
             if isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(2)  // Increase the size of the spinny thing
+                    .scaleEffect(1.5)  // Increase the size of the spinny thing
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.black.opacity(0.5))
             }

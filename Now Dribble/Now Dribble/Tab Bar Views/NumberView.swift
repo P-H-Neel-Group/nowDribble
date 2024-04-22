@@ -27,45 +27,46 @@ struct NumberView: View {
     @State private var showVideoSheet = false
     @State private var selectedVideoURL: String?
     @State private var selectedCaption: String?
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 ForEach(Array(zip(captions.indices, captions)), id: \.0) { index, caption in
-                    VStack(alignment: .center) {  // Center alignment for each sub VStack
-                        Text("#\(index + 1)")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .padding(.top, 10)
-                        Text(caption)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 10)
-                            .multilineTextAlignment(.center)  // Ensures text within is centered if it wraps
-                        Button("Watch Video") {
-                            selectedVideoURL = urls[index]
-                            selectedCaption = captions[index]
-                            showVideoSheet = true
+                    Button(action: {
+                        selectedVideoURL = urls[index]
+                        selectedCaption = captions[index]
+                        showVideoSheet = true
+                    }) {
+                        VStack(alignment: .center) {
+                            Text("#\(index + 1)")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .padding(.top, 10)
+                            Text(caption)
+                                .foregroundColor(.white)
+                                .padding(.bottom, 10)
+                                .multilineTextAlignment(.center)
                         }
-                        .foregroundColor(Color("TabButtonColor"))
                         .padding()
-                        .background(Color.white)
+                        .background(Color("PrimaryBlueColor"))
                         .cornerRadius(10)
-                        Divider()
+                        .shadow(radius: 2)
+                        // The maxWidth: .infinity expands this as much as possible
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
+                    .padding(.vertical, 10)
+                    .frame(maxWidth: .infinity)  // full width
+                }
+                .sheet(isPresented: $showVideoSheet, onDismiss: {
+                    // Reset the URL and caption when the sheet is dismissed
+                    selectedVideoURL = nil
+                    selectedCaption = nil
+                }) {
+                    if let url = selectedVideoURL, let caption = selectedCaption {
+                        StandaloneVideoView(url: url, caption: caption)
+                    }
                 }
             }
-            .sheet(isPresented: $showVideoSheet, onDismiss: {
-                selectedVideoURL = nil  // reset URL when the sheet is dismissed
-            }) {
-                if let url = selectedVideoURL
-                { if let caption = selectedCaption {
-                    StandaloneVideoView(url: url, caption: caption)
-                    }
-                }
-            }
+            .background(Color("PrimaryBlueColor")).edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         }
-        .background(Color("PrimaryBlueColor"))
     }
 }
