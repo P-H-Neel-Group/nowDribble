@@ -7,12 +7,16 @@
 
 import SwiftUI
 
-struct StandaloneVideoView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import SwiftUI
+import AVKit
 
-#Preview {
-    StandaloneVideoView()
+struct StandaloneVideoView: View {
+    let url: String
+    let caption: String
+
+    var body: some View {
+        ZStack {
+            VideoPlayerView(url: URL(string: url)!, showCaption: true, caption: caption)
+        }
+    }
 }

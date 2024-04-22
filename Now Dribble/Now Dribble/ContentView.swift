@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab: String = "HOME" // Default tab
+    @State private var selectedTab: String = "TRAIN NOW" // Default tab
     
 //    init() {
 //        let appearance = UINavigationBarAppearance()
@@ -63,7 +63,3 @@ struct ContentView: View {
         .background(Color("SecondaryBlueColor"))
     } // End of Body
 } // End of Struct
-
-/*#Preview {
-    ContentView()
-}*/
