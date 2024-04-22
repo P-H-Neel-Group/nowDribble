@@ -7,8 +7,26 @@
 
 import SwiftUI
 
+import SwiftUI
+import AVKit
+
 struct StandaloneVideoView: View {
+    let url: String
+    let caption: String
+    @State private var isLoading = true  // State to track loading status
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            // The video player view
+            VideoPlayerView(url: URL(string: url)!, showCaption: true, caption: caption)
+
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(2)  // Increase the size of the spinny thing
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+            }
+        }
     }
 }
