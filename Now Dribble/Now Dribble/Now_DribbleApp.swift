@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-
-let IP_ADDRESS: String = "18.224.94.30:5000"
+// prod url "https://nowdribbleapp.com"
+let IP_ADDRESS: String = "https://dev.nowdribbleapp.com"
 
 @main
 struct Now_DribbleApp: App {

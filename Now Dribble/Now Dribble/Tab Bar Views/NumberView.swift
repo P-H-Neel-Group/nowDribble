@@ -57,7 +57,7 @@ struct NumberView: View {
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(oppositeColor, lineWidth: 2)
+                                .stroke(Color("TabButtonColor"), lineWidth: 2)
                                 //.shadow(radius: 2)
                         )
                         // The maxWidth: .infinity expands this as much as possible

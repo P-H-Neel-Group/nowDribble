@@ -26,7 +26,7 @@ class CategoryContentsViewModel: ObservableObject {
             return
         }
 
-        let urlString = "http://\(IP_ADDRESS)/Workout/GetEnabledUserWorkoutsByCategory"
+        let urlString = "\(IP_ADDRESS)/Workout/GetEnabledUserWorkoutsByCategory"
         guard let url = URL(string: urlString) else {
             self.isLoading = false
             self.errorMessage = "Invalid URL"
@@ -118,7 +118,6 @@ struct WorkoutContent: View {
                     .frame(width: 400, height: 300)
                     .cornerRadius(10)
                     .background(bcolor(cc: "secondary", backup: "env"))
-                    .shadow(radius: 2)
             case .success(let image):
                 image.resizable()
                     .frame(width: 400, height: 300)

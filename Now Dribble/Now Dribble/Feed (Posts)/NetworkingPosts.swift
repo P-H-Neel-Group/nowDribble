@@ -26,7 +26,7 @@ class PostViewModel: ObservableObject {
     @Published var posts: [Post] = []
     
     func fetchPosts() {
-        guard let url = URL(string: "http://\(IP_ADDRESS)/Post/GetRecentPosts") else { return }
+        guard let url = URL(string: "\(IP_ADDRESS)/Post/GetRecentPosts") else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else { return }

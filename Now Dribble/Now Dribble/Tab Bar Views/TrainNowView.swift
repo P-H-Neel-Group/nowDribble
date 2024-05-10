@@ -27,11 +27,12 @@ struct TrainNowView: View {
                                 }
                             }
                         }
+                        .padding()
                         .buttonStyle(PlainButtonStyle()) // To ensure the entire row is tappable
                         //.disabled(!category.user_has_access) // Disable the link if user_has_access is false
                     }
                 }
-                .padding()
+                //.padding()
                 .onAppear {
                     viewModel.fetchCategories()
                 }
@@ -84,7 +85,7 @@ struct SuccessView: View {
                 }
             )
             //.grayscale(category.user_has_access ? 0 : 1)
-            .padding()
+            //.padding()
     }
 }
 
@@ -108,6 +109,6 @@ struct FailView: View {
                         .foregroundColor(.white)
                 }
             )
-            .padding()
+            //.padding()
     }
 }
