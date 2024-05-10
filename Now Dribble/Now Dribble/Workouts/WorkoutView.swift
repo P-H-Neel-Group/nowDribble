@@ -87,7 +87,7 @@ struct WorkoutView: View {
                                         .bold()
                                         .padding(8)
                                         .background(Circle().fill(Color.white))
-                                        .foregroundColor(Color("PrimaryBlueColor"))
+                                        .background(bcolor(cc: "primary", backup: "env"))
                                         .font(.caption)
                                         .padding(.leading) // Add padding to ensure it does not stick to the edge
                                     
@@ -113,10 +113,9 @@ struct WorkoutView: View {
                 }
             } else {
                 ProgressView("Loading workout...")
-                    .background(Color("PrimaryBlueColor"))
             }
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
         .onAppear {
             fetcher.fetchWorkout(byId: workoutId)
         }

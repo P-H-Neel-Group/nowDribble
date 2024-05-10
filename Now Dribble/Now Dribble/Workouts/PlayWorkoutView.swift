@@ -70,7 +70,7 @@ struct PlayWorkoutView: View {
             } else {
                 Rectangle()
                     .frame(height: UIScreen.main.bounds.width / 16/9) // Draw rectangle of same dimensions
-                    .foregroundColor(Color("PrimaryBlueColor"))
+                    .background(bcolor(cc: "primary", backup: "env"))
             }
             
             // Toggle Button for Pause/Resume
@@ -89,7 +89,7 @@ struct PlayWorkoutView: View {
         .onDisappear {
             timerIsActive = false
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
     }
     
     private func startTimer() {

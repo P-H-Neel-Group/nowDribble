@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-/* TODO: Remove this code block
-struct AnyViewWrapper: View {
-    let contentView: AnyView
-
-    init(_ contentView: AnyView) {
-        self.contentView = contentView
-    }
-
-    var body: some View {
-        contentView
-    }
-}
-*/
 struct TrainNowView: View {
     @StateObject private var viewModel = CategoriesViewModel()
 
@@ -49,7 +36,7 @@ struct TrainNowView: View {
                     viewModel.fetchCategories()
                 }
             }
-            .background(Color("PrimaryBlueColor"))
+            .background(bcolor(cc: "primary", backup: "env"))
             .overlay {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
@@ -108,7 +95,8 @@ struct FailView: View {
         Rectangle()
             .frame(width: 400, height: 300)
             .cornerRadius(10)
-            .foregroundColor(Color("SecondaryBlueColor"))
+            .background(bcolor(cc: "secondary", backup: "env"))
+            .shadow(radius: 2)
             .overlay(
                 VStack {
                     Text(category.name.uppercased())
