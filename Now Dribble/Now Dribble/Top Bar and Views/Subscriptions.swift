@@ -66,15 +66,6 @@ extension SKProduct {
 struct SubscriptionsView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager()
 
-    init() {
-         let appearance = UINavigationBarAppearance()
-         appearance.backgroundColor = UIColor.black  // Set the background color to black
-
-         UINavigationBar.appearance().standardAppearance = appearance
-         UINavigationBar.appearance().compactAppearance = appearance
-         UINavigationBar.appearance().scrollEdgeAppearance = appearance
-     }
-    
     var body: some View {
         VStack {
             Text("Subscribe")
