@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: String = "TRAIN" // Default tab
-
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationView {
             VStack (spacing: 0){
@@ -49,6 +50,18 @@ struct ContentView: View {
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
         .background(bcolor(cc: "secondary", backup: "env"))
+        .onChange(of: colorScheme, perform: { newScheme in
+            setNavBarColor(for: newScheme)
+        })
         
     } // End of Body
+    
+    private func setNavBarColor(for scheme: ColorScheme) {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = scheme == .dark ? .black : .white
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
 } // End of Struct
