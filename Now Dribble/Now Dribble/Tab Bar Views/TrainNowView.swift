@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-/* TODO: Remove this code block
-struct AnyViewWrapper: View {
-    let contentView: AnyView
-
-    init(_ contentView: AnyView) {
-        self.contentView = contentView
-    }
-
-    var body: some View {
-        contentView
-    }
-}
-*/
 struct TrainNowView: View {
     @StateObject private var viewModel = CategoriesViewModel()
 
@@ -40,16 +27,17 @@ struct TrainNowView: View {
                                 }
                             }
                         }
+                        .padding()
                         .buttonStyle(PlainButtonStyle()) // To ensure the entire row is tappable
                         //.disabled(!category.user_has_access) // Disable the link if user_has_access is false
                     }
                 }
-                .padding()
+                //.padding()
                 .onAppear {
                     viewModel.fetchCategories()
                 }
             }
-            .background(Color("PrimaryBlueColor"))
+            .background(bcolor(cc: "primary", backup: "env"))
             .overlay {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
@@ -97,7 +85,7 @@ struct SuccessView: View {
                 }
             )
             //.grayscale(category.user_has_access ? 0 : 1)
-            .padding()
+            //.padding()
     }
 }
 
@@ -108,7 +96,8 @@ struct FailView: View {
         Rectangle()
             .frame(width: 400, height: 300)
             .cornerRadius(10)
-            .foregroundColor(Color("SecondaryBlueColor"))
+            .background(bcolor(cc: "secondary", backup: "env"))
+            .shadow(radius: 2)
             .overlay(
                 VStack {
                     Text(category.name.uppercased())
@@ -120,6 +109,6 @@ struct FailView: View {
                         .foregroundColor(.white)
                 }
             )
-            .padding()
+            //.padding()
     }
 }

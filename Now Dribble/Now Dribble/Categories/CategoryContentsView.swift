@@ -26,7 +26,7 @@ class CategoryContentsViewModel: ObservableObject {
             return
         }
 
-        let urlString = "http://\(IP_ADDRESS)/Workout/GetEnabledUserWorkoutsByCategory"
+        let urlString = "\(IP_ADDRESS)/Workout/GetEnabledUserWorkoutsByCategory"
         guard let url = URL(string: urlString) else {
             self.isLoading = false
             self.errorMessage = "Invalid URL"
@@ -82,7 +82,7 @@ struct CategoryContentsView: View {
                             WorkoutContent(workout: workout)
                         }
                         .padding()
-                        .background(Color("PrimaryBlueColor"))
+                        .background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
                     }
                     .buttonStyle(PlainButtonStyle()) // Improve tap feedback
@@ -90,7 +90,7 @@ struct CategoryContentsView: View {
             }
             .padding() // Add some padding around the VStack
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
         .onAppear {
             viewModel.fetchWorkoutsForCategory(categoryId: categoryId)
         }
@@ -117,11 +117,11 @@ struct WorkoutContent: View {
                 Rectangle()
                     .frame(width: 400, height: 300)
                     .cornerRadius(10)
-                    .foregroundColor(Color("SecondaryBlueColor"))
+                    .background(bcolor(cc: "secondary", backup: "env"))
             case .success(let image):
                 image.resizable()
-                    .scaledToFill()
                     .frame(width: 400, height: 300)
+                    .scaledToFill()
                     .cornerRadius(10)
                     .clipped()
             @unknown default:

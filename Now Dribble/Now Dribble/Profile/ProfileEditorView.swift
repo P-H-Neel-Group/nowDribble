@@ -115,7 +115,7 @@ struct ProfileEditorView: View {
         .sheet(isPresented: $isImagePickerDisplayed) {
             ImagePicker(selectedImage: $profileUIImage, sourceType: .photoLibrary)
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
         .navigationTitle("Edit Profile")
         .onAppear {
             updateProfileImage()

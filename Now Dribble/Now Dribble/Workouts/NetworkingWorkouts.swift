@@ -65,7 +65,7 @@ class WorkoutFetcher: ObservableObject {
             return
         }
         
-        let urlString = "http://\(IP_ADDRESS)/Workout/GetUserWorkoutDetails"
+        let urlString = "\(IP_ADDRESS)/Workout/GetUserWorkoutDetails"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return

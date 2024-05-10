@@ -25,8 +25,6 @@ struct SavedForLaterView: View {
             VStack {
                 if viewModel.savedWorkouts.isEmpty {
                     Text("No saved workouts")
-                        .background(Color("PrimaryBlueColor"))
-
                 } else {
                     List {
                         ForEach(viewModel.savedWorkouts) { workout in
@@ -49,6 +47,6 @@ struct SavedForLaterView: View {
                 viewModel.fetchSavedWorkouts()
             }
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
     }
 }

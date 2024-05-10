@@ -27,6 +27,11 @@ struct NumberView: View {
     @State private var showVideoSheet = false
     @State private var selectedVideoURL: String?
     @State private var selectedCaption: String?
+    @Environment(\.colorScheme) var colorScheme // Access the current color scheme
+
+    var oppositeColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
     
     var body: some View {
         ScrollView {
@@ -40,17 +45,21 @@ struct NumberView: View {
                         VStack(alignment: .center) {
                             Text("#\(index + 1)")
                                 .font(.title)
-                                .foregroundColor(.white)
+                                .foregroundColor(oppositeColor)
                                 .padding(.top, 10)
                             Text(caption)
-                                .foregroundColor(.white)
+                                .foregroundColor(oppositeColor)
                                 .padding(.bottom, 10)
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
-                        .background(Color("PrimaryBlueColor"))
+                        .background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
-                        .shadow(radius: 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color("TabButtonColor"), lineWidth: 2)
+                                //.shadow(radius: 2)
+                        )
                         // The maxWidth: .infinity expands this as much as possible
                     }
                     .padding(.vertical, 10)
@@ -66,7 +75,8 @@ struct NumberView: View {
                     }
                 }
             }
-            .background(Color("PrimaryBlueColor")).edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         }
     }
 }
+

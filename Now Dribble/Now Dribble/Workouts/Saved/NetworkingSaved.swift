@@ -34,7 +34,7 @@ class SavedWorkoutsViewModel: ObservableObject {
             return
         }
         
-        let urlString = "http://\(IP_ADDRESS)/UserData/GetSavedWorkouts"
+        let urlString = "\(IP_ADDRESS)/UserData/GetSavedWorkouts"
         guard let url = URL(string: urlString) else {
             DispatchQueue.main.async {
                 self.errorMessage = "Invalid URL"
@@ -86,7 +86,7 @@ class SavedWorkoutsViewModel: ObservableObject {
             return
         }
 
-        let urlString = "http://\(IP_ADDRESS)/UserData/SaveWorkout"
+        let urlString = "\(IP_ADDRESS)/UserData/SaveWorkout"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return
@@ -136,7 +136,7 @@ class SavedWorkoutsViewModel: ObservableObject {
             return
         }
         
-        let urlString = "http://\(IP_ADDRESS)/UserData/UnsaveWorkout"
+        let urlString = "\(IP_ADDRESS)/UserData/UnsaveWorkout"
         guard let url = URL(string: urlString) else {
             self.errorMessage = "Invalid URL"
             return

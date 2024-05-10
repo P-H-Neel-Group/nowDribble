@@ -99,7 +99,7 @@ struct LoginView: View {
 }
 
 func postLoginWithApple(authorizationCode: String, idToken: String, avm: AuthenticationViewModel) {
-    guard let url = URL(string: "http://\(IP_ADDRESS)/Authentication/LogInWithApple") else {
+    guard let url = URL(string: "\(IP_ADDRESS)/Authentication/LogInWithApple") else {
         print("Invalid URL")
         return
     }

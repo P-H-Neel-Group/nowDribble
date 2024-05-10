@@ -8,29 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab: String = "TRAIN NOW" // Default tab
-    
-//    init() {
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
-//        appearance.shadowColor = nil // Remove the shadow line
-//        UINavigationBar.appearance().standardAppearance = appearance
-//        UINavigationBar.appearance().compactAppearance = appearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//        UINavigationBar.appearance().isTranslucent = true // Set translucency
-//        UINavigationBar.appearance().tintColor = .clear // Make the tint color clear
-//        UINavigationBar.appearance().shadowImage = UIImage() // Empty image for shadow line
-//    }
-    
+    @State private var selectedTab: String = "TRAIN" // Default tab
+
     var body: some View {
         NavigationView {
             VStack (spacing: 0){
-                if selectedTab != "LOGIN" { // Dont show top bar on login page
-                    UI_TopBar()
-                }
-                Spacer()
-                
+                UI_TopBar()
+
                 TabView {
                     HomeView()
                         .tabItem {
@@ -42,7 +26,7 @@ struct ContentView: View {
                         .tabItem {
                             Label("Train Now", systemImage: "basketball.fill")
                         }
-                        .tag("TRAIN NOW")
+                        .tag("TRAIN")
                     
                     NumberView()
                         .tabItem {
@@ -56,10 +40,15 @@ struct ContentView: View {
 //                        .tag("SUBSCRIPTIONS")
                 } // End of Tab View
                 .accentColor(Color("TabButtonColor"))
+                .padding(0)
+
             } // End of VStack
+            .background(bcolor(cc: "primary", backup: "env"))
+
         } // End of NavView
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
-        .background(Color("SecondaryBlueColor"))
+        .background(bcolor(cc: "secondary", backup: "env"))
+        
     } // End of Body
 } // End of Struct

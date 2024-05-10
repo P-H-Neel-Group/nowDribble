@@ -12,7 +12,7 @@ class AccountViewModel: ObservableObject {
     @Published var alertMessage = ""
 
     func deleteAccount() {
-        guard let url = URL(string: "http://\(IP_ADDRESS)/UserData/DeleteCurrentUser") else {
+        guard let url = URL(string: "\(IP_ADDRESS)/UserData/DeleteCurrentUser") else {
             self.alertMessage = "Invalid URL"
             self.showAlert = true
             return

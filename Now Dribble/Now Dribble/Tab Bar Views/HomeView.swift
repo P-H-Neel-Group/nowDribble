@@ -15,7 +15,7 @@ struct HomeView: View {
     @State private var showIntroVideoSheet: Bool = false
 
     var body: some View {
-        VStack {          
+        //VStack {
             ScrollView {
                 VStack {
                     // Display the app intro video
@@ -30,6 +30,7 @@ struct HomeView: View {
                     .padding()
                     .background(Color.white)
                     .cornerRadius(10)
+                    .shadow(radius: 4)
                     .sheet(isPresented: $showIntroVideoSheet) {
                         StandaloneVideoView(url: "https://now-dribble.s3.us-east-2.amazonaws.com/static/AppIntro.mp4", caption: "")
                     }
@@ -47,8 +48,8 @@ struct HomeView: View {
                     }
                 } // End VStack
             } // End of Scroll View
-        } // End of outer VStack
-        .background(Color("PrimaryBlueColor"))
+        //} // End of outer VStack
+            .background(bcolor(cc: "primary", backup: "env"))
     } // End View
 } // End Struct
 

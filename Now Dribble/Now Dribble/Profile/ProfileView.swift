@@ -25,7 +25,8 @@ struct ProfileView: View {
     @State private var userName: String = ""
     @State private var profileImage: Image = Image(systemName: "person.crop.circle")
     @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
-
+    @State private var useColor: Bool = getUseColorPreference()
+    
     func loadUserName() {
         userName = getUserName() ?? "User"
     }
@@ -50,7 +51,7 @@ struct ProfileView: View {
                 Spacer()
 
             }
-            .background(Color("PrimaryBlueColor"))
+            .background(bcolor(cc: "primary", backup: "env"))
             .padding()
             
             Divider()
@@ -78,6 +79,12 @@ struct ProfileView: View {
 
             Spacer()
             
+//            Toggle("Use Color", isOn: $useColor)
+//                .onChange(of: useColor) { newValue in
+//                    saveUseColorPreference(useColor: newValue)
+//                }
+//                .padding()
+            
             Button("Sign Out") {
                 authViewModel.signOut()
             }
@@ -88,7 +95,7 @@ struct ProfileView: View {
             .cornerRadius(10)
             .padding()
         }
-        .background(Color("PrimaryBlueColor"))
+        .background(bcolor(cc: "primary", backup: "env"))
         .onAppear {
             loadUserName()
             updateProfileImage()

@@ -6,18 +6,17 @@
 //
 
 import SwiftUI
-
-let IP_ADDRESS: String = "18.224.94.30:5000"
+// prod url "https://nowdribbleapp.com"
+let IP_ADDRESS: String = "https://dev.nowdribbleapp.com"
 
 @main
 struct Now_DribbleApp: App {
     @StateObject var authViewModel = AuthenticationViewModel()
-    
+
     var body: some Scene {
         WindowGroup {
             if authViewModel.isAuthenticated {
                 ContentView()
-                    .preferredColorScheme(.dark)
                     .environmentObject(authViewModel)
             } else {
                 LoginView()
@@ -78,23 +77,45 @@ extension KeychainHelper {
             print("Keychain item deleted successfully")
         }
     }
-    
-//    func read(service: String, account: String) -> Data? {
-//        let query = [
-//            kSecClass as String: kSecClassGenericPassword,
-//            kSecAttrService as String: service,
-//            kSecAttrAccount as String: account,
-//            kSecReturnData as String: kCFBooleanTrue!,
-//            kSecMatchLimit as String: kSecMatchLimitOne
-//        ] as [String: Any]
-//
-//        var item: AnyObject?
-//        let status = SecItemCopyMatching(query as CFDictionary, &item)
-//        if status == errSecSuccess {
-//            return item as? Data
-//        } else {
-//            print("Error reading from Keychain: \(status)")
-//            return nil
-//        }
-//    }
+}
+
+func saveUseColorPreference(useColor: Bool) {
+    UserDefaults.standard.set(false, forKey: "UseColor") // NOTE: HARDCODED TO FALSE FOR NOW
+}
+
+func getUseColorPreference() -> Bool {
+    UserDefaults.standard.bool(forKey: "UseColor")
+}
+
+func bcolor(cc: String, backup: String) -> some View {
+    let useColor = getUseColorPreference()
+    @Environment(\.colorScheme) var colorScheme
+
+    return Group {
+        if useColor {
+            switch cc {
+            case "primary":
+                Color("PrimaryBlueColor")
+            case "secondary":
+                Color("SecondaryBlueColor")
+            default:
+                Color.clear
+            }
+        } else {
+            switch backup {
+            case "env":
+                Color.clear
+            case "none":
+                Color.clear
+            case "black":
+                Color.black
+            case "white":
+                Color.white
+            case "envopp":
+                colorScheme == .dark ? Color.white : Color.black
+            default:
+                Color.clear
+            }
+        }
+    }
 }
