@@ -85,7 +85,7 @@ struct CategoryContentsView: View {
                         .background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
                     }
-                    .buttonStyle(PlainButtonStyle()) // Improve tap feedback
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .padding() // Add some padding around the VStack

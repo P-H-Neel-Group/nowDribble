@@ -20,8 +20,7 @@ class KeychainHelper {
         ] as CFDictionary
 
         // First delete any existing item
-        let statusDelete = SecItemDelete(query)
-        print("Status Delete: \(statusDelete)")
+        SecItemDelete(query)
 
         // Add the new keychain item
         let statusAdd = SecItemAdd(query, nil)
@@ -43,5 +42,20 @@ class KeychainHelper {
         guard status == errSecSuccess else { print("Error reading from Keychain: \(status)"); return nil }
 
         return (result as? Data)
+    }
+    
+    func delete(service: String, account: String) {
+        let query = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account
+        ] as [String: Any]
+
+        let status = SecItemDelete(query as CFDictionary)
+        if status != errSecSuccess {
+            print("Error deleting keychain item: \(status)")
+        } else {
+            print("Keychain item deleted successfully")
+        }
     }
 }

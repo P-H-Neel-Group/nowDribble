@@ -46,30 +46,30 @@ struct LoginView: View {
                         case .success(let auth):
                             // Successfully authenticated
                             if let appleIDCredential = auth.credential as? ASAuthorizationAppleIDCredential {
-                                #if DEBUG
-                                // Check if full name and email are present
-                                if let fullName = appleIDCredential.fullName {
-                                    let givenName = fullName.givenName ?? "Unknown"
-                                    let familyName = fullName.familyName ?? "Unknown"
-                                    print("Full Name: \(givenName) \(familyName)")
-                                }
-                                
-                                // Retrieve and print the authorization code
-                                if let authCodeData = appleIDCredential.authorizationCode,
-                                   let authCode = String(data: authCodeData, encoding: .utf8) {
-                                    print("\nAuthorization Code: \(authCode)")
-                                }  else {
-                                    print("\nAuthorization Code not available")
-                                }
-                                
-                                // Retrieve and print the ID token
-                                if let idTokenData = appleIDCredential.identityToken,
-                                   let idToken = String(data: idTokenData, encoding: .utf8) {
-                                    print("\nID Token: \(idToken)")
-                                } else {
-                                    print("\nID Token not available")
-                                }
-                                #endif
+//                                #if DEBUG
+//                                // Check if full name and email are present
+//                                if let fullName = appleIDCredential.fullName {
+//                                    let givenName = fullName.givenName ?? "Unknown"
+//                                    let familyName = fullName.familyName ?? "Unknown"
+//                                    print("Full Name: \(givenName) \(familyName)")
+//                                }
+//                                
+//                                // Retrieve and print the authorization code
+//                                if let authCodeData = appleIDCredential.authorizationCode,
+//                                   let authCode = String(data: authCodeData, encoding: .utf8) {
+//                                    print("\nAuthorization Code: \(authCode)")
+//                                }  else {
+//                                    print("\nAuthorization Code not available")
+//                                }
+//                                
+//                                // Retrieve and print the ID token
+//                                if let idTokenData = appleIDCredential.identityToken,
+//                                   let idToken = String(data: idTokenData, encoding: .utf8) {
+//                                    print("\nID Token: \(idToken)")
+//                                } else {
+//                                    print("\nID Token not available")
+//                                }
+//                                #endif
                                 
                                 // MAKE POST REQUEST TO /Authentication/LogInWithApple
                                 // Extract the authorization code and ID token
@@ -131,7 +131,6 @@ func postLoginWithApple(authorizationCode: String, idToken: String, avm: Authent
                    let tokenData = tokenString.data(using: .utf8) {
                     // Save token to Keychain
                     KeychainHelper.standard.save(tokenData, service: "com.phneelgroup.Now-Dribble", account: "userToken")
-                    print("Token saved to Keychain")
                     DispatchQueue.main.async {
                         avm.validateToken()
                     }

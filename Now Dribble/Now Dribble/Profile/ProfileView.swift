@@ -79,11 +79,11 @@ struct ProfileView: View {
 
             Spacer()
             
-//            Toggle("Use Color", isOn: $useColor)
-//                .onChange(of: useColor) { newValue in
-//                    saveUseColorPreference(useColor: newValue)
-//                }
-//                .padding()
+            Toggle("Use Color", isOn: $useColor)
+                .onChange(of: useColor) { newValue in
+                    saveUseColorPreference(useColor: newValue)
+                }
+                .padding()
             
             Button("Sign Out") {
                 authViewModel.signOut()

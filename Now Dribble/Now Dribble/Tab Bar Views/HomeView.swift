@@ -49,7 +49,7 @@ struct HomeView: View {
                 } // End VStack
             } // End of Scroll View
         //} // End of outer VStack
-            .background(bcolor(cc: "primary", backup: "env"))
+            .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
     } // End View
 } // End Struct
 
