@@ -58,7 +58,12 @@ struct ContentView: View {
     
     private func setNavBarColor(for scheme: ColorScheme) {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = scheme == .dark ? .black : .white
+
+        if (getUseColorPreference()) {
+            appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
+        } else {
+            appearance.backgroundColor = scheme == .dark ? .black : .white
+        }
         
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance

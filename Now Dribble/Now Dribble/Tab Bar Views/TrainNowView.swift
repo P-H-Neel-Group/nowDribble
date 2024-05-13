@@ -37,7 +37,7 @@ struct TrainNowView: View {
                     viewModel.fetchCategories()
                 }
             }
-            .background(bcolor(cc: "primary", backup: "env"))
+            .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
             .overlay {
                 if viewModel.isLoading {
                     ProgressView("Loading...")

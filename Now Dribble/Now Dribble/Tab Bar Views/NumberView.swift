@@ -53,7 +53,7 @@ struct NumberView: View {
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
-                        .background(bcolor(cc: "primary", backup: "env"))
+                        //.background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
@@ -75,8 +75,9 @@ struct NumberView: View {
                     }
                 }
             }
-            .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            //.background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
         }
+        .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
     }
 }
 
