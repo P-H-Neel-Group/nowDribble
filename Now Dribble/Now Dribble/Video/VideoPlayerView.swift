@@ -37,6 +37,20 @@ class SequentialVideoPlayerViewModel: ObservableObject {
     init(urls: [URL]) {
         self.urls = urls
         setupVideoPlayer(with: urls[currentVideo])
+        addEndPlayObserver()
+    }
+
+    private func addEndPlayObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(videoDidEnd),
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem
+        )
+    }
+
+    @objc private func videoDidEnd() {
+        playNextVideo()
     }
 
     func setupVideoPlayer(with url: URL) {
@@ -46,6 +60,8 @@ class SequentialVideoPlayerViewModel: ObservableObject {
         if shouldPlay {
             player.play()
         }
+        
+        addEndPlayObserver() // add observer for new player item
     }
 
     func playNextVideo() {
