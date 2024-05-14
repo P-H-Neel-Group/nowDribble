@@ -12,21 +12,23 @@ struct PlayWorkoutView: View {
     var sequences: [WorkoutSequence]
     var videos: [WorkoutVideo]
     @State private var currentSequenceIndex: Int = 0
-    @State private var currentVideoIndex: Int = 0
     @State private var timerRemainingSeconds: Int
+    @State private var currentVideoIndex: Int = 0
     @State private var timerIsActive: Bool = false
-    
-    private var currentVideoURL: URL {
-        URL(string: videos[currentVideoIndex].url)!
+    @StateObject private var videoPlayerViewModel: SequentialVideoPlayerViewModel
+
+    var videoUrls: [URL] {
+        videos.compactMap { URL(string: $0.url) }
     }
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
+
     init(sequences: [WorkoutSequence], videos: [WorkoutVideo]) {
         self.sequences = sequences
         self.videos = videos
         _timerRemainingSeconds = State(initialValue: sequences.first?.time ?? 0)
+        _videoPlayerViewModel = StateObject(wrappedValue: SequentialVideoPlayerViewModel(urls: videos.compactMap { URL(string: $0.url) }))
     }
+
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
@@ -38,7 +40,7 @@ struct PlayWorkoutView: View {
                     .padding()
                 
                 VStack {
-                    Text("\(timerRemainingSeconds)s")
+                    Text("\(timerRemainingSeconds)")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(Color("TabButtonColor"))
@@ -51,7 +53,7 @@ struct PlayWorkoutView: View {
                             }
                         }
                         .onAppear {
-                            //startTimer()
+                            startTimer()
                         }
                     Text("sec")
                         .font(.title)
@@ -60,19 +62,12 @@ struct PlayWorkoutView: View {
             }
             Text(sequences[currentSequenceIndex].description)
                 .font(.title)
-                .padding([.bottom],10)
+                .padding([.bottom],15)
             
-            if (videos.count > 0) {
-                let initialUrl = URL(string: videos[0].url)!
-                let additionalUrls = videos.dropFirst().compactMap { URL(string: $0.url) }
-                VideoPlayerView(url: initialUrl, additionalUrls: additionalUrls, showCaption: false, caption:"", shouldPlay: true)
-                    .padding([.horizontal], 10)
-            } else {
-                Rectangle()
-                    .frame(height: UIScreen.main.bounds.width / 16/9) // Draw rectangle of same dimensions
-                    .background(bcolor(cc: "primary", backup: "env"))
-            }
-            
+            SequentialVideoPlayerView(urls: videoUrls)
+                .frame(height: UIScreen.main.bounds.width / (16/9))
+                .padding(10)
+
             // Toggle Button for Pause/Resume
             Button(action: {
                 self.timerIsActive.toggle()
@@ -82,7 +77,7 @@ struct PlayWorkoutView: View {
                     .symbolRenderingMode(.multicolor)
                     .aspectRatio(contentMode: .fit)
                     .padding(20)
-                    .font(.system(size: 75))
+                    .font(.system(size: 25))
                     .foregroundColor(.yellow)
             }
         }
