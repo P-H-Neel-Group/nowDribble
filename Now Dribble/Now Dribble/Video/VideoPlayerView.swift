@@ -11,34 +11,72 @@ import Combine
 
 class VideoPlayerViewModel: ObservableObject {
     var player = AVPlayer()
-    private var endPlaySubscriber: AnyCancellable?
-    var additionalUrls: [URL]? = nil
-    @Published var currentVideoIndex = 1
-    var shouldPlay: Bool = false // Default value is false
+    var shouldPlay: Bool = false
 
     func setupVideoPlayer(with url: URL) {
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
         
-        if shouldPlay{
+        if shouldPlay {
+            player.play()
+        }
+    }
+}
+
+class SequentialVideoPlayerViewModel: ObservableObject {
+    @Published var player = AVPlayer()
+    private var endPlaySubscriber: AnyCancellable?
+    var urls: [URL]
+    var shouldPlay: Bool = false
+    @Published var currentVideo: Int = 0 {
+        didSet {
+            setupVideoPlayer(with: urls[currentVideo])
+        }
+    }
+
+    init(urls: [URL]) {
+        self.urls = urls
+        setupVideoPlayer(with: urls[currentVideo])
+        addEndPlayObserver()
+    }
+
+    private func addEndPlayObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(videoDidEnd),
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem
+        )
+    }
+
+    @objc private func videoDidEnd() {
+        playNextVideo()
+    }
+
+    func setupVideoPlayer(with url: URL) {
+        let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        
+        if shouldPlay {
             player.play()
         }
         
-        endPlaySubscriber = NotificationCenter.default.publisher(for: .AVPlayerItemDidPlayToEndTime, object: playerItem)
-            .sink(receiveValue: { [weak self] _ in
-                self?.videoDidEnd()
-            })
+        addEndPlayObserver() // add observer for new player item
     }
 
-    private func videoDidEnd() {
-        guard let urls = additionalUrls, currentVideoIndex < urls.count else {
-            return
-        }
-        
-        currentVideoIndex += 1
-        if urls.count > currentVideoIndex-1 {
-            let nextUrl = urls[currentVideoIndex - 1]
-            setupVideoPlayer(with: nextUrl)
+    func playNextVideo() {
+        #if DEBUG
+        print("Called function")
+        print(urls)
+        print(urls.count)
+        print(currentVideo)
+        #endif
+        if currentVideo < urls.count - 1 {
+            #if DEBUG
+            print("Playing next video")
+            #endif
+            currentVideo += 1
+            setupVideoPlayer(with: urls[currentVideo])
         }
     }
 }
@@ -46,7 +84,6 @@ class VideoPlayerViewModel: ObservableObject {
 struct VideoPlayerView: View {
     @StateObject private var viewModel = VideoPlayerViewModel()
     let url: URL
-    var additionalUrls: [URL]? = nil
     let showCaption: Bool
     let caption: String
     var shouldPlay: Bool?
@@ -60,9 +97,12 @@ struct VideoPlayerView: View {
                     .frame(width: geometry.size.width, height: geometry.size.width / aspectRatio)
                     .cornerRadius(10)
                     .onAppear {
-                        viewModel.additionalUrls = additionalUrls
-                        viewModel.shouldPlay = shouldPlay ?? false // Use the shouldPlay value
+                        viewModel.shouldPlay = shouldPlay ?? false
                         viewModel.setupVideoPlayer(with: url)
+                    }
+                    .onDisappear {
+                        viewModel.player.pause()
+                        viewModel.player.replaceCurrentItem(with: nil)
                     }
             }
             .frame(height: UIScreen.main.bounds.width / aspectRatio)
@@ -75,6 +115,43 @@ struct VideoPlayerView: View {
                     .padding([.horizontal, .bottom])
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+}
+
+struct SequentialVideoPlayerView: View {
+    @StateObject var viewModel: SequentialVideoPlayerViewModel
+    private let aspectRatio: CGFloat = 16/9
+
+    init(urls: [URL]) {
+        _viewModel = StateObject(wrappedValue: SequentialVideoPlayerViewModel(urls: urls))
+    }
+    
+    var body: some View {
+        VStack {
+            GeometryReader { geometry in
+                VideoPlayer(player: viewModel.player)
+                    .frame(width: geometry.size.width, height: geometry.size.width / aspectRatio)
+                    .cornerRadius(10)
+                    .onDisappear {
+                        viewModel.player.pause()
+                        viewModel.player.replaceCurrentItem(with: nil)
+                    }
+            }
+            .frame(height: UIScreen.main.bounds.width / aspectRatio)
+            
+            if viewModel.urls.count > 1 {
+                Button(action: {
+                    viewModel.playNextVideo()
+                }) {
+                    Text("Next Video")
+                        .font(.headline)
+                        .padding()
+                        .background(Color("TabButtonColor"))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
             }
         }
     }
