@@ -71,7 +71,7 @@ class SequentialVideoPlayerViewModel: ObservableObject {
         print(urls.count)
         print(currentVideo)
         #endif
-        if currentVideo < urls.count - 1 {
+        if currentVideo < urls.count - 1 { // redundant but extra safe :)
             #if DEBUG
             print("Playing next video")
             #endif
@@ -141,7 +141,7 @@ struct SequentialVideoPlayerView: View {
             }
             .frame(height: UIScreen.main.bounds.width / aspectRatio)
             
-            if viewModel.urls.count > 1 {
+            if viewModel.urls.count > 1 && viewModel.currentVideo < viewModel.urls.count - 1 {
                 Button(action: {
                     viewModel.playNextVideo()
                 }) {
