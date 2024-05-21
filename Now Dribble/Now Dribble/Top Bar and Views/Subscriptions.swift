@@ -1,3 +1,9 @@
+//
+//
+//
+//
+
+
 import SwiftUI
 import StoreKit
 
@@ -39,12 +45,17 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         for transaction in transactions {
             switch transaction.transactionState {
                 case .purchased, .restored:
-                    // Handle the successful transaction here.
                     SKPaymentQueue.default().finishTransaction(transaction)
+                    DispatchQueue.main.async {
+                        // update category access on endpoint
+                        self.purchaseStatus = "Purchase successful!"
+                    }
                 case .failed:
-                    // Handle the failed transaction here.
                     if let error = transaction.error as? SKError {
                         print("Transaction Failed: \(error.localizedDescription)")
+                        DispatchQueue.main.async {
+                            self.purchaseStatus = "Purchase failed: \(error.localizedDescription)"
+                        }
                     }
                     SKPaymentQueue.default().finishTransaction(transaction)
                 default:
@@ -52,13 +63,17 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             }
         }
     }
+
+    func refreshPurchases() {
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
 }
 
 extension SKProduct {
     var localizedPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "en_US") // Setting the locale to U.S.
+        formatter.locale = Locale(identifier: "en_US")
         return formatter.string(from: price) ?? "$\(price)"
     }
 }
@@ -85,8 +100,6 @@ struct SubscriptionsView: View {
                     Spacer()
                     Button(action: {
                         subscriptionManager.buyProduct(product)
-                        print("\n\nSTATUS")
-                        print(subscriptionManager.purchaseStatus)
                     }) {
                         Text(product.localizedPrice)
                             .bold()
@@ -95,7 +108,6 @@ struct SubscriptionsView: View {
                             .background(Color.blue)
                             .cornerRadius(10)
                     }
-
                 }
                 .padding(.vertical)
             }
@@ -104,13 +116,19 @@ struct SubscriptionsView: View {
                 Text("Loading products...")
             }
 
+            Text("Each subscription grants access to more workouts and will renew monthly.")
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .padding()
+
+            #if DEBUG
             Text(subscriptionManager.purchaseStatus)
                 .foregroundColor(.red)
                 .padding()
+            #endif
         }
         .onAppear {
             subscriptionManager.fetchProducts()
         }
     }
 }
-
