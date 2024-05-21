@@ -28,6 +28,7 @@
 		49C054012AF0946000130FD6 /* Now_DribbleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C054002AF0946000130FD6 /* Now_DribbleTests.swift */; };
 		49C0540B2AF0946000130FD6 /* Now_DribbleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0540A2AF0946000130FD6 /* Now_DribbleUITests.swift */; };
 		49C0540D2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0540C2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift */; };
+		49C7BFB22BFC1B36008E1E4F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C7BFB12BFC1B36008E1E4F /* SettingsView.swift */; };
 		49C937392B50739E000BECE5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C937382B50739E000BECE5 /* ProfileView.swift */; };
 		49C9373B2B507E5B000BECE5 /* NetworkingProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */; };
 		49C9373E2B5618CE000BECE5 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9373D2B5618CE000BECE5 /* WorkoutView.swift */; };
@@ -81,6 +82,7 @@
 		49C054062AF0946000130FD6 /* Now DribbleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Now DribbleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C0540A2AF0946000130FD6 /* Now_DribbleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_DribbleUITests.swift; sourceTree = "<group>"; };
 		49C0540C2AF0946000130FD6 /* Now_DribbleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Now_DribbleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		49C7BFB12BFC1B36008E1E4F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		49C937382B50739E000BECE5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		49C9373A2B507E5B000BECE5 /* NetworkingProfiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingProfiles.swift; sourceTree = "<group>"; };
 		49C9373D2B5618CE000BECE5 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				49C053F32AF0946000130FD6 /* Assets.xcassets */,
 				49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */,
 				49C053F12AF0945E00130FD6 /* ContentView.swift */,
+				49C7BFB12BFC1B36008E1E4F /* SettingsView.swift */,
 				495EA5C42B376E7B0083E207 /* Login */,
 				497068442B1DA68A0089C54F /* Tab Bar Views */,
 				497068452B1DA6A10089C54F /* Top Bar and Views */,
@@ -414,6 +417,7 @@
 				497067F32B1D85BA0089C54F /* UI_TopBar.swift in Sources */,
 				49C02CB72BA6428300346583 /* KeychainService.swift in Sources */,
 				49EB05822B8EC2BA00801BE3 /* CategoryContentsView.swift in Sources */,
+				49C7BFB22BFC1B36008E1E4F /* SettingsView.swift in Sources */,
 				492B0D8C2AF0B97C00675158 /* TrainNowView.swift in Sources */,
 				49926F652BA62AE6000E5B26 /* PlayWorkoutView.swift in Sources */,
 				499A72692B38C41800D8C734 /* NetworkingPosts.swift in Sources */,

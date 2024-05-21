@@ -50,9 +50,9 @@ struct ContentView: View {
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
         .background(bcolor(cc: "secondary", backup: "env"))
-        .onChange(of: colorScheme, perform: { newScheme in
+        .onChange(of: colorScheme) { _, newScheme in
             setNavBarColor(for: newScheme)
-        })
+        }
         
     } // End of Body
     

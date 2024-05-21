@@ -97,9 +97,9 @@ class AuthenticationViewModel: ObservableObject {
                     print("JSON decoding error: \(error)")
                 }
             } else {
-                #if DEBUG
-                print("HTTP Response: \(response)")
-                #endif
+                //#if DEBUG
+                //print("HTTP Response: \(response)")
+                //#endif
                 self.signOut()
             }
         }
@@ -108,7 +108,7 @@ class AuthenticationViewModel: ObservableObject {
 }
 
 func saveUseColorPreference(useColor: Bool) {
-    UserDefaults.standard.set(useColor, forKey: "UseColor") // NOTE: HARDCODED TO FALSE FOR NOW
+    UserDefaults.standard.set(useColor, forKey: "UseColor")
 }
 
 func getUseColorPreference() -> Bool {
