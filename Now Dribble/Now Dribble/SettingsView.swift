@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var useColor: Bool = getUseColorPreference()
     @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
     @State private var showRestartAlert = false
+    @ObservedObject private var subscriptionManager = SubscriptionManager()
 
     var body: some View {
         VStack {
@@ -70,6 +71,18 @@ struct SettingsView: View {
             }
             .padding(.vertical, 10)
 
+            Button(action: {
+                subscriptionManager.refreshPurchases()
+            }) {
+                Text("Refresh Subscription Purchases")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .cornerRadius(10)
+            }
+            .padding()
+            
             Spacer()
             
             Toggle("Use Color", isOn: $useColor)

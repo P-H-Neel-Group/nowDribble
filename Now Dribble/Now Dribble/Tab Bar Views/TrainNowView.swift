@@ -31,6 +31,7 @@ struct TrainNowView: View {
                         .buttonStyle(PlainButtonStyle()) // To ensure the entire row is tappable
                         //.disabled(!category.user_has_access) // Disable the link if user_has_access is false
                     }
+                    Spacer().frame(height: 80)
                 }
                 //.padding()
                 .onAppear {

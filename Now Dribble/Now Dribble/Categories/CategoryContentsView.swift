@@ -86,6 +86,8 @@ struct CategoryContentsView: View {
                         .cornerRadius(10)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    
+                    Spacer().frame(height: 80)
                 }
             }
             .padding() // Add some padding around the VStack
