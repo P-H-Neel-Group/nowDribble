@@ -23,7 +23,7 @@ struct TrainNowView: View {
                                 case .success (let image):
                                     SuccessView(category: category, image: image)
                                 @unknown default:
-                                    EmptyView()
+                                    FailView(category: category)
                                 }
                             }
                         }

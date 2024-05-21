@@ -23,7 +23,7 @@ struct LoginView: View {
                     .frame(width: 100, height: 100)
                     .padding()
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                             withAnimation {
                                 showImage = false
                                 showButton = true

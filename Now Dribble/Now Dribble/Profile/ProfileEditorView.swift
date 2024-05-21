@@ -38,7 +38,6 @@ func loadImage(imageName: String) -> UIImage? {
 
 struct ProfileEditorView: View {
     @Environment(\.presentationMode) var presentationMode // For navigation
-    @State private var showDeleteConfirmation = false
     @State private var userName: String = ""
     @State private var profileUIImage: UIImage? = UIImage(systemName: "person.crop.circle") // Now using UIImage
     @State private var isImagePickerDisplayed: Bool = false
@@ -88,29 +87,6 @@ struct ProfileEditorView: View {
             .padding()
             
             Spacer()
-
-            Button("Delete Account") {
-                showDeleteConfirmation = true
-            }
-            .foregroundColor(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.red)
-            .cornerRadius(10)
-            .padding()
-        }
-        .alert("Confirm Account Deletion", isPresented: $showDeleteConfirmation) {
-            Button("Delete", role: .destructive) {
-                accountVM.deleteAccount()
-                authViewModel.signOut()
-            }
-            
-            Button("Cancel", role: .cancel) {}
-            .alert(isPresented: $accountVM.showAlert) {
-                Alert(title: Text("Account Deletion"), message: Text(accountVM.alertMessage), dismissButton: .default(Text("OK")))
-            }
-        } message: {
-            Text("Are you sure you want to permanently delete your account?")
         }
         .sheet(isPresented: $isImagePickerDisplayed) {
             ImagePicker(selectedImage: $profileUIImage, sourceType: .photoLibrary)
