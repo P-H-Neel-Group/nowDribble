@@ -15,6 +15,11 @@ struct WorkoutView: View {
         self.workoutId = workoutId
         self.fromSavedSheet = fromSavedSheet ?? false
     }
+    @Environment(\.colorScheme) var colorScheme
+
+    var oppositeColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
     
     @StateObject private var fetcher = WorkoutFetcher()
     @StateObject var savedWorkoutsViewModel = SavedWorkoutsViewModel()
@@ -29,7 +34,7 @@ struct WorkoutView: View {
                             Spacer()
                             Text(workout.name.capitalized)
                                 .font(.title)
-                                .foregroundColor(Color.white)
+                                .foregroundColor(oppositeColor)
                                 .bold()
                                 .multilineTextAlignment(.leading)
                             
@@ -46,7 +51,7 @@ struct WorkoutView: View {
                                 }) {
                                     Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
                                         .font(.system(size: 25))
-                                        .foregroundColor(Color.white)
+                                        .foregroundColor(oppositeColor)
                                         .padding([.trailing], 2)
                                 }
                             }
@@ -64,7 +69,7 @@ struct WorkoutView: View {
                             .font(.body)
                             .padding()
                             .multilineTextAlignment(.center)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(oppositeColor)
                         Spacer()
                         Divider()
 
@@ -86,25 +91,27 @@ struct WorkoutView: View {
                                     Text("\(index + 1)")
                                         .bold()
                                         .padding(8)
-                                        .background(Circle().fill(Color.white))
-                                        .background(bcolor(cc: "primary", backup: "env"))
+                                        .background(Circle().fill(oppositeColor))
+                                        .foregroundColor(colorScheme == .dark ? Color.black : Color.white)
+
+                                        //.background(bcolor(cc: "primary", backup: "env"))
                                         .font(.caption)
-                                        .padding(.leading) // Add padding to ensure it does not stick to the edge
+                                        .padding(.leading)
                                     
                                     // Sequence description
                                     Text(workout.sequences[index].description)
-                                        .foregroundColor(Color.white)
+                                        .foregroundColor(oppositeColor)
                                         .alignmentGuide(.leading) { d in d[.leading] }
                                     
                                     Spacer()
                                     
                                     // Clock icon and time
                                     Image(systemName: "clock.fill")
-                                        .foregroundColor(Color.white)
+                                        .foregroundColor(oppositeColor)
                                     Text("\(workout.sequences[index].time)s")
-                                        .foregroundColor(Color.white)
+                                        .foregroundColor(oppositeColor)
                                         .font(.caption)
-                                        .padding(.trailing) // Add padding to ensure it does not stick to the edge
+                                        .padding(.trailing)
                                 }
                                 .padding([.top, .bottom], 5)
                             }

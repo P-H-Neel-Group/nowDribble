@@ -82,7 +82,7 @@ struct ProfileEditorView: View {
             .foregroundColor(.black)
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .background(Color("TabButtonColor"))
             .cornerRadius(10)
             .padding()
             

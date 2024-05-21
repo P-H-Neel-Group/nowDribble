@@ -44,12 +44,12 @@ struct UI_TopBar: View {
                         .overlay(
                             Circle()
                                 .stroke(lineWidth: 1)
-                                .foregroundColor(.white)
+                                .foregroundColor(oppositeColor)
                         )
                 } else {
                     Image(systemName: "person.circle")
                         .font(.system(size: 35))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(oppositeColor)
                 }
             }
         }
