@@ -6,16 +6,25 @@
 //
 
 import SwiftUI
+import UIKit
 
-func saveImage(image: UIImage) {
-    guard let data = image.jpegData(compressionQuality: 1) else { return }
-    guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return }
+func saveImage(image: UIImage) -> URL? {
+    guard let data = image.jpegData(compressionQuality: 1) else {
+        print("Failed to convert UIImage to JPEG data.")
+        return nil
+    }
+    guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
+        print("Failed to find document directory.")
+        return nil
+    }
     let filePath = directory.appendingPathComponent("userProfile.jpg")
     do {
         try data.write(to: filePath)
-        print("Image saved successfully!")
+        print("Image saved successfully at path: \(filePath.absoluteString)")
+        return filePath
     } catch {
         print("Error saving image: \(error.localizedDescription)")
+        return nil
     }
 }
 
@@ -28,13 +37,14 @@ func loadImage(imageName: String) -> UIImage? {
             // The file exists, so attempt to create and return a UIImage
             return UIImage(contentsOfFile: imagePath)
         } else {
-            print("Image does not exist at path.")
+            print("Image does not exist at path: \(imagePath).")
         }
     } else {
         print("Could not find the directory.")
     }
     return nil
 }
+
 
 struct ProfileEditorView: View {
     @Environment(\.presentationMode) var presentationMode // For navigation
@@ -73,10 +83,17 @@ struct ProfileEditorView: View {
                 .padding()
 
             Button("Save Changes") {
-                if let profileUIImage = profileUIImage {
-                    saveImage(image: profileUIImage)
+                if let profileUIImage = profileUIImage, let imageURL = saveImage(image: profileUIImage) {
+                    accountVM.editProfilePicture(profileImage: profileUIImage)
+            
+                    let userData: [String: Any] = ["username": userName]
+                    accountVM.editUserData(newUserData: userData)
+                } else {
+                    // Send user data to backend if no image is uploaded
+                    let userData: [String: Any] = ["username": userName]
+                    accountVM.editUserData(newUserData: userData)
                 }
-                saveUserName(name: userName)
+                
                 presentationMode.wrappedValue.dismiss() // Navigate back
             }
             .foregroundColor(.black)
@@ -96,9 +113,11 @@ struct ProfileEditorView: View {
         .onAppear {
             updateProfileImage()
         }
+        .alert(isPresented: $accountVM.showAlert) {
+            Alert(title: Text("Alert"), message: Text(accountVM.alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
 }
-
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
