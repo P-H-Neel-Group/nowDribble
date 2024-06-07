@@ -47,8 +47,8 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 case .purchased, .restored:
                     SKPaymentQueue.default().finishTransaction(transaction)
                     DispatchQueue.main.async {
-                        // update category access on endpoint
                         self.purchaseStatus = "Purchase successful!"
+                        self.sendReceiptToBackend()
                     }
                 case .failed:
                     if let error = transaction.error as? SKError {
@@ -67,14 +67,60 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     func refreshPurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
+
+    private func sendReceiptToBackend() {
+        guard let receiptURL = Bundle.main.appStoreReceiptURL,
+              let receiptData = try? Data(contentsOf: receiptURL) else {
+            print("Failed to get receipt data")
+            return
+        }
+        let receiptString = receiptData.base64EncodedString(options: [])
+        #if DEBUG
+        print("\n--BEGIN RECEIPT STRING--")
+        print(receiptString)
+        print("---END RECEIPT STRING--\n")
+        #endif
+        var request = URLRequest(url: URL(string: "\(IP_ADDRESS)/validateReceipt")!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let json: [String: Any] = ["receipt-data": receiptString]
+
+        request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: [])
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to send receipt data: \(error?.localizedDescription ?? "No data")")
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                print("Receipt validation successful")
+            } else {
+                print("Receipt validation failed")
+            }
+        }
+
+        task.resume()
+    }
+
+    func getReceipt() -> String? {
+        guard let receiptURL = Bundle.main.appStoreReceiptURL,
+              let receiptData = try? Data(contentsOf: receiptURL) else {
+            print("Failed to get receipt data")
+            return nil
+        }
+        return receiptData.base64EncodedString(options: [])
+    }
 }
+
 
 extension SKProduct {
     var localizedPrice: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "en_US")
-        return formatter.string(from: price) ?? "$\(price)"
+        formatter.locale = self.priceLocale
+        return formatter.string(from: self.price) ?? "\(self.price)"
     }
 }
 
