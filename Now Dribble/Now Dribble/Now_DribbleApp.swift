@@ -65,12 +65,18 @@ class AuthenticationViewModel: ObservableObject {
             print("Invalid URL")
             return
         }
-        
+
+        let subscriptionManager = SubscriptionManager()
+        guard let receipt = subscriptionManager.getReceipt() else {
+            print("Failed to get receipt")
+            return
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        let body: [String: Any] = ["receipt": "string"] // TODO: add receipt
+        let body: [String: Any] = ["receipt": receipt]
         if let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) {
             request.httpBody = jsonData
         }

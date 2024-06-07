@@ -172,6 +172,7 @@
 			children = (
 				497067F22B1D85BA0089C54F /* UI_TopBar.swift */,
 				4981B5872BCDF3E000C92884 /* Subscriptions.swift */,
+				49C7BFB12BFC1B36008E1E4F /* SettingsView.swift */,
 			);
 			path = "Top Bar and Views";
 			sourceTree = "<group>";
@@ -204,7 +205,6 @@
 				49C053F32AF0946000130FD6 /* Assets.xcassets */,
 				49C053EF2AF0945E00130FD6 /* Now_DribbleApp.swift */,
 				49C053F12AF0945E00130FD6 /* ContentView.swift */,
-				49C7BFB12BFC1B36008E1E4F /* SettingsView.swift */,
 				495EA5C42B376E7B0083E207 /* Login */,
 				497068442B1DA68A0089C54F /* Tab Bar Views */,
 				497068452B1DA6A10089C54F /* Top Bar and Views */,

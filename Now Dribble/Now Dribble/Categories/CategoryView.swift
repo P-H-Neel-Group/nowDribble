@@ -61,9 +61,6 @@ class CategoriesViewModel: ObservableObject {
                 do {
                     let response = try JSONDecoder().decode(CategoriesResponse.self, from: data)
                     self.categories = response.categories // Now accessing the categories array
-                    #if DEBUG
-                    print("Fetched categories: \(self.categories)")
-                    #endif
                     
                 } catch {
                     self.errorMessage = "Failed to decode JSON: \(error.localizedDescription)"
