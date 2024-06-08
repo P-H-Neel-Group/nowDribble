@@ -84,6 +84,7 @@ struct CategoryContentsView: View {
                         .padding()
                         .background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
+                        .clipped()
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -118,12 +119,18 @@ struct WorkoutContent: View {
             case .empty, .failure:
                 Rectangle()
                     .frame(width: 400, height: 300)
-                    .cornerRadius(10)
                     .background(bcolor(cc: "secondary", backup: "env"))
+                    .cornerRadius(10)
+                    .clipped()
             case .success(let image):
                 image.resizable()
                     .frame(width: 400, height: 300)
                     .scaledToFill()
+                    .overlay(
+                        Rectangle() // This rectangle will serve as the tint layer
+                            .foregroundColor(.black)
+                            .opacity(0.3)
+                    )
                     .cornerRadius(10)
                     .clipped()
             @unknown default:

@@ -83,7 +83,7 @@ struct ProfileEditorView: View {
                 .padding()
 
             Button("Save Changes") {
-                if let profileUIImage = profileUIImage, let imageURL = saveImage(image: profileUIImage) {
+                if let profileUIImage = profileUIImage, let _ = saveImage(image: profileUIImage) {
                     accountVM.editProfilePicture(profileImage: profileUIImage)
             
                     let userData: [String: Any] = ["username": userName]

@@ -6,18 +6,31 @@
 //
 
 import SwiftUI
+
 // prod url "https://nowdribbleapp.com"
 let IP_ADDRESS: String = "https://dev.nowdribbleapp.com"
 
 @main
 struct Now_DribbleApp: App {
     @StateObject var authViewModel = AuthenticationViewModel()
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some Scene {
         WindowGroup {
             if authViewModel.isAuthenticated {
                 ContentView()
                     .environmentObject(authViewModel)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(
+                        GeometryReader { geometry in
+                            Color.clear
+                                .onAppear {
+                                    if UIDevice.current.userInterfaceIdiom == .pad {
+                                        adjustFrameForiPad(geometry: geometry)
+                                    }
+                                }
+                        }
+                    )
             } else {
                 LoginView()
                     .preferredColorScheme(.light)
@@ -25,10 +38,22 @@ struct Now_DribbleApp: App {
             }
         }
     }
+
+    private func adjustFrameForiPad(geometry: GeometryProxy) {
+        let iPhoneFrame = CGRect(x: 0, y: 0, width: 375, height: 812) // iPhone X dimensions
+        let scale = min(geometry.size.width / iPhoneFrame.width, geometry.size.height / iPhoneFrame.height)
+        let xOffset = (geometry.size.width - (iPhoneFrame.width * scale)) / 2
+        let yOffset = (geometry.size.height - (iPhoneFrame.height * scale)) / 2
+        let frame = CGRect(x: xOffset, y: yOffset, width: iPhoneFrame.width * scale, height: iPhoneFrame.height * scale)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.first?.frame = frame
+        }
+    }
 }
 
 class AuthenticationViewModel: ObservableObject {
-    @MainActor @Published var isAuthenticated = false;
+    @MainActor @Published var isAuthenticated = false
     
     init() {
         validateToken()
