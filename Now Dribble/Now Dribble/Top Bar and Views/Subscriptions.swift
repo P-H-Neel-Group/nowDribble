@@ -44,28 +44,29 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
-                case .purchased, .restored:
-                    SKPaymentQueue.default().finishTransaction(transaction)
+            case .purchased, .restored:
+                SKPaymentQueue.default().finishTransaction(transaction)
+                DispatchQueue.main.async {
+                    self.purchaseStatus = "Purchase successful!"
+                    self.sendReceiptToBackend()
+                }
+            case .failed:
+                if let error = transaction.error as? SKError {
+                    print("Transaction Failed: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                        self.purchaseStatus = "Purchase successful!"
-                        self.sendReceiptToBackend()
+                        self.purchaseStatus = "Purchase failed: \(error.localizedDescription)"
                     }
-                case .failed:
-                    if let error = transaction.error as? SKError {
-                        print("Transaction Failed: \(error.localizedDescription)")
-                        DispatchQueue.main.async {
-                            self.purchaseStatus = "Purchase failed: \(error.localizedDescription)"
-                        }
-                    }
-                    SKPaymentQueue.default().finishTransaction(transaction)
-                default:
-                    break
+                }
+                SKPaymentQueue.default().finishTransaction(transaction)
+            default:
+                break
             }
         }
     }
 
     func refreshPurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
+        self.sendReceiptToBackend()
     }
 
     private func sendReceiptToBackend() {
@@ -75,33 +76,58 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
             return
         }
         let receiptString = receiptData.base64EncodedString(options: [])
+        
+        guard let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
+              let token = String(data: tokenData, encoding: .utf8) else {
+            print("Authentication error: Unable to retrieve token.")
+            return
+        }
+        
         #if DEBUG
         print("\n--BEGIN RECEIPT STRING--")
-        print(receiptString)
+        // print(receiptString)
         print("---END RECEIPT STRING--\n")
         #endif
-        var request = URLRequest(url: URL(string: "\(IP_ADDRESS)/validateReceipt")!)
+        
+        var request = URLRequest(url: URL(string: "\(IP_ADDRESS)/Authentication/validateReceipt")!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let json: [String: Any] = ["receipt-data": receiptString]
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let json: [String: Any] = ["receipt_data": receiptString]
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: [])
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Failed to send receipt data: \(error?.localizedDescription ?? "No data")")
-                return
-            }
+            DispatchQueue.main.async {
+                guard let _ = data, error == nil else {
+                    print("Failed to send receipt data: \(error?.localizedDescription ?? "No data")")
+                    return
+                }
 
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                print("Receipt validation successful")
-            } else {
-                print("Receipt validation failed")
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    print("Receipt validation successful")
+                    // Save the receipt to Keychain after successful validation
+                    self.saveReceiptToKeychain(receipt: receiptString)
+                } else {
+                    print("Receipt validation failed")
+                }
             }
         }
-
         task.resume()
+    }
+
+    func getReceiptFromKeychain() -> String? {
+        guard let receiptData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "receipt") else {
+            return nil
+        }
+        return String(data: receiptData, encoding: .utf8)
+    }
+
+    private func saveReceiptToKeychain(receipt: String) {
+        if let receiptData = receipt.data(using: .utf8) {
+            KeychainHelper.standard.save(receiptData, service: "com.phneelgroup.Now-Dribble", account: "receipt")
+        }
     }
 
     func getReceipt() -> String? {
@@ -114,7 +140,6 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
     }
 }
 
-
 extension SKProduct {
     var localizedPrice: String {
         let formatter = NumberFormatter()
@@ -125,7 +150,7 @@ extension SKProduct {
 }
 
 struct SubscriptionsView: View {
-    @ObservedObject private var subscriptionManager = SubscriptionManager()
+    @EnvironmentObject var subscriptionManager: SubscriptionManager // to access the shared subscription manager
 
     var body: some View {
         VStack {
@@ -162,7 +187,7 @@ struct SubscriptionsView: View {
                 Text("Loading products...")
             }
 
-            Text("Each subscription grants access to more workouts and will renew monthly.")
+            Text("Each subscription grants access to increasingly more workouts and renews monthly.")
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
                 .padding()

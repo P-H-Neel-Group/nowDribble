@@ -81,40 +81,96 @@ class SequentialVideoPlayerViewModel: ObservableObject {
     }
 }
 
+struct VideoPlayerFullScreenView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = AVPlayer(url: url)
+        playerViewController.player?.play()
+        playerViewController.modalPresentationStyle = .fullScreen
+        return playerViewController
+    }
+
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {}
+
+    static func dismantleUIViewController(_ uiViewController: AVPlayerViewController, coordinator: ()) {
+        uiViewController.player?.pause()
+    }
+}
+
 struct VideoPlayerView: View {
     @StateObject private var viewModel = VideoPlayerViewModel()
     let url: URL
     let showCaption: Bool
     let caption: String
     var shouldPlay: Bool?
+    var isFullScreen: Bool?
+
+    @State private var isFullScreenPresented: Bool
+
+    init(url: URL, showCaption: Bool, caption: String, shouldPlay: Bool? = nil, isFullScreen: Bool? = nil) {
+        self.url = url
+        self.showCaption = showCaption
+        self.caption = caption
+        self.shouldPlay = shouldPlay
+        self.isFullScreen = isFullScreen ?? false
+        self._isFullScreenPresented = State(initialValue: isFullScreen ?? false)
+    }
 
     private let aspectRatio: CGFloat = 16/9
 
     var body: some View {
         VStack {
-            GeometryReader { geometry in
-                VideoPlayer(player: viewModel.player)
-                    .frame(width: geometry.size.width, height: geometry.size.width / aspectRatio)
-                    .cornerRadius(10)
-                    .onAppear {
-                        viewModel.shouldPlay = shouldPlay ?? false
-                        viewModel.setupVideoPlayer(with: url)
-                    }
-                    .onDisappear {
-                        viewModel.player.pause()
-                        viewModel.player.replaceCurrentItem(with: nil)
-                    }
-            }
-            .frame(height: UIScreen.main.bounds.width / aspectRatio)
+            if isFullScreenPresented {
+                VideoPlayerFullScreenView(url: url)
+                    .edgesIgnoringSafeArea(.all)
+                    .statusBar(hidden: true)
+            } else {
+                GeometryReader { geometry in
+                    ZStack {
+                        VideoPlayer(player: viewModel.player)
+                            .frame(width: geometry.size.width, height: geometry.size.width / aspectRatio)
+                            .cornerRadius(10)
+                            .onAppear {
+                                viewModel.shouldPlay = shouldPlay ?? false
+                                viewModel.setupVideoPlayer(with: url)
+                            }
+                            .onDisappear {
+                                viewModel.player.pause()
+                                viewModel.player.replaceCurrentItem(with: nil)
+                            }
 
-            if showCaption {
-                Text(caption)
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.white)
-                    .padding([.horizontal, .bottom])
-                    .multilineTextAlignment(.leading)
-                    .fixedSize(horizontal: false, vertical: true)
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    isFullScreenPresented.toggle()
+                                }) {
+                                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                        .font(.system(size: 20))
+                                        .padding(8)
+                                        .background(Color.black.opacity(0.7))
+                                        .clipShape(Circle())
+                                        .foregroundColor(.white)
+                                        .padding()
+                                }
+                            }
+                        }
+                    }
+                }
+                .frame(height: UIScreen.main.bounds.width / aspectRatio)
+
+                if showCaption {
+                    Text(caption)
+                        .font(.caption)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding([.horizontal, .bottom])
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
     }

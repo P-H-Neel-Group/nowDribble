@@ -10,8 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @State private var useColor: Bool = getUseColorPreference()
     @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
-    @State private var showRestartAlert = false
-    @ObservedObject private var subscriptionManager = SubscriptionManager()
+    @EnvironmentObject var subscriptionManager: SubscriptionManager // to access the shared subscription manager
+   @State private var showRestartAlert = false
 
     var body: some View {
         VStack {
@@ -78,11 +78,11 @@ struct SettingsView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.green)
+                    .background(Color.blue)
                     .cornerRadius(10)
             }
-            .padding()
-            
+            .padding(.vertical, 10)
+
             Spacer()
             
             Toggle("Use Color", isOn: $useColor)
@@ -100,7 +100,7 @@ struct SettingsView: View {
             .frame(maxWidth: .infinity)
             .background(Color.red)
             .cornerRadius(10)
-            .padding()
+            .padding(.vertical, 10)
         }
         .padding()
         .alert(isPresented: $showRestartAlert) {

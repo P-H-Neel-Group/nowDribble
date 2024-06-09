@@ -62,9 +62,7 @@ struct SuccessView: View {
         image.resizable()
             .frame(maxWidth: 400, maxHeight: 300)
             .scaledToFill()
-            .cornerRadius(10)
             //.aspectRatio(contentMode: .fill)
-            .clipped()
             .overlay(
                 ZStack(alignment: .bottomLeading) { // Align content to the bottom leading corner
                     Rectangle() // This rectangle will serve as the tint layer
@@ -85,6 +83,8 @@ struct SuccessView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading) // Ensure VStack fills the ZStack but aligns content to bottomLeading
                 }
             )
+            .cornerRadius(10)
+            .clipped()
             //.grayscale(category.user_has_access ? 0 : 1)
             //.padding()
     }

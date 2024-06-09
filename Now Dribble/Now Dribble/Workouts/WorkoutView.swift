@@ -30,35 +30,39 @@ struct WorkoutView: View {
             if let workout = fetcher.workoutDetail {
                 ScrollView {
                     VStack {
-                        HStack {
-                            Spacer()
+                        ZStack {
+                            // Centered Title
                             Text(workout.name.capitalized)
                                 .font(.title)
                                 .foregroundColor(oppositeColor)
                                 .bold()
                                 .multilineTextAlignment(.leading)
-                            
-                            Spacer()
-                            if (!fromSavedSheet) {
-                                Button(action: {
-                                    if (!isSaved) {
-                                        savedWorkoutsViewModel.saveWorkout(workoutID: workout.id)
+                                .frame(maxWidth: .infinity, alignment: .center)
+
+                            // Bookmark Button
+                            if !fromSavedSheet {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        if !isSaved {
+                                            savedWorkoutsViewModel.saveWorkout(workoutID: workout.id)
+                                        } else {
+                                            savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
+                                        }
+                                        isSaved.toggle()
+                                    }) {
+                                        Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                                            .font(.system(size: 25))
+                                            .foregroundColor(oppositeColor)
+                                            .padding([.trailing], 2)
                                     }
-                                    else {
-                                        savedWorkoutsViewModel.unsaveWorkout(workoutID: workout.id)
-                                    }
-                                    isSaved.toggle()
-                                }) {
-                                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
-                                        .font(.system(size: 25))
-                                        .foregroundColor(oppositeColor)
-                                        .padding([.trailing], 2)
                                 }
                             }
                         }
                         .onAppear {
                             isSaved = workout.user_saved
                         }
+                        
                         ForEach(workout.videos) { video in
                             VideoPlayerView(url: URL(string: video.url)!, showCaption: false, caption: video.title)
                                 .padding([.leading, .trailing])
