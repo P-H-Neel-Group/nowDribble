@@ -39,6 +39,14 @@ struct HomeView: View {
                             isFullScreen: true
                         )
                     }
+//                    NavigationLink(destination: SubscriptionsView()) {
+//                        Text("Subscribe")
+//                            .foregroundColor(Color("TabButtonColor"))
+//                            .padding()
+//                            .background(bcolor(cc: "primary", backup: "env"))
+//                            .shadow(radius: 1)
+//                            .bold()
+//                    }
                     
                     Divider()
 
@@ -51,6 +59,7 @@ struct HomeView: View {
                                 PostView(post: post)
                             }
                         }
+                        Spacer().frame(height: 80)
                     }
                     .onAppear {
                         viewModel.fetchPosts()

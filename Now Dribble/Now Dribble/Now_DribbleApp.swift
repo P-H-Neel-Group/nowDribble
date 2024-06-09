@@ -12,14 +12,25 @@ let IP_ADDRESS: String = "https://dev.nowdribbleapp.com"
 
 @main
 struct Now_DribbleApp: App {
-    @StateObject var authViewModel = AuthenticationViewModel()
+    @StateObject private var subscriptionManager = SubscriptionManager()
+    @StateObject private var authViewModel = AuthenticationViewModel()
+
     @Environment(\.scenePhase) var scenePhase
+
+    init() {
+        if IP_ADDRESS.contains("dev") {
+            print("----------------------")
+            print("WARNING: ON DEV SERVER")
+            print("----------------------")
+        }
+    }
 
     var body: some Scene {
         WindowGroup {
             if authViewModel.isAuthenticated {
                 ContentView()
                     .environmentObject(authViewModel)
+                    .environmentObject(subscriptionManager)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(
                         GeometryReader { geometry in
@@ -35,6 +46,7 @@ struct Now_DribbleApp: App {
                 LoginView()
                     .preferredColorScheme(.light)
                     .environmentObject(authViewModel)
+                    .environmentObject(subscriptionManager)
             }
         }
     }
@@ -54,18 +66,20 @@ struct Now_DribbleApp: App {
 
 class AuthenticationViewModel: ObservableObject {
     @MainActor @Published var isAuthenticated = false
-    
+
     init() {
         validateToken()
     }
-    
+
     func validateToken() {
         DispatchQueue.global(qos: .background).async {
             if let tokenData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "userToken"),
                let token = String(data: tokenData, encoding: .utf8), !token.isEmpty {
                 print("Found an existing token")
-                DispatchQueue.main.async {
-                    self.refreshToken(token: token)
+                let receipt = self.getReceiptFromKeychain() ?? ""
+                if (receipt.count > 0 ) { print("Retrieved a receipt")}
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshToken(token: token, receipt: receipt)
                 }
             } else {
                 print("No valid token found")
@@ -76,7 +90,7 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func signOut() {
         KeychainHelper.standard.delete(service: "com.phneelgroup.Now-Dribble", account: "userToken")
         DispatchQueue.main.async {
@@ -84,16 +98,10 @@ class AuthenticationViewModel: ObservableObject {
             print("Signed out, directing to LoginView.")
         }
     }
-    
-    func refreshToken(token: String) {
+
+    func refreshToken(token: String, receipt: String) {
         guard let url = URL(string: "\(IP_ADDRESS)/Authentication/RefreshToken") else {
             print("Invalid URL")
-            return
-        }
-
-        let subscriptionManager = SubscriptionManager()
-        guard let receipt = subscriptionManager.getReceipt() else {
-            print("Failed to get receipt")
             return
         }
 
@@ -105,13 +113,13 @@ class AuthenticationViewModel: ObservableObject {
         if let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) {
             request.httpBody = jsonData
         }
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error during URLSession data task: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
+
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
@@ -128,13 +136,17 @@ class AuthenticationViewModel: ObservableObject {
                     print("JSON decoding error: \(error)")
                 }
             } else {
-                //#if DEBUG
-                //print("HTTP Response: \(response)")
-                //#endif
                 self.signOut()
             }
         }
         task.resume()
+    }
+
+    private func getReceiptFromKeychain() -> String? {
+        guard let receiptData = KeychainHelper.standard.read(service: "com.phneelgroup.Now-Dribble", account: "receipt") else {
+            return nil
+        }
+        return String(data: receiptData, encoding: .utf8)
     }
 }
 

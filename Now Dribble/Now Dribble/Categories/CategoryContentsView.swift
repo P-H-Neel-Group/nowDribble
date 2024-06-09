@@ -45,7 +45,6 @@ class CategoryContentsViewModel: ObservableObject {
         request.httpBody = bodyData
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        print(request)
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 self.isLoading = false

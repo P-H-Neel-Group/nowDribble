@@ -63,6 +63,7 @@ struct NumberView: View {
                         }
                         .padding(.vertical, 10)
                     }
+                    Spacer().frame(height: 80)
                 }
             }
             .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
