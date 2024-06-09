@@ -85,15 +85,9 @@ struct ProfileEditorView: View {
             Button("Save Changes") {
                 if let profileUIImage = profileUIImage, let _ = saveImage(image: profileUIImage) {
                     accountVM.editProfilePicture(profileImage: profileUIImage)
-            
-                    let userData: [String: Any] = ["username": userName]
-                    accountVM.editUserData(newUserData: userData)
-                } else {
-                    // Send user data to backend if no image is uploaded
-                    let userData: [String: Any] = ["username": userName]
-                    accountVM.editUserData(newUserData: userData)
                 }
-                
+                let userData: [String: Any] = ["username": userName]
+                accountVM.editUserData(newUserData: userData)
                 presentationMode.wrappedValue.dismiss() // Navigate back
             }
             .foregroundColor(.black)

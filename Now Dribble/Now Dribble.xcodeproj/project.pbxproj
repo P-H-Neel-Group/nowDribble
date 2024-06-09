@@ -36,7 +36,6 @@
 		49EB05802B8EC10400801BE3 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB057F2B8EC10400801BE3 /* CategoryView.swift */; };
 		49EB05822B8EC2BA00801BE3 /* CategoryContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EB05812B8EC2BA00801BE3 /* CategoryContentsView.swift */; };
 		49FFC3E32BD3756700EA450F /* NetworkingSaved.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FFC3E22BD3756700EA450F /* NetworkingSaved.swift */; };
-		49FFC3E52BD5D5F900EA450F /* StandaloneVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FFC3E42BD5D5F900EA450F /* StandaloneVideoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,7 +90,6 @@
 		49EB05812B8EC2BA00801BE3 /* CategoryContentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryContentsView.swift; sourceTree = "<group>"; };
 		49EC0E342AF0A7D100DF4411 /* Now-Dribble-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Now-Dribble-Info.plist"; sourceTree = SOURCE_ROOT; };
 		49FFC3E22BD3756700EA450F /* NetworkingSaved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingSaved.swift; sourceTree = "<group>"; };
-		49FFC3E42BD5D5F900EA450F /* StandaloneVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandaloneVideoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +150,6 @@
 			children = (
 				49AD56D92AFC2F9200E92144 /* VideoPlayer.swift */,
 				49AD56DB2AFC30F100E92144 /* VideoPlayerView.swift */,
-				49FFC3E42BD5D5F900EA450F /* StandaloneVideoView.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -426,7 +423,6 @@
 				492B0D882AF0B8F200675158 /* NumberView.swift in Sources */,
 				49C937392B50739E000BECE5 /* ProfileView.swift in Sources */,
 				49AD56DC2AFC30F100E92144 /* VideoPlayerView.swift in Sources */,
-				49FFC3E52BD5D5F900EA450F /* StandaloneVideoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

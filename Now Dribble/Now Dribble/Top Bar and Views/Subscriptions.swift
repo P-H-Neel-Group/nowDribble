@@ -89,7 +89,7 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
         request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: [])
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
+            guard let _ = data, error == nil else {
                 print("Failed to send receipt data: \(error?.localizedDescription ?? "No data")")
                 return
             }
@@ -100,7 +100,6 @@ class SubscriptionManager: NSObject, ObservableObject, SKProductsRequestDelegate
                 print("Receipt validation failed")
             }
         }
-
         task.resume()
     }
 
@@ -162,7 +161,7 @@ struct SubscriptionsView: View {
                 Text("Loading products...")
             }
 
-            Text("Each subscription grants access to more workouts and will renew monthly.")
+            Text("Each subscription grants access to increasingly more workouts and renews monthly.")
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
                 .padding()
