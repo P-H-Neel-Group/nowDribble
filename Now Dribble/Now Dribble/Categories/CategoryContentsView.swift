@@ -71,6 +71,7 @@ class CategoryContentsViewModel: ObservableObject {
 struct CategoryContentsView: View {
     @StateObject var viewModel = CategoryContentsViewModel()
     let categoryId: Int
+    let categoryName: String
     
     var body: some View {
         ZStack {
@@ -80,27 +81,25 @@ struct CategoryContentsView: View {
                         NavigationLink(destination: destinationView(for: workout)) {
                             WorkoutContent(workout: workout)
                         }
-                        .padding()
                         .background(bcolor(cc: "primary", backup: "env"))
                         .cornerRadius(10)
-                        .clipped()
                     }
                     .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer().frame(height: 80)
                 }
             }
-            .padding() // Add some padding around the VStack
         }
         .background(bcolor(cc: "primary", backup: "env"))
         .onAppear {
             viewModel.fetchWorkoutsForCategory(categoryId: categoryId)
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+            UINavigationBar.appearance().standardAppearance = appearance
         }
-        .overlay {
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-            }
-        }
+        .navigationBarTitle(categoryName)
+        .background(bcolor(cc: "primary", backup: "env"))
         .alert("Error", isPresented: Binding<Bool>.constant(viewModel.errorMessage != nil), presenting: viewModel.errorMessage) { errorMessage in
             Button("OK", role: .cancel) { }
         } message: { errorMessage in
@@ -116,26 +115,26 @@ struct WorkoutContent: View {
         AsyncImage(url: URL(string: workout.image_url)) { phase in
             switch phase {
             case .empty, .failure:
-                Rectangle()
-                    .frame(width: 400, height: 300)
-                    .background(bcolor(cc: "secondary", backup: "env"))
-                    .cornerRadius(10)
-                    .clipped()
+                FailView()
             case .success(let image):
-                image.resizable()
-                    .frame(width: 400, height: 300)
+                image
+                    .resizable()
                     .scaledToFill()
+                    .frame(width: 375, height: 250)
+                    .clipped()
                     .overlay(
-                        Rectangle() // This rectangle will serve as the tint layer
+                        Rectangle() // Tint layer
                             .foregroundColor(.black)
                             .opacity(0.3)
+                            .cornerRadius(10)
                     )
+                    .grayscale(workout.user_has_access ? 0 : 1)
                     .cornerRadius(10)
-                    .clipped()
             @unknown default:
                 EmptyView()
             }
         }
+        .frame(width: 375, height: 250) // Ensure consistent size
         .overlay(
             VStack {
                 Text(workout.name.uppercased())
@@ -149,7 +148,7 @@ struct WorkoutContent: View {
                     .font(.system(size: 50))
             }
         )
-        .grayscale(workout.user_has_access ? 0 : 1)
+        .cornerRadius(10)
     }
 }
 

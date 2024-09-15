@@ -13,9 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack (spacing: 0){
+            VStack (spacing: 2){
                 UI_TopBar()
-
+                
                 TabView {
                     HomeView()
                         .tabItem {
@@ -44,12 +44,10 @@ struct ContentView: View {
                 .padding(0)
 
             } // End of VStack
-            .background(bcolor(cc: "primary", backup: "env"))
 
         } // End of NavView
         .navigationBarHidden(true)
         .navigationBarTitle("", displayMode: .inline)
-        .background(bcolor(cc: "secondary", backup: "env"))
         .onChange(of: colorScheme) { _, newScheme in
             setNavBarColor(for: newScheme)
         }
@@ -59,11 +57,7 @@ struct ContentView: View {
     private func setNavBarColor(for scheme: ColorScheme) {
         let appearance = UINavigationBarAppearance()
 
-        if (getUseColorPreference()) {
-            appearance.backgroundColor = UIColor(Color("PrimaryBlueColor"))
-        } else {
-            appearance.backgroundColor = scheme == .dark ? .black : .white
-        }
+        appearance.backgroundColor = UIColor(Color("Background"))
         
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance

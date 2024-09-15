@@ -43,27 +43,23 @@ struct NumberView: View {
                             selectedCaption = captions[index]
                             showVideoSheet = true
                         }) {
-                            VStack(alignment: .center) {
+                            VStack(alignment: .leading) {
                                 Text("#\(index + 1)")
-                                    .font(.title)
+                                    .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(oppositeColor)
-                                    .padding(.top, 10)
+                                
                                 Text(caption)
                                     .foregroundColor(oppositeColor)
-                                    .padding(.bottom, 10)
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
                             }
-                            .padding()
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color("TabButtonColor"), lineWidth: 2)
-                            )
-                            .frame(maxWidth: .infinity)  // full width
+                            .padding(16) // Padding inside the card
+                            .frame(maxWidth: .infinity, alignment: .leading) // Ensure text fills the width
+                            .background(Color("Secondary")) // Card background
+                            .cornerRadius(12) // Rounded corners for the card
                         }
-                        .padding(.vertical, 10)
+                        .padding(.horizontal) // Padding between cards and screen edges
                     }
-                    Spacer().frame(height: 80)
+                    Spacer().frame(height: 80) // Spacer to add space at the bottom
                 }
             }
             .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)

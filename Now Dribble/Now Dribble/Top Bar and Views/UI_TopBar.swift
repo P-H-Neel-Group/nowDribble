@@ -8,56 +8,61 @@
 import SwiftUI
 
 struct UI_TopBar: View {
-    @State private var isSavedForLaterPresented = false
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var isSavedForLaterPresented = false
 
     var oppositeColor: Color {
         colorScheme == .dark ? .white : .black
     }
     
+    var nonSelectedTabColor: Color {
+        colorScheme == .dark ? Color.white : Color.black
+    }
+    
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
+            // Bookmark button (Left)
             Button(action: {
-                isSavedForLaterPresented.toggle()
+                // Action for saving for later
             }) {
-                Image(systemName: "bookmark")
-                    .font(.system(size: 35))
-                    .foregroundColor(oppositeColor)
+                Image(systemName: "bookmark.circle")
+                    .font(.system(size: 32))
+                    .foregroundColor(nonSelectedTabColor)
             }
             
             Spacer()
             
+            // Logo (Center)
             Image("Logo1")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 85, height: 40)
+                .frame(width: 75, height: 30)
             
             Spacer()
             
+            // Profile button (Right)
             NavigationLink(destination: ProfileView()) {
                 if let userImage = loadImage(imageName: "userProfile.jpg") {
                     Image(uiImage: userImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 35, height: 35)
+                        .clipped()
+                        .frame(width: 32, height: 32)
                         .clipShape(Circle())
                         .overlay(
                             Circle()
-                                .stroke(lineWidth: 1)
-                                .foregroundColor(oppositeColor)
+                                .stroke(lineWidth: 0.5)
+                                .foregroundColor(nonSelectedTabColor)
                         )
                 } else {
                     Image(systemName: "person.circle")
-                        .font(.system(size: 35))
-                        .foregroundColor(oppositeColor)
+                        .font(.system(size: 32))
+                        .foregroundColor(nonSelectedTabColor)
                 }
             }
         }
-        .padding([.bottom, .leading, .trailing])
-        //.padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top) NOTE: deprecated since ios 15 -- doesnt look like we need it though
-        .background(bcolor(cc: "primary", backup: "env"))
-        .sheet(isPresented: $isSavedForLaterPresented) {
-            SavedForLaterView()
-        }
+        .padding(.horizontal) // Add some horizontal padding to give the buttons space from the edges
+        .padding(.vertical, 12)
     }
 }

@@ -7,108 +7,89 @@
 
 import SwiftUI
 
+// Reusable SettingsButton Component
+struct SettingsButton: View {
+    let title: String
+    let action: () -> Void
+    let backgroundColor: Color
+    let textColor: Color
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Text(title)
+                    .foregroundColor(textColor)
+                    .padding(.vertical, 15)
+                Spacer()
+            }
+            .padding(.horizontal)
+            .background(backgroundColor)
+        }
+    }
+}
+
+// Main SettingsView with iOS Settings Style
 struct SettingsView: View {
     @State private var useColor: Bool = getUseColorPreference()
     @EnvironmentObject var authViewModel: AuthenticationViewModel // for signing out
     @EnvironmentObject var subscriptionManager: SubscriptionManager // to access the shared subscription manager
-   @State private var showRestartAlert = false
+    @State private var showRestartAlert = false
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    var oppositeColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
 
     var body: some View {
-        VStack {
-            Button(action: {
-                if let url = URL(string: "https://phneelgroup.com/nowdribble/privacy-policy") {
-                    UIApplication.shared.open(url)
+        Form {
+            Section(header: Text("Privacy and Legal")) {
+                Button(action: {
+                    if let url = URL(string: "https://phneelgroup.com/nowdribble/privacy-policy") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Privacy Policy").foregroundColor(oppositeColor)
                 }
-            }) {
-                Text("Privacy Policy")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.vertical, 10)
-
-            Button(action: {
-                if let url = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
-                    UIApplication.shared.open(url)
+                
+                Button(action: {
+                    if let url = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("EULA").foregroundColor(oppositeColor)
                 }
-            }) {
-                Text("EULA")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
             }
-            .padding(.vertical, 10)
-
-            Button(action: {
-                if let url = URL(string: "https://phneelgroup.com/nowdribble/data-request") {
-                    UIApplication.shared.open(url)
-                }
-            }) {
-                Text("Data Request")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.vertical, 10)
             
-            Button(action: {
-                if let url = URL(string: "https://phneelgroup.com/nowdribble/data-deletion") {
-                    UIApplication.shared.open(url)
+            Section(header: Text("Data")) {
+                Button(action: {
+                    if let url = URL(string: "https://phneelgroup.com/nowdribble/data-deletion") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Data Deletion").foregroundColor(oppositeColor)
                 }
-            }) {
-                Text("Data Deletion")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                
+                Button(action: {
+                    if let url = URL(string: "https://phneelgroup.com/nowdribble/data-request") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Data Request").foregroundColor(oppositeColor)
+                }
+                
+                Button(action: {
+                    subscriptionManager.refreshPurchases()
+                }) {
+                    Text("Refresh Subscription Purchases").foregroundColor(oppositeColor)
+                }
             }
-            .padding(.vertical, 10)
-
-            Button(action: {
-                subscriptionManager.refreshPurchases()
-            }) {
-                Text("Refresh Subscription Purchases")
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.vertical, 10)
-
-            Spacer()
             
-            Toggle("Use Color", isOn: $useColor)
-                .onChange(of: useColor) { _, newValue in
-                    saveUseColorPreference(useColor: newValue)
-                    showRestartAlert = true
-                }
-                .padding()
-
-            Button("Sign Out") {
+            Button(role: .destructive) {
                 authViewModel.signOut()
+            } label: {
+                Text("Sign Out")
             }
-            .foregroundColor(.white)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.red)
-            .cornerRadius(10)
-            .padding(.vertical, 10)
-        }
-        .padding()
-        .alert(isPresented: $showRestartAlert) {
-            Alert(
-                title: Text("Restart Required"),
-                message: Text("The application needs to be restarted for the changes to take effect."),
-                dismissButton: .default(Text("OK"))
-            )
-        }
+        }.navigationTitle("Settings")
     }
 }

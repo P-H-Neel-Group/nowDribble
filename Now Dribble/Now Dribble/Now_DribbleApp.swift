@@ -44,7 +44,6 @@ struct Now_DribbleApp: App {
                     )
             } else {
                 LoginView()
-                    .preferredColorScheme(.light)
                     .environmentObject(authViewModel)
                     .environmentObject(subscriptionManager)
             }
@@ -161,7 +160,7 @@ func getUseColorPreference() -> Bool {
 func bcolor(cc: String, backup: String) -> some View {
     let useColor = getUseColorPreference()
     @Environment(\.colorScheme) var colorScheme
-
+    
     return Group {
         if useColor {
             switch cc {

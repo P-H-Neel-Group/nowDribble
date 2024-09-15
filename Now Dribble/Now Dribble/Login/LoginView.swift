@@ -13,87 +13,92 @@ struct LoginView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var showButton = false
     @State private var showImage = true
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack {
             if (showImage) {
-                Image("Logo1")
+                Image("Logo2")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 80, height: 80)
                     .padding()
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             withAnimation {
                                 showImage = false
                                 showButton = true
                             }
                         }
                     }
-                Text("NOW DRIBBLE")
-                    .font(.system(.title, design: .rounded))
             } // Endif showImage
-            if (showButton) {
-                SignInWithAppleButton(
-                    .signIn,
-                    onRequest: { request in
-                        // Configure the request for user information
-                        request.requestedScopes = [.fullName, .email]
-                    },
-                    onCompletion: { result in
-                        // Handle the authentication result
-                        switch result {
-                        case .success(let auth):
-                            // Successfully authenticated
-                            if let appleIDCredential = auth.credential as? ASAuthorizationAppleIDCredential {
-//                                #if DEBUG
-//                                // Check if full name and email are present
-//                                if let fullName = appleIDCredential.fullName {
-//                                    let givenName = fullName.givenName ?? "Unknown"
-//                                    let familyName = fullName.familyName ?? "Unknown"
-//                                    print("Full Name: \(givenName) \(familyName)")
-//                                }
-//                                
-//                                // Retrieve and print the authorization code
-//                                if let authCodeData = appleIDCredential.authorizationCode,
-//                                   let authCode = String(data: authCodeData, encoding: .utf8) {
-//                                    print("\nAuthorization Code: \(authCode)")
-//                                }  else {
-//                                    print("\nAuthorization Code not available")
-//                                }
-//                                
-//                                // Retrieve and print the ID token
-//                                if let idTokenData = appleIDCredential.identityToken,
-//                                   let idToken = String(data: idTokenData, encoding: .utf8) {
-//                                    print("\nID Token: \(idToken)")
-//                                } else {
-//                                    print("\nID Token not available")
-//                                }
-//                                #endif
-                                
-                                // MAKE POST REQUEST TO /Authentication/LogInWithApple
-                                // Extract the authorization code and ID token
-                                if let authCodeData = appleIDCredential.authorizationCode,
-                                   let authCode = String(data: authCodeData, encoding: .utf8),
-                                   let idTokenData = appleIDCredential.identityToken,
-                                   let idToken = String(data: idTokenData, encoding: .utf8) {
-                                   
-                                    // Now call the function to make the POST request
-                                    postLoginWithApple(authorizationCode: authCode, idToken: idToken, avm: authViewModel)
-                                }
-                            } else {
-                                print("\n!!!Credential is not of type ASAuthorizationAppleIDCredential!!!")
-                            }
+            
+            if(showButton) {
+                ZStack(alignment: .topLeading) {
+                    Image("LoginSwirl")
+                        .resizable()
+                        .scaledToFit() // Ensure the image fills the screen
+                        .edgesIgnoringSafeArea(.all) // Make the image extend to the edges of the screen
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image("Logo4")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 2)
                             
-                        case .failure(let error):
-                            // Authentication failed
-                            print("\nAuthorization failed: \(error)")
+                            Text("NowDribble")
+                                .foregroundColor(Color(.white))
+                                .font(.system(size: 28, weight: .bold))
+                        }
+                        .padding(.bottom, 2)
+                        
+                        Text("Become an unstoppable ball handler with game-proven basketball drills created by Coach Antonio Cook.")
+                            .foregroundColor(.white.opacity(0.85))
+                        Spacer() // Spacer to push content up
+                        
+                        VStack {
+                            ZStack {
+                                // Custom background with rounded corners
+                                RoundedRectangle(cornerRadius: 30) // Fully rounded
+                                    .fill(Color(.black)) // Use your custom color
+                                    .frame(maxWidth: .infinity, maxHeight: 45)
+                                
+                                // Sign in with Apple button
+                                SignInWithAppleButton(
+                                    .signIn,
+                                    onRequest: { request in
+                                        // Configure the request for user information
+                                        request.requestedScopes = [.fullName, .email]
+                                    },
+                                    onCompletion: { result in
+                                        // Handle the authentication result
+                                        switch result {
+                                        case .success(let auth):
+                                            if let appleIDCredential = auth.credential as? ASAuthorizationAppleIDCredential {
+                                                if let authCodeData = appleIDCredential.authorizationCode,
+                                                   let authCode = String(data: authCodeData, encoding: .utf8),
+                                                   let idTokenData = appleIDCredential.identityToken,
+                                                   let idToken = String(data: idTokenData, encoding: .utf8) {
+                                                    postLoginWithApple(authorizationCode: authCode, idToken: idToken, avm: authViewModel)
+                                                }
+                                            } else {
+                                                print("\n!!!Credential is not of type ASAuthorizationAppleIDCredential!!!")
+                                            }
+                                        case .failure(let error):
+                                            print("\nAuthorization failed: \(error)")
+                                        }
+                                    }
+                                )
+                                .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
+                                .frame(maxWidth: .infinity, maxHeight: 45)
+                                .clipShape(Capsule())
+                            }
                         }
                     }
-                )
-                .signInWithAppleButtonStyle(.black)
-                .frame(width: 280, height: 60)
-            } // Endif showButton
+                    .padding(34) // Add padding if you want space from the edges
+                }
+            }
         }
     }
 }

@@ -13,9 +13,15 @@ struct HomeView: View {
     @State var showVideo: Bool = false
     private let aspectRatio: CGFloat = 16/9
     @State private var showIntroVideoSheet: Bool = false
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    var oppositeColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
 
     var body: some View {
-        //VStack {
+        NavigationView {
             ScrollView {
                 VStack {
                     // Display the app intro video
@@ -54,6 +60,9 @@ struct HomeView: View {
                     LazyVStack {
                         if viewModel.posts.count == 0 {
                             Text("Nothing has been posted here.")
+                                .foregroundColor(oppositeColor.opacity(0.50))
+                                .fontWeight(.semibold)
+                                .padding(.vertical, 24)
                         } else {
                             ForEach(viewModel.posts) { post in
                                 PostView(post: post)
@@ -66,7 +75,7 @@ struct HomeView: View {
                     }
                 } // End VStack
             } // End of Scroll View
-        //} // End of outer VStack
+        } // End of outer NavigationView
             .background(bcolor(cc: "primary", backup: "env")).edgesIgnoringSafeArea(.vertical)
     } // End View
 } // End Struct

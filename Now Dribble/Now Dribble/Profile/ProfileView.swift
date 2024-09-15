@@ -25,6 +25,12 @@ struct ProfileView: View {
     @State private var userName: String = ""
     @State private var profileImage: Image = Image(systemName: "person.crop.circle")
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    var oppositeColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
+    
     func loadUserName() {
         userName = getUserName() ?? "User"
     }
@@ -39,31 +45,31 @@ struct ProfileView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                NavigationLink(destination: ProfileEditorView()) {
-                    Image(systemName: "pencil.circle.fill")
-                        .imageScale(.large)
-                        .padding()
-                }
-                
-                Spacer()
-                
-                Text("Profile")
-                    .font(.system(.title, design: .rounded))
-                    .bold()
-                
-                Spacer()
-                
-                NavigationLink(destination: SettingsView()) {
-                    Image(systemName: "gear")
-                        .imageScale(.large)
-                        .padding()
-                }
-            }
-            .background(bcolor(cc: "primary", backup: "env"))
-            .padding()
+//            HStack {
+//                NavigationLink(destination: ProfileEditorView()) {
+//                    Image(systemName: "pencil.circle.fill")
+//                        .imageScale(.large)
+//                        .padding()
+//                }
+//
+//                Spacer()
+//
+//                Text("Profile")
+//                    .font(.system(.title, design: .rounded))
+//                    .bold()
+//
+//                Spacer()
+//
+//                NavigationLink(destination: SettingsView()) {
+//                    Image(systemName: "gear")
+//                        .imageScale(.large)
+//                        .padding()
+//                }
+//            }
+//            .background(bcolor(cc: "primary", backup: "env"))
+//            .padding()
             
-            Divider()
+            // Divider()
             
             profileImage
                 .resizable()
@@ -72,7 +78,50 @@ struct ProfileView: View {
                 .clipShape(Circle())
                 .padding()
 
-            Text(userName)
+            Text(userName).font(.system(size: 24, weight: .bold))
+            Text("Your Profile").foregroundColor(oppositeColor.opacity(0.4)).padding(.bottom, 10)
+                        
+            HStack {
+                // Edit Profile Button
+                NavigationLink(destination: ProfileEditorView()) {
+                    HStack {
+                        Image(systemName: "pencil.circle")
+                            .imageScale(.medium)
+                            .foregroundColor(.white)
+                            .padding(.trailing, 2)
+                        
+                        Text("Edit Profile")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    }
+                    .frame(width: 175)
+                    .padding(.vertical, 10)
+                    .background(Color("Primary"))
+                    .cornerRadius(64)
+                }
+                
+                // Settings Button
+                NavigationLink(destination: SettingsView()) {
+                    HStack {
+                        Image(systemName: "gear")
+                            .imageScale(.medium)
+                            .foregroundColor(oppositeColor)
+                            .padding(.trailing, 2)
+                        
+                        Text("Settings")
+                            .foregroundColor(oppositeColor)
+                            .font(.headline)
+                    }
+                    .frame(width: 175)
+                    .padding(.vertical, 10)
+                    .background(Color.clear) // Keep background clear to show border
+                    .cornerRadius(64)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 64)
+                            .stroke(oppositeColor.opacity(0.2), lineWidth: 2) // Apply the border with rounded corners
+                    )
+                }
+            }
 
             Spacer()
             HStack {
@@ -87,6 +136,7 @@ struct ProfileView: View {
             Spacer()
         }
         .accentColor(Color("TabButtonColor"))
+        .navigationTitle("Profile")
         .background(bcolor(cc: "primary", backup: "env"))
         .onAppear {
             loadUserName()
